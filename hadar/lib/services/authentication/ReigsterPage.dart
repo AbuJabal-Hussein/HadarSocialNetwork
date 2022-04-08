@@ -312,7 +312,7 @@ class _ReigesterPageState extends State<ReigesterPage> {
                                           SizedBox(height: 30,),
                                           Material(
                                             color: Colors.transparent,
-                                              child: Text("תנאי השישמוש של האפליקציה",style: TextStyle(color: BasicColor.clr,fontSize: 20),)),
+                                              child: Text("תנאי השימוש של האפליקציה",style: TextStyle(color: BasicColor.clr,fontSize: 20),)),
                                           SizedBox(height: 25,),
                                           Material(
                                               color: Colors.transparent,
