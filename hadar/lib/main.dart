@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -80,7 +79,6 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     const double marginSize = kIsWeb ? 0.0 : 0.0;
     _fetchLoggedUserLocale();
-    print("ss");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
