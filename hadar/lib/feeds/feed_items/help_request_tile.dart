@@ -185,7 +185,7 @@ class _ThreeDotsWidgetState extends State<ThreeDotsWidget> {
             print("accept selected");
             //todo: display confirmation message
             DataBaseService().assignHelpRequestForVolunteer(
-                CurrentUser.curr_user as Volunteer, widget.helpRequest);
+                CurrentUser.curr_user! as Volunteer, widget.helpRequest);
 //                      Navigator.push(
 //                        context,
 //                        MaterialPageRoute(builder: (context) => testing_stream()),

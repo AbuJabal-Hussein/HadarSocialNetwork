@@ -10,6 +10,7 @@ import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/services/authentication/ReigsterPage.dart';
 import 'package:hadar/services/authentication/validators.dart';
 import 'package:hadar/users/CurrentUser.dart';
+import 'package:hadar/utils/DummyWidget.dart';
 
 import '../../main.dart';
 
@@ -186,12 +187,12 @@ class _LogInPageState extends State<LogInPage> {
 
       print(FirebaseAuth.instance.currentUser);
 
-      Widget? curr_widget = await CurrentUser.init_user(context);
+      Widget curr_widget = await CurrentUser.init_user(context);
 
       //todo: look into this
       //in case of deleted user
       var is_deleted_by_admin = curr_widget;
-      if(is_deleted_by_admin == null){
+      if(is_deleted_by_admin == DummyWidget.get()){
         await FirebaseAuth.instance.signOut();
         setState(() {
           _error = AppLocalizations.of(context)!.deletedAccount;

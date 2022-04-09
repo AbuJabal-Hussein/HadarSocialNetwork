@@ -10,7 +10,7 @@ import 'package:hadar/users/User.dart' as a;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Widget changePasswordDialogue(BuildContext context) {
-  a.User user = CurrentUser.curr_user;
+  a.User user = CurrentUser.curr_user!;
   final currentPassword = GlobalKey<FormState>();
   final newPasswordFirst = GlobalKey<FormState>();
   final newPasswordSec = GlobalKey<FormState>();

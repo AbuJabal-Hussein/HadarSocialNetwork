@@ -219,7 +219,7 @@ class _DescriptonBox extends State<DescriptonBox> {
       helpRequestType = HelpRequestType(_inputtext);
       _inputtext = inputtextField.text;
       helpRequest =
-          HelpRequest(helpRequestType, _inputtext, DateTime.now(), CurrentUser.curr_user.id,'',Status.UNVERFIED,RequestWindow.locationController.text.isEmpty ? (CurrentUser.curr_user as UserInNeed).location: RequestWindow.locationController.text);
+          HelpRequest(helpRequestType, _inputtext, DateTime.now(), CurrentUser.curr_user!.id,'',Status.UNVERFIED,RequestWindow.locationController.text.isEmpty ? (CurrentUser.curr_user! as UserInNeed).location: RequestWindow.locationController.text);
       print("input text" + _inputtext);
       print("helpRequest" + helpRequestType.description);
 
@@ -240,7 +240,7 @@ class _DescriptonBox extends State<DescriptonBox> {
       context,
       MaterialPageRoute(builder: (context) {
         return StreamProvider<List<HelpRequest>>.value(
-          value: DataBaseService().getUserHelpRequests(CurrentUser.curr_user as UserInNeed),
+          value: DataBaseService().getUserHelpRequests(CurrentUser.curr_user! as UserInNeed),
           initialData: [],
           child: UserInNeedHelpRequestsFeed(),
         );

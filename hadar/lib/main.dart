@@ -96,10 +96,10 @@ class _MainAppState extends State<MainApp> {
       locale: _locale,
       //initialRoute: '/',
       routes: {
-        '/adminPage': (context) => AdminPage(CurrentUser.curr_user),
-        '/adminProfile': (context) => AdminProfile(CurrentUser.curr_user),
+        '/adminPage': (context) => AdminPage(CurrentUser.curr_user!),
+        '/adminProfile': (context) => AdminProfile(CurrentUser.curr_user!),
         '/adminAllUsersView': (context) => AllUsersView(),
-        '/userProfile': (context) => ProfilePage(CurrentUser.curr_user),
+        '/userProfile': (context) => ProfilePage(CurrentUser.curr_user!),
         '/userMainPage': (context) => CurrentUser.userMainWidget,
       },
       home: Container(

@@ -25,7 +25,7 @@ class _VolunteerShowCategoriesState extends State<VolunteerShowCategories> {
 
 
   late CheckBoxForCategories checkBox;
-  Volunteer user = CurrentUser.curr_user as Volunteer;
+  Volunteer user = CurrentUser.curr_user! as Volunteer;
 
   Future initTypes() async {
     types = await DataBaseService().helpRequestTypesAsList();

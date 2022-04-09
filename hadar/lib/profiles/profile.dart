@@ -13,7 +13,7 @@ class ProfilePage extends StatefulWidget {
   bool adminIsOnProfile = false;
 
   ProfilePage(a.User currUser) {
-    user = CurrentUser.curr_user;
+    user = CurrentUser.curr_user!;
 
     if (user.privilege == Privilege.Admin) {
       adminIsOnProfile = true;

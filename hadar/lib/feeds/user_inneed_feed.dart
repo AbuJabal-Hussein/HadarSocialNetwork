@@ -83,7 +83,7 @@ class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
           slivers: [
             SliverPersistentHeader(
               delegate: MySliverAppBar(
-                  expandedHeight: 150, title: CurrentUser.curr_user.name),
+                  expandedHeight: 150, title: CurrentUser.curr_user!.name),
               pinned: true,
             ),
             SliverFillRemaining(

@@ -12,7 +12,7 @@ class NotificationSwitch extends StatefulWidget {
 }
 
 class _NotificationSwitchState extends State<NotificationSwitch> {
-  bool isSwitched = CurrentUser.curr_user.lastNotifiedTime != -1;
+  bool isSwitched = CurrentUser.curr_user!.lastNotifiedTime != -1;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class _NotificationSwitchState extends State<NotificationSwitch> {
             if(!kIsWeb) {
               initWorkmanager();
             }
-            CurrentUser.curr_user.lastNotifiedTime = DateTime.now().millisecondsSinceEpoch;
+            CurrentUser.curr_user!.lastNotifiedTime = DateTime.now().millisecondsSinceEpoch;
             print("notification switch is on ");
           }
           else{
@@ -34,7 +34,7 @@ class _NotificationSwitchState extends State<NotificationSwitch> {
             if(!kIsWeb) {
               WorkManagerInst.instance.cancelAll();
             }
-            DataBaseService().updateUserLastNotifiedTime(CurrentUser.curr_user, turnOffNotifications: true);
+            DataBaseService().updateUserLastNotifiedTime(CurrentUser.curr_user!, turnOffNotifications: true);
             print("notification switch is off ");
           }
         });

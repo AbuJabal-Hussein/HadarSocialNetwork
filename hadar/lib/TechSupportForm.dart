@@ -79,7 +79,7 @@ class TechSupportForm extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProfilePage(CurrentUser.curr_user)),
+                            builder: (context) => ProfilePage(CurrentUser.curr_user!)),
                       );
                       // Navigator.canPop(context);
                     },

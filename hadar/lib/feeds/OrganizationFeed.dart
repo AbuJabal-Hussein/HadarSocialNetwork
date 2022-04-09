@@ -123,7 +123,7 @@ class _OrganizationInfo extends StatelessWidget {
 
 
   Widget showDelete(Organization org,BuildContext context){
-    if(CurrentUser.curr_user.privilege == Privilege.Admin) {
+    if(CurrentUser.curr_user!.privilege == Privilege.Admin) {
       return
         Column(
           children: [

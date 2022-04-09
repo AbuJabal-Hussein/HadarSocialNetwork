@@ -16,7 +16,7 @@ import 'changePassword.dart';
 import 'notificationSwitch.dart';
 
 Widget changeLocationDialogue(BuildContext context) {
-  // a.User user = CurrentUser.curr_user;
+  // a.User user = CurrentUser.curr_user!;
   final newLoactionKey = GlobalKey<FormState>();
   final newLoactionController = TextEditingController();
 
@@ -64,7 +64,7 @@ Widget changeLocationDialogue(BuildContext context) {
                 primary: Theme.of(context).primaryColor,
               ),
               onPressed: ()async {
-               await DataBaseService().updateLocation(newLoactionController.text, CurrentUser.curr_user);
+               await DataBaseService().updateLocation(newLoactionController.text, CurrentUser.curr_user!);
                 Navigator.pop(context, true);
               },
               child: Text(AppLocalizations.of(context)!.confirm),

@@ -201,7 +201,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AdminProfile(CurrentUser.curr_user)),
+                                  builder: (context) => AdminProfile(CurrentUser.curr_user!)),
                             );
                           },
                           child: Text(AppLocalizations.of(context)!.confirm),

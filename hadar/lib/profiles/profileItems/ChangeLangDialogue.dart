@@ -19,7 +19,7 @@ class ChangeLangDialogue extends StatelessWidget {
   Widget build(BuildContext context) {
     String userEmail = "";
     if(userIsLoggedIn) {
-      userEmail = CurrentUser.curr_user.email;
+      userEmail = CurrentUser.curr_user!.email;
     }
     return new AlertDialog(
       title: Center(child: Text(AppLocalizations.of(context)!.changeLanguage, style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),)),
@@ -64,9 +64,9 @@ class ChangeLangDialogue extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) {
                           if (privilege != 'Admin') {
-                            return ProfilePage(CurrentUser.curr_user);
+                            return ProfilePage(CurrentUser.curr_user!);
                           }
-                          return AdminProfile(CurrentUser.curr_user);
+                          return AdminProfile(CurrentUser.curr_user!);
                         }
                     ),
                   );

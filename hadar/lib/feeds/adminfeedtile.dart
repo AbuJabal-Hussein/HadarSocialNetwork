@@ -202,7 +202,7 @@ class ThreeDotsWidget extends StatelessWidget {
           case 1:
             print("accept seleted");
             // helpRequest.handler_id = '4';
-            DataBaseService().assignHelpRequestForVolunteer(CurrentUser.curr_user as Volunteer, helpRequest);
+            DataBaseService().assignHelpRequestForVolunteer(CurrentUser.curr_user! as Volunteer, helpRequest);
 //                      Navigator.push(
 //                        context,
 //                        MaterialPageRoute(builder: (context) => testing_stream()),

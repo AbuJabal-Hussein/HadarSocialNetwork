@@ -866,15 +866,15 @@ class DataBaseServiceMock{
   }
   Future add_user_token_to_db() async{
 
-    if (CurrentUser.curr_user == null){
+    if (CurrentUser.curr_user! == null){
       return;
     }
     String token = await FirebaseMessaging.instance.getToken();
     if(token != null){
       Map<String,dynamic> to_add = new Map();
       to_add['token'] = token;
-      to_add['email'] = CurrentUser.curr_user.email;
-      tokens.doc(CurrentUser.curr_user.email).set(to_add);
+      to_add['email'] = CurrentUser.curr_user!.email;
+      tokens.doc(CurrentUser.curr_user!.email).set(to_add);
     }
 
   }*/

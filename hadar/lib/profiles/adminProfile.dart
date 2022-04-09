@@ -21,7 +21,7 @@ class _AdminProfileState extends State<AdminProfile> {
   bool adminIsOnProfile = false;
 
   _AdminProfileState(){
-    a.User currUser = CurrentUser.curr_user;
+    a.User currUser = CurrentUser.curr_user!;
     if(currUser.id != widget.user.id) {
       adminIsOnProfile = true;
     }

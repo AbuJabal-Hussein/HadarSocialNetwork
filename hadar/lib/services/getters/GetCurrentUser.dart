@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/services/authentication/LogInPage.dart';
 import 'package:hadar/users/CurrentUser.dart';
+import 'package:hadar/utils/DummyWidget.dart';
 
 class GetCurrentUser extends StatelessWidget {
 
@@ -22,7 +23,7 @@ class GetCurrentUser extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          return snapshot.data == null ? LogInPage() : snapshot.data!;
+          return snapshot.data == DummyWidget.get() ? LogInPage() : snapshot.data!;
         }
 
         return Column(
