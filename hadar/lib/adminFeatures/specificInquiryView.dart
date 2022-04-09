@@ -1,17 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hadar/utils/UsersInquiry.dart';
 import '../Design/basicTools.dart';
 import '../Design/mainDesign.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class specificInquiryView extends StatelessWidget {
-  UserInquiry inquiry;
+class SpecificInquiryView extends StatelessWidget {
+  final UserInquiry inquiry;
 
-  specificInquiryView(UserInquiry userInquiry) {
-    inquiry = userInquiry;
-  }
+  SpecificInquiryView(this.inquiry);
 
   Widget getData(String title, String data) {
     return Column(
@@ -62,7 +58,7 @@ class specificInquiryView extends StatelessWidget {
         body: CustomScrollView(
           slivers: [
             SliverPersistentHeader(
-              delegate: MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context).inquiry),
+              delegate: MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context)!.inquiry),
               pinned: true,
             ),
             SliverFillRemaining(
@@ -75,11 +71,11 @@ class specificInquiryView extends StatelessWidget {
                     SizedBox(
                       height: 120,
                     ),
-                    getData(AppLocalizations.of(context).inquirer, inquiry.name),
-                    getData(AppLocalizations.of(context).id, inquiry.id),
-                    getData(AppLocalizations.of(context).telNumber, inquiry.phoneNumber),
-                    getData(AppLocalizations.of(context).inquiryReason, inquiry.reasonForInquiry),
-                    getData(AppLocalizations.of(context).inquiryInfo, inquiry.description),
+                    getData(AppLocalizations.of(context)!.inquirer, inquiry.name),
+                    getData(AppLocalizations.of(context)!.id, inquiry.id),
+                    getData(AppLocalizations.of(context)!.telNumber, inquiry.phoneNumber),
+                    getData(AppLocalizations.of(context)!.inquiryReason, inquiry.reasonForInquiry),
+                    getData(AppLocalizations.of(context)!.inquiryInfo, inquiry.description),
                   ],
                 ),
               ),

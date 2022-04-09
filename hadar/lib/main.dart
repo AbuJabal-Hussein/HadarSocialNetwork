@@ -34,7 +34,7 @@ class MainApp extends StatefulWidget {
   @override
   _MainAppState createState() => _MainAppState();
 
-  static _MainAppState of(BuildContext context) => context.findAncestorStateOfType<_MainAppState>();
+  static _MainAppState? of(BuildContext context) => context.findAncestorStateOfType<_MainAppState>();
 
 }
 

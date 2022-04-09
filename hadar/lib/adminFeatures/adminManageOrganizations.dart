@@ -6,7 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class ManageOrganizations extends StatelessWidget {
-  const ManageOrganizations({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class ManageOrganizations extends StatelessWidget {
           slivers: [
             SliverPersistentHeader(
               delegate:
-              MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context).organizations),
+              MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context)!.organizations),
               pinned: true,
             ),
             SliverFillRemaining(
@@ -29,7 +28,7 @@ class ManageOrganizations extends StatelessWidget {
                       height: 80,
                     ),
                     Text(
-                      AppLocalizations.of(context).manageOrganizations,
+                      AppLocalizations.of(context)!.manageOrganizations,
                       style: TextStyle(
                           fontSize: 25.0,
                           color: Colors.blueGrey,

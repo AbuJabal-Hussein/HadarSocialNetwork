@@ -22,7 +22,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class FeedTile extends StatefulWidget {
   final Widget tileWidget;
 
-  FeedTile({this.tileWidget});
+  FeedTile({required this.tileWidget});
 
   @override
   _FeedTileState createState() => _FeedTileState();
@@ -54,15 +54,13 @@ class VolunteerFeedTile extends StatefulWidget {
 }
 
 class _VolunteerFeedTileState extends State<VolunteerFeedTile> {
-  TranslateRequest translation;
 
   @override
   Widget build(BuildContext context) {
     final DateTime now = widget.helpRequest.date;
     final DateFormat formatter = DateFormat.yMd().add_Hm();
-    Color color =
-        widget.helpRequest.handler_id == '' ? Colors.white : BasicColor.stam;
-  translation = TranslateRequest(widget.helpRequest, 'helperFeed');
+    Color color = widget.helpRequest.handler_id == '' ? Colors.white : BasicColor.stam;
+    TranslateRequest translation = TranslateRequest(widget.helpRequest, 'helperFeed');
     return ListTile(
       tileColor: color,
       onTap: () => print("List tile pressed!"),
@@ -121,12 +119,17 @@ class CallWidget extends StatelessWidget {
   }
 }
 
-class ThreeDotsWidget extends StatelessWidget {
-  HelpRequest helpRequest;
+class ThreeDotsWidget extends StatefulWidget {
+  final HelpRequest helpRequest;
 
   ThreeDotsWidget(this.helpRequest);
 
-  Offset _tapPosition;
+  @override
+  State<ThreeDotsWidget> createState() => _ThreeDotsWidgetState();
+}
+
+class _ThreeDotsWidgetState extends State<ThreeDotsWidget> {
+  late Offset _tapPosition;
 
   void _storePosition(TapDownDetails details) {
     _tapPosition = details.globalPosition;
@@ -138,9 +141,10 @@ class ThreeDotsWidget extends StatelessWidget {
       //onTap: () => print("Tap: more_vert"),
       onTapDown: _storePosition,
       onTap: () async {
-        final RenderBox overlay =
-            Overlay.of(context).context.findRenderObject();
-        final int _selected = await showMenu(
+        //todo: this cast may be problematic..
+        final RenderBox? overlay =
+            Overlay.of(context)!.context.findRenderObject() as RenderBox?;
+        final int? _selected = await showMenu(
           items: [
             PopupMenuItem(
               value: 1,
@@ -150,7 +154,7 @@ class ThreeDotsWidget extends StatelessWidget {
                     Icons.done,
                     color: Colors.green,
                   ),
-                  Text(AppLocalizations.of(context).acceptRequest),
+                  Text(AppLocalizations.of(context)!.acceptRequest),
                 ],
               ),
             ),
@@ -173,18 +177,15 @@ class ThreeDotsWidget extends StatelessWidget {
           context: context,
           position: RelativeRect.fromRect(
               _tapPosition & const Size(40, 40), // smaller rect, the touch area
-              Offset.zero & overlay.size // Bigger rect, the entire screen
+              Offset.zero & overlay!.size // Bigger rect, the entire screen
               ),
         );
         switch (_selected) {
           case 1:
-            print("accept seleted");
-            // helpRequest.handler_id = '4';
-            List<HelpRequestType> list1 = List<HelpRequestType>();
-            list1.add(HelpRequestType('food'));
-            list1.add(HelpRequestType('money'));
+            print("accept selected");
+            //todo: display confirmation message
             DataBaseService().assignHelpRequestForVolunteer(
-                CurrentUser.curr_user as Volunteer, helpRequest);
+                CurrentUser.curr_user as Volunteer, widget.helpRequest);
 //                      Navigator.push(
 //                        context,
 //                        MaterialPageRoute(builder: (context) => testing_stream()),
@@ -193,9 +194,6 @@ class ThreeDotsWidget extends StatelessWidget {
 //          case 2:
 //            print("deny seleted");
 //            break;
-          case 3:
-            print("profile selected");
-            break;
         }
       },
       child: Icon(
@@ -284,7 +282,7 @@ class HelpRequestStatusWidget extends StatelessWidget {
                             print("Accepted");
                           },
                           child:
-                              Text(AppLocalizations.of(context).acceptRequest),
+                              Text(AppLocalizations.of(context)!.acceptRequest),
                         ),
                         RaisedButton(
                           shape: RoundedRectangleBorder(

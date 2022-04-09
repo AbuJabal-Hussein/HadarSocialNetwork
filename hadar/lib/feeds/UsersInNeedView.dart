@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/users/UserInNeed.dart';
@@ -18,6 +17,7 @@ class UsersInNeedView extends StatelessWidget{
   Widget build(BuildContext context) {
     return StreamProvider<List<UserInNeed>>.value(
       value: DataBaseService().getAllUsersInNeed(),
+      initialData: [],
       child: AdminAllUsersView(),
     );
   }
@@ -25,11 +25,10 @@ class UsersInNeedView extends StatelessWidget{
 }
 
 class AdminAllUsersView extends StatelessWidget{
-  List<UserInNeed> usersInNeed;
 
   @override
   Widget build(BuildContext context) {
-    usersInNeed = Provider.of<List<UserInNeed>>(context);
+    List<UserInNeed>? usersInNeed = Provider.of<List<UserInNeed>?>(context);
     List<FeedTile> feedTiles = [];
 
     if (usersInNeed != null) {
@@ -56,7 +55,7 @@ class AdminAllUsersView extends StatelessWidget{
 
 
 class UserItem extends StatelessWidget {
-  UserItem({this.user, this.parent})
+  UserItem({required this.user, required this.parent})
       : super(key: ObjectKey(user));
 
   final User user;
@@ -75,7 +74,7 @@ class UserItem extends StatelessWidget {
       isThreeLine: true,
       title: Row(children: <Widget>[
         Container(
-          child: Text(AppLocalizations.of(context).nameTwoDots +user.name,
+          child: Text(AppLocalizations.of(context)!.nameTwoDots + user.name,
               style: TextStyle(color: BasicColor.clr)),
         ),
         Spacer(),
@@ -87,7 +86,7 @@ class UserItem extends StatelessWidget {
       subtitle: Row(
         children: <Widget>[
           Container(
-            child: Text(AppLocalizations.of(context).telNumberTwoDots +user.phoneNumber),
+            child: Text(AppLocalizations.of(context)!.telNumberTwoDots +user.phoneNumber),
             padding: const EdgeInsets.only(top: 8, left: 8),
           ),
           Spacer(),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hadar/profiles/profileItems/basicItemsForAllProfiles.dart';
 import 'package:hadar/utils/HelpRequest.dart';
@@ -8,9 +7,8 @@ import '../../main.dart';
 import '../adminfeedtile.dart';
 
 class TranslateRequest extends StatefulWidget {
-  bool adminFeed;
-  HelpRequest helpRequest;
-  String feedType;
+  final HelpRequest helpRequest;
+  final String feedType;
 
   TranslateRequest(this.helpRequest, this.feedType);
 
@@ -22,12 +20,12 @@ class TranslateRequest extends StatefulWidget {
 }
 
 class _TranslateRequestState extends State<TranslateRequest> {
-  HelpRequest helpRequest;
+  final HelpRequest helpRequest;
   ProfileButton buttonCreate = ProfileButton();
   final translator = GoogleTranslator();
-  String category;
+  late String category;
   var categoryTranslation;
-  String description;
+  late String description;
   var descriptionTranslation;
   bool showTranslation = true;
   bool showOriginal = false;
@@ -36,7 +34,7 @@ class _TranslateRequestState extends State<TranslateRequest> {
   _TranslateRequestState(this.helpRequest, this.feedType);
 
   getLanguage(BuildContext context) {
-    String language = MainApp.of(context).getLanguage();
+    String language = MainApp.of(context)!.getLanguage();
     String langCode;
     switch (language) {
       case "עברית":
@@ -139,7 +137,7 @@ class _TranslateRequestState extends State<TranslateRequest> {
             visible: showTranslation,
             child: TextButton(
               child: buttonCreate.getChild(
-                  AppLocalizations.of(context).translate, Icons.translate),
+                  AppLocalizations.of(context)!.translate, Icons.translate),
               style: style,
               onPressed: () {
                 Future.delayed(const Duration(milliseconds: 800), () {
@@ -155,7 +153,7 @@ class _TranslateRequestState extends State<TranslateRequest> {
             visible: showOriginal,
             child: TextButton(
               child: buttonCreate.getChild(
-                  AppLocalizations.of(context).showOriginal, Icons.translate),
+                  AppLocalizations.of(context)!.showOriginal, Icons.translate),
               style: style,
               onPressed: () {
                 Future.delayed(const Duration(milliseconds: 800), () {

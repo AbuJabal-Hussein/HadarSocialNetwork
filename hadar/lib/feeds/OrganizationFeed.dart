@@ -1,7 +1,5 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hadar/Design/basicTools.dart';
 
 import 'package:hadar/services/DataBaseServices.dart';
@@ -16,19 +14,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../main.dart';
 
 
-class removeOrganization extends StatelessWidget {
-  Organization org;
+class RemoveOrganization extends StatelessWidget {
+  final Organization org;
 
-  removeOrganization(Organization org) {
-    this.org = org;
-  }
+  RemoveOrganization(this.org);
 
   @override
   Widget build(BuildContext context) {
     return new AlertDialog(
       backgroundColor: BasicColor.backgroundClr,
       title: Center(
-          child: Text(AppLocalizations.of(context).areYouSure)
+          child: Text(AppLocalizations.of(context)!.areYouSure)
       ),
       actions: <Widget>[
         Row(
@@ -43,7 +39,7 @@ class removeOrganization extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context, true);
               },
-              child: Text(AppLocalizations.of(context).cancel),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             Spacer(flex: 1,),
             TextButton(
@@ -56,7 +52,7 @@ class removeOrganization extends StatelessWidget {
                 DataBaseService().RemoveOrginazation(org.name);
                 Navigator.pop(context, true);
               },
-              child: Text(AppLocalizations.of(context).confirm),
+              child: Text(AppLocalizations.of(context)!.confirm),
             ),
           ],
         ),
@@ -74,6 +70,7 @@ class OrganizationsInfoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<List<Organization>>.value(
       value: DataBaseService().getAllOrganizations(),
+      initialData: [],
       child: _OrganizationFeed(currContext),
     );
   }
@@ -86,8 +83,8 @@ class _OrganizationFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Organization> organizations =
-    Provider.of<List<Organization>>(context);
+    final List<Organization>? organizations =
+    Provider.of<List<Organization>?>(context);
 
     List<_OrganizationInfo> organizationsTiles = [];
 
@@ -136,14 +133,14 @@ class _OrganizationInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(AppLocalizations.of(currContext).delete),
+                    Text(AppLocalizations.of(currContext)!.delete),
                     Icon(Icons.delete),
                   ],
                 ),
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (BuildContext context) => removeOrganization(org),
+                    builder: (BuildContext context) => RemoveOrganization(org),
                   );
                 }
             ),
@@ -170,7 +167,7 @@ class _OrganizationInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String langCode = MainApp.of(currContext).getLangCode();
+    String langCode = MainApp.of(currContext)!.getLangCode();
     bool isRTL = (langCode == "he" || langCode == "ar");
     return ExpansionTile(
       title: Text(organization.name),
@@ -190,7 +187,7 @@ class _OrganizationInfo extends StatelessWidget {
           children: <TableRow>[
             TableRow(
               children: [
-                _styledText(AppLocalizations.of(currContext).telNumberTwoDots),
+                _styledText(AppLocalizations.of(currContext)!.telNumberTwoDots),
                 Row(
                   mainAxisAlignment: isRTL ? MainAxisAlignment.start : MainAxisAlignment.end,
                   children: [
@@ -213,19 +210,19 @@ class _OrganizationInfo extends StatelessWidget {
 
             TableRow(
               children: [
-                _styledText(AppLocalizations.of(currContext).emailTwoDots),
+                _styledText(AppLocalizations.of(currContext)!.emailTwoDots),
                 _styledText(organization.email, isRTL: true),
               ],
             ),
             TableRow(
               children: [
-                _styledText(AppLocalizations.of(currContext).locationTwoDots),
+                _styledText(AppLocalizations.of(currContext)!.locationTwoDots),
                 _styledText(organization.location, isRTL: true),
               ],
             ),
             TableRow(
               children: [
-                _styledText(AppLocalizations.of(currContext).services),
+                _styledText(AppLocalizations.of(currContext)!.services),
                 Container(
                   alignment: Alignment.topRight,
 

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hadar/Dialouge/dialogue_helper_userinneed.dart';
 import 'package:hadar/lang/HebrewText.dart';
 import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/users/Privilege.dart';
-import 'package:hadar/users/User.dart';
-import 'package:hadar/users/UserInNeed.dart';
+
 import 'package:hadar/users/Volunteer.dart';
 import 'package:hadar/utils/HelpRequest.dart';
 import 'package:hadar/utils/HelpRequestType.dart';
@@ -27,14 +25,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 bool debug = true;
 
 class UserInNeedHelpRequestsFeed extends StatefulWidget {
-  UserInNeedHelpRequestsFeed({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => HelpRequestFeedState();
 }
 
 class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
-  List<HelpRequest> feed;
+  List<HelpRequest> feed = [];
 
   HelpRequestFeedState();
 
@@ -71,17 +68,13 @@ class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
   @override
   Widget build(BuildContext context) {
     feed = Provider.of<List<HelpRequest>>(context);
-    List<FeedTile> feedTiles = List();
+    List<FeedTile> feedTiles = [];
 
-    if (feed != null) {
-      feedTiles = feed.map((HelpRequest helpRequest) {
-
-        return FeedTile(tileWidget: HelpRequestItem(
-          helpRequest: helpRequest, parent: this,
-        ),);
-
-      }).toList();
-    }
+    feedTiles = feed.map((HelpRequest helpRequest) {
+      return FeedTile(tileWidget: HelpRequestItem(
+        helpRequest: helpRequest, parent: this,
+      ),);
+    }).toList();
 
     return Scaffold(
         bottomNavigationBar: BottomBar(),
@@ -97,7 +90,7 @@ class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
               child: Directionality(
                 textDirection: TextDirection.rtl,
                 child: ListView(
-                  semanticChildCount: (feed == null) ? 0 : feed.length,
+                  semanticChildCount: feed.length,
                   padding: const EdgeInsets.only(bottom: 70.0, top: 100),
                   children: feedTiles,
                 ),
@@ -122,7 +115,7 @@ class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
                       builder: (context) => RequestWindow(this, types)),
                 );
               },
-              label: Text(AppLocalizations.of(context).requestHelp),
+              label: Text(AppLocalizations.of(context)!.requestHelp),
               icon: Icon(Icons.add),
               backgroundColor: BasicColor.clr,
               elevation: 10,
@@ -134,7 +127,7 @@ class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
 }
 
 class HelpRequestItem extends StatelessWidget {
-  HelpRequestItem({this.helpRequest, this.parent})
+  HelpRequestItem({required this.helpRequest, required this.parent})
       : super(key: ObjectKey(helpRequest));
 
   final HelpRequest helpRequest;
@@ -200,7 +193,7 @@ class HelpRequestItem extends StatelessWidget {
                   await DialogHelpRequestHelper.exit(context,helpRequest);
                 },
               ),
-              Container(margin:EdgeInsets.only(bottom: 5),child: Text(AppLocalizations.of(context).rejectReason , style: TextStyle(color: Colors.black),))
+              Container(margin:EdgeInsets.only(bottom: 5),child: Text(AppLocalizations.of(context)!.rejectReason , style: TextStyle(color: Colors.black),))
                 ],
             )
            :  SizedBox())
@@ -317,7 +310,7 @@ class HelpRequestStatusWidget extends StatelessWidget {
                       }
                       //print("height: " + (MediaQuery.of(context).size.height /2).toString());
                     },
-                    child: Text(AppLocalizations.of(context).renewRequest),
+                    child: Text(AppLocalizations.of(context)!.renewRequest),
                   ),
                 ),
               ),

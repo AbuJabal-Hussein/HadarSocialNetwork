@@ -19,9 +19,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AddOrganizationWindow extends StatefulWidget {
   List<HelpRequestType> types;
 
-  AddOrganizationWindow(List<HelpRequestType> types) {
-    this.types = types;
-  }
+  AddOrganizationWindow(this.types);
 
   @override
   _AddOrganizationWindowState createState() =>
@@ -38,16 +36,13 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
   String _error_msg = '';
   bool alert = false;
   bool clicked = false;
-  Privilege clicked_priv = null;
   final name_Controller = TextEditingController();
   final phone_Controller = TextEditingController();
   final email_Controller = TextEditingController();
   final location_Controller = TextEditingController();
-  checkBoxForCategories categories;
+  late checkBoxForCategories categories;
 
-  _AddOrganizationWindowState(List<HelpRequestType> types) {
-    this.types = types;
-  }
+  _AddOrganizationWindowState(this.types);
 
   Widget getRelContainer(Form form) {
     return Container(
@@ -109,7 +104,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
               slivers: [
                 SliverPersistentHeader(
                   delegate:
-                  MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context).addOrginaization),
+                  MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context)!.addOrginaization),
                   pinned: true,
                 ),
                 SliverFillRemaining(
@@ -123,7 +118,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                         getRelContainer(
                           Form(
                             child: DescriptionBox(
-                                AppLocalizations.of(context).organizationName,
+                                AppLocalizations.of(context)!.organizationName,
                                 Icon(Icons.account_circle_rounded,
                                     color: Colors.white),
                                 Colors.white,
@@ -138,7 +133,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                         getRelContainer(
                           Form(
                             child: DescriptionBox(
-                                AppLocalizations.of(context).telNumber,
+                                AppLocalizations.of(context)!.telNumber,
                                 Icon(Icons.phone, color: Colors.white),
                                 Colors.white,
                                 Colors.white,
@@ -152,7 +147,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                         getRelContainer(
                           Form(
                             child: DescriptionBox(
-                                AppLocalizations.of(context).email,
+                                AppLocalizations.of(context)!.email,
                                 Icon(Icons.email, color: Colors.white),
                                 Colors.white,
                                 Colors.white,
@@ -166,7 +161,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                         getRelContainer(
                           Form(
                             child: DescriptionBox(
-                                AppLocalizations.of(context).address,
+                                AppLocalizations.of(context)!.address,
                                 Icon(Icons.location_on, color: Colors.white),
                                 Colors.white,
                                 Colors.white,
@@ -181,7 +176,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                           padding: EdgeInsets.only(top: 15, right: 10),
                           alignment: Alignment.centerRight,
                           child: Text(
-                            AppLocalizations.of(context).organizationServices,
+                            AppLocalizations.of(context)!.organizationServices,
                             textDirection: TextDirection.rtl,
                             style: TextStyle(
                                 fontSize: 15.0,
@@ -193,10 +188,10 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                         Container(child: categories),
                         RaisedButton(
                           onPressed: () {
-                            if (!orgNameKey.currentState.validate() ||
-                                !orgPhoneKey.currentState.validate() ||
-                                !emailKey.currentState.validate() ||
-                                !locationKey.currentState.validate()) {
+                            if (!orgNameKey.currentState!.validate() ||
+                                !orgPhoneKey.currentState!.validate() ||
+                                !emailKey.currentState!.validate() ||
+                                !locationKey.currentState!.validate()) {
                               return;
                             }
                             Organization org = new Organization(
@@ -209,7 +204,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                                   builder: (context) => AdminProfile(CurrentUser.curr_user)),
                             );
                           },
-                          child: Text(AppLocalizations.of(context).confirm),
+                          child: Text(AppLocalizations.of(context)!.confirm),
                         ),
                       ],
                     ),

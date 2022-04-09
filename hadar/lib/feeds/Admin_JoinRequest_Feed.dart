@@ -30,6 +30,7 @@ class AdminJoinRequestsFeed extends StatelessWidget{
   Widget build(BuildContext context) {
     return StreamProvider<List<VerificationRequest>>.value(
       value: DataBaseService().getVerificationRequests(),
+      initialData: [],
       child: _AdminJoinRequestsFeed(admin: admin,),
     );
   }
@@ -39,7 +40,7 @@ class AdminJoinRequestsFeed extends StatelessWidget{
 class _AdminJoinRequestsFeed extends StatefulWidget{
 
   final Admin admin;
-  _AdminJoinRequestsFeed({Key key, this.admin}): super(key: key);
+  _AdminJoinRequestsFeed({required this.admin});
 
   @override
   State<StatefulWidget> createState() => _AdminJoinRequestsFeedState();
@@ -49,36 +50,12 @@ class _AdminJoinRequestsFeed extends StatefulWidget{
 
 class _AdminJoinRequestsFeedState extends State<_AdminJoinRequestsFeed>{
 
-  List<VerificationRequest> feed;
+  late List<VerificationRequest>? feed;
 
-  // adding or removing items from the _feed should go through this function in
-  // order for the widget state to be updated
-  // if addedRequest is true, then the change that will be done is adding the
-  // given helpRequest to the feed.
-  // Otherwise, the given helpRequest will be removed from the feed
-  void handleFeedChange(VerificationRequest joinRequest, bool addedRequest) {
+  void handleAcceptVerificationRequest(VerificationRequest joinRequest){
     setState(() {
-      if (addedRequest) {
-        feed.add(joinRequest);
-        //todo: add verification request to database
-
-      }
-      else {
-        feed.remove(joinRequest);
-        //feed.removeWhere((element) => element.sender.id == joinRequest.sender.id);
-        log("feed size = " + feed.length.toString());
-        //todo: remove from database
-
-      }
-
-      //feed.removeWhere((element) => element.category.description == "money");
-    });
-  }
-
-  void handleAcceptVerificationRequest(VerificationRequest joinRequest, List<HelpRequestType> categories){
-    setState(() {
-      feed.remove(joinRequest);
-      DataBaseService().AcceptVerificationRequest(joinRequest, categories);
+      feed!.remove(joinRequest);
+      DataBaseService().acceptVerificationRequest(joinRequest);
     });
   }
 
@@ -101,7 +78,7 @@ class _AdminJoinRequestsFeedState extends State<_AdminJoinRequestsFeed>{
     List<FeedTile> feedTiles = [];
 
     if(feed != null) {
-      feedTiles = feed.map((VerificationRequest joinRequest) {
+      feedTiles = feed!.map((VerificationRequest joinRequest) {
         return FeedTile(tileWidget: JoinRequestItem(
           joinRequest: joinRequest, parent: this,
         ),);
@@ -111,7 +88,7 @@ class _AdminJoinRequestsFeedState extends State<_AdminJoinRequestsFeed>{
     return Directionality(
       textDirection: TextDirection.rtl,
       child: ListView(
-        semanticChildCount: (feed == null) ? 0 : feed.length,
+        semanticChildCount: (feed == null) ? 0 : feed!.length,
         padding: const EdgeInsets.only(bottom: 70.0, top: 10),
         children: feedTiles,
       ),
@@ -121,7 +98,7 @@ class _AdminJoinRequestsFeedState extends State<_AdminJoinRequestsFeed>{
 }
 
 class JoinRequestItem extends StatelessWidget {
-  JoinRequestItem({this.joinRequest, this.parent})
+  JoinRequestItem({required this.joinRequest, required this.parent})
       : super(key: ObjectKey(joinRequest));
 
   final VerificationRequest joinRequest;
@@ -152,12 +129,12 @@ class JoinRequestItem extends StatelessWidget {
           ),
           Container(
             child:(){
-              String userType = AppLocalizations.of(context).userInNeed;
+              String userType = AppLocalizations.of(context)!.userInNeed;
               if(joinRequest.type == Privilege.Volunteer)
-                userType = AppLocalizations.of(context).volunteer;
+                userType = AppLocalizations.of(context)!.volunteer;
               else if(joinRequest.type == Privilege.Admin)
-                userType = AppLocalizations.of(context).admin;
-              return Text( AppLocalizations.of(context).wantToJoinAs + userType , style:TextStyle(color: BasicColor.clr));
+                userType = AppLocalizations.of(context)!.admin;
+              return Text( AppLocalizations.of(context)!.wantToJoinAs + userType , style:TextStyle(color: BasicColor.clr));
             }() ,
             alignment: Alignment.topRight,
           ),
@@ -200,18 +177,6 @@ class CallWidget extends StatelessWidget {
         color: BasicColor.clr,
       ),
       onPressed: _launchCaller,
-    );
-    return GestureDetector(
-      onTap: () {
-        _launchCaller();
-      },
-      child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Icon(
-            Icons.call,
-            size: 20.0,
-            color: BasicColor.clr,
-          )),
     );
   }
 }
@@ -265,12 +230,12 @@ class JoinRequestStatusWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: (){
-                    String userType = AppLocalizations.of(context).userInNeed;
+                    String userType = AppLocalizations.of(context)!.userInNeed;
                     if(joinRequest.type == Privilege.Volunteer)
-                      userType = AppLocalizations.of(context).volunteer;
+                      userType = AppLocalizations.of(context)!.volunteer;
                     else if(joinRequest.type == Privilege.Admin)
-                      userType = AppLocalizations.of(context).admin;
-                    return Text(joinRequest.sender.name + AppLocalizations.of(context).wantToJoinAs + userType ,
+                      userType = AppLocalizations.of(context)!.admin;
+                    return Text(joinRequest.sender.name + AppLocalizations.of(context)!.wantToJoinAs + userType ,
                       style: TextStyle(
                         fontSize: 25,
                         color:BasicColor.clr,
@@ -285,7 +250,7 @@ class JoinRequestStatusWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    AppLocalizations.of(context).nameTwoDots + joinRequest.sender.name,
+                    AppLocalizations.of(context)!.nameTwoDots + joinRequest.sender.name,
                     style: TextStyle(
                         fontSize: 15,
                         color: Colors.black,
@@ -300,7 +265,7 @@ class JoinRequestStatusWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    AppLocalizations.of(context).emailTwoDots + joinRequest.sender.email,
+                    AppLocalizations.of(context)!.emailTwoDots + joinRequest.sender.email,
                     style: TextStyle(
                         fontSize: 15,
                         color: Colors.black,
@@ -315,7 +280,7 @@ class JoinRequestStatusWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    AppLocalizations.of(context).idTwoDots + joinRequest.sender.id,
+                    AppLocalizations.of(context)!.idTwoDots + joinRequest.sender.id,
                     style: TextStyle(
                         fontSize: 15,
                         color: Colors.black,
@@ -330,7 +295,7 @@ class JoinRequestStatusWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    AppLocalizations.of(context).telNumberTwoDots + joinRequest.sender.phoneNumber,
+                    AppLocalizations.of(context)!.telNumberTwoDots + joinRequest.sender.phoneNumber,
                     style: TextStyle(
                         fontSize: 15,
                         color: Colors.black,
@@ -344,9 +309,7 @@ class JoinRequestStatusWidget extends StatelessWidget {
                 height: 40,
               ),
 
-              Expanded(//height: 100,
-                //              padding: const EdgeInsets.only(left: 20),
-
+              Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child:Row(
@@ -354,14 +317,7 @@ class JoinRequestStatusWidget extends StatelessWidget {
                       RaisedButton(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
                         onPressed: () {
-                          UnregisteredUser user = joinRequest.sender;
-                          /*await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                              email: user.email,
-                              password: "123456"
-                          );*/
-
-                          //TODO:CHANGE CATEGORES
-                          feedWidgetObject.handleAcceptVerificationRequest(joinRequest, null);
+                          feedWidgetObject.handleAcceptVerificationRequest(joinRequest);
                           if (Navigator.canPop(context)) {
                             Navigator.pop(
                               context,
@@ -372,14 +328,12 @@ class JoinRequestStatusWidget extends StatelessWidget {
                           }
 
                         },
-                        child: Text(AppLocalizations.of(context).approveRequest),
+                        child: Text(AppLocalizations.of(context)!.approveRequest),
                       ),
                       Spacer(),
                       RaisedButton(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
                         onPressed: () {
-                          UnregisteredUser user = joinRequest.sender;
-                          //todo: pass a list of the categories if the user is a volunteer
                           DataBaseService().DenyVerficationRequest(joinRequest);
                           if (Navigator.canPop(context)) {
                             Navigator.pop(
@@ -391,7 +345,7 @@ class JoinRequestStatusWidget extends StatelessWidget {
                           }
 
                         },
-                        child: Text(AppLocalizations.of(context).rejectRequest),
+                        child: Text(AppLocalizations.of(context)!.rejectRequest),
                       ),
                     ],
                   ),

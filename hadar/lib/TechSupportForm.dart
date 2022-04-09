@@ -1,13 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:hadar/profiles/profile.dart';
 import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/users/CurrentUser.dart';
-
-import 'package:hadar/utils/HelpRequest.dart';
-import 'package:hadar/utils/HelpRequestType.dart';
 import 'package:hadar/utils/UsersInquiry.dart';
 
 import 'Design/mainDesign.dart';
@@ -18,34 +13,23 @@ class TechSupportForm extends StatelessWidget {
   ProfilePage parent;
   BuildContext context;
 
-  DescriptonBox desReason;
-  DescriptonBox desBox;
-  DescriptonBox desName;
-  DescriptonBox desId;
-  DescriptonBox desPhone;
-  String reason;
-  String description;
-  String userName;
-  String userId;
-  String userPhone;
-  HelpRequestType helpRequestType;
+  late DescriptonBox desReason;
+  late DescriptonBox desBox;
+  late DescriptonBox desName;
+  late DescriptonBox desId;
+  late DescriptonBox desPhone;
 
-  TechSupportForm(ProfilePage parent, BuildContext context) {
-    this.context = context;
-    this.parent = parent;
-    init();
+  TechSupportForm(this.parent, this.context) {
+    this.desName = DescriptonBox(title: AppLocalizations.of(context)!.name, parent: parent);
+    this.desId = DescriptonBox(title: AppLocalizations.of(context)!.id, parent: parent);
+    this.desPhone = DescriptonBox(title: AppLocalizations.of(context)!.telNumber, parent: parent);
+    this.desReason = DescriptonBox(title: AppLocalizations.of(context)!.inquiryReasonInShort, parent: parent);
+    this.desBox = DescriptonBox(title: AppLocalizations.of(context)!.explanation, parent: parent);
   }
 
-  void init() {
-    this.desName = DescriptonBox(title: AppLocalizations.of(context).name, parent: parent);
-    this.desId = DescriptonBox(title: AppLocalizations.of(context).id, parent: parent);
-    this.desPhone = DescriptonBox(title: AppLocalizations.of(context).telNumber, parent: parent);
-    this.desReason = DescriptonBox(title: AppLocalizations.of(context).inquiryReasonInShort, parent: parent);
-    this.desBox = DescriptonBox(title: AppLocalizations.of(context).explanation, parent: parent);
-  }
 
   Widget getRelContainer(DescriptonBox des){
-    return                   Container(
+    return Container(
       height: 100,
       child: des,
     );
@@ -62,7 +46,7 @@ class TechSupportForm extends StatelessWidget {
           slivers: [
             SliverPersistentHeader(
               delegate:
-              MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context).inquiry),
+              MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context)!.inquiry),
               pinned: true,
             ),
             SliverFillRemaining(
@@ -81,11 +65,11 @@ class TechSupportForm extends StatelessWidget {
                   ),
                   RaisedButton(
                     onPressed: () async{
-                      userName = desName.getDataEntered();
-                      userId = desId.getDataEntered();
-                      userPhone = desPhone.getDataEntered();
-                      reason = desReason.getDataEntered();
-                      description = desBox.getDataEntered();
+                      String userName = desName.getDataEntered();
+                      String userId = desId.getDataEntered();
+                      String userPhone = desPhone.getDataEntered();
+                      String reason = desReason.getDataEntered();
+                      String description = desBox.getDataEntered();
                       print(userName);
                       print(userPhone);
                       print(reason);
@@ -99,7 +83,7 @@ class TechSupportForm extends StatelessWidget {
                       );
                       // Navigator.canPop(context);
                     },
-                    child: Text(AppLocalizations.of(context).confirm),
+                    child: Text(AppLocalizations.of(context)!.confirm),
                   ),
                 ],
                 ),
@@ -113,23 +97,13 @@ class TechSupportForm extends StatelessWidget {
 
 
 class DescriptonBox extends StatefulWidget {
-  DescriptonBox({Key key, this.title, this.parent}) : super(key: key);
+  DescriptonBox({required this.title, required this.parent});
   _DescriptonBox desBoxState = _DescriptonBox();
   final String title;
   final ProfilePage parent;
 
-  void setSelectedType(HelpRequestType selectedType) {
-    desBoxState.setSelectedType(selectedType);
-  }
-
   String getDataEntered(){
     return desBoxState.getDataEntered();
-  }
-
-
-
-  HelpRequestType getHelpRequestType() {
-    return desBoxState.getHelpRequestType();
   }
 
   @override
@@ -137,22 +111,8 @@ class DescriptonBox extends StatefulWidget {
 }
 
 class _DescriptonBox extends State<DescriptonBox> {
-  String _inputtext = '';
-  HelpRequest helpRequest;
+
   TextEditingController inputtextField = TextEditingController();
-  HelpRequestType helpRequestType;
-
-
-
-  void setSelectedType(HelpRequestType selectedType) {
-    setState(() {
-      _inputtext = selectedType.description;
-    });
-  }
-
-  HelpRequestType getHelpRequestType() {
-    return helpRequestType;
-  }
 
   String getDataEntered(){
     return inputtextField.text;

@@ -22,37 +22,27 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class AdminRequestWindow extends StatelessWidget {
-  DescriptonBox desBox;
-  DescriptonBox desAge;
-  DescriptonBox desId;
-  DescriptonBox desLocation;
-  DescriptonBox desName;
-  DescriptonBox desPhone;
-  Dropdown drop;
+  late DescriptonBox desBox;
+  late DescriptonBox desAge;
+  late DescriptonBox desId;
+  late DescriptonBox desLocation;
+  late DescriptonBox desName;
+  late DescriptonBox desPhone;
+  late Dropdown drop;
   List<HelpRequestType> types;
-  String userAge;
-  String userId;
-  String requestDescription;
-  String locationDescription;
-  String userName;
-  String userPhone;
-  HelpRequestType helpRequestType;
-
   BuildContext context;
 
-  AdminRequestWindow( List<HelpRequestType> types, BuildContext context) {
-    this.context = context;
-    this.types = types;
+  AdminRequestWindow(this.types, this.context) {
     init();
   }
 
   void init() {
-    this.desBox = DescriptonBox(title: AppLocalizations.of(context).requestDescription);
-    this.desAge = DescriptonBox(title: AppLocalizations.of(context).age);
-    this.desId = DescriptonBox(title: AppLocalizations.of(context).id);
-    this.desLocation = DescriptonBox(title: AppLocalizations.of(context).location);
-    this.desName = DescriptonBox(title: AppLocalizations.of(context).name);
-    this.desPhone = DescriptonBox(title: AppLocalizations.of(context).telNumber);
+    this.desBox = DescriptonBox(title: AppLocalizations.of(context)!.requestDescription);
+    this.desAge = DescriptonBox(title: AppLocalizations.of(context)!.age);
+    this.desId = DescriptonBox(title: AppLocalizations.of(context)!.id);
+    this.desLocation = DescriptonBox(title: AppLocalizations.of(context)!.location);
+    this.desName = DescriptonBox(title: AppLocalizations.of(context)!.name);
+    this.desPhone = DescriptonBox(title: AppLocalizations.of(context)!.telNumber);
     this.drop = Dropdown(desBox, types);
   }
 
@@ -71,7 +61,7 @@ class AdminRequestWindow extends StatelessWidget {
           slivers: [
             SliverPersistentHeader(
               delegate:
-                  MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context).addRequest),
+                  MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context)!.addRequest),
               pinned: true,
             ),
             SliverFillRemaining(
@@ -95,13 +85,13 @@ class AdminRequestWindow extends StatelessWidget {
                   ),
                   RaisedButton(
                     onPressed: () async{
-                      userId = desId.getDataEntered();
-                      userName = desName.getDataEntered();
-                      userAge = desAge.getDataEntered();
-                      locationDescription = desLocation.getDataEntered();
-                      userPhone = desPhone.getDataEntered();
-                      requestDescription = desBox.getDataEntered();
-                      helpRequestType=drop.getSelectedType();
+                      String userId = desId.getDataEntered();
+                      String userName = desName.getDataEntered();
+                      String userAge = desAge.getDataEntered();
+                      String locationDescription = desLocation.getDataEntered();
+                      String userPhone = desPhone.getDataEntered();
+                      String requestDescription = desBox.getDataEntered();
+                      HelpRequestType helpRequestType=drop.getSelectedType();
                       int val = int.tryParse(userAge) ?? 0;
                       String dummy = 'אנונימי';
                       print(userId);
@@ -119,7 +109,7 @@ class AdminRequestWindow extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => AdminProfile(CurrentUser.curr_user)),
                       );
                     },
-                    child: Text(AppLocalizations.of(context).confirm),
+                    child: Text(AppLocalizations.of(context)!.confirm),
                   ),
                   ],
                 ),
@@ -133,12 +123,10 @@ class AdminRequestWindow extends StatelessWidget {
 
 class Dropdown extends StatefulWidget {
   DescriptonBox desBox;
-  DropDownState dropDownState;
+  late DropDownState dropDownState;
   List<HelpRequestType> types;
 
-  Dropdown(DescriptonBox desBox, List<HelpRequestType> types) {
-    this.types = types;
-    this.desBox = desBox;
+  Dropdown(this.desBox, this.types) {
     this.dropDownState = DropDownState(desBox, types);
   }
 
@@ -151,14 +139,11 @@ class Dropdown extends StatefulWidget {
 }
 
 class DropDownState extends State<Dropdown> {
-  HelpRequestType selectedType;
+  late HelpRequestType selectedType;
   DescriptonBox desBox;
   List<HelpRequestType> types;
 
-  DropDownState(DescriptonBox desBox, List<HelpRequestType> types) {
-    this.desBox = desBox;
-    this.types = types;
-  }
+  DropDownState(this.desBox, this.types);
 
   HelpRequestType getSelectedType() {
     return selectedType;
@@ -166,19 +151,19 @@ class DropDownState extends State<Dropdown> {
 
   @override
   Widget build(BuildContext context) {
-    String langCode = MainApp.of(context).getLangCode();
+    String langCode = MainApp.of(context)!.getLangCode();
     bool isRTL = (langCode == "he" || langCode == "ar");
     return Scaffold(
       body: Center(
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: DropdownButton<HelpRequestType>(
-            hint: Text(AppLocalizations.of(context).chooseCategory),
+            hint: Text(AppLocalizations.of(context)!.chooseCategory),
             value: selectedType,
-            onChanged: (HelpRequestType Value) {
+            onChanged: (HelpRequestType? value) {
               setState(
                 () {
-                  selectedType = Value;
+                  selectedType = value!;
                   desBox.setSelectedType(selectedType);
                 },
               );
@@ -210,10 +195,9 @@ class DropDownState extends State<Dropdown> {
 //when a user clicks on the category, he gets a description box,
 // where he can describe his request
 class DescriptonBox extends StatefulWidget {
-  DescriptonBox({Key key, this.title}) : super(key: key);
+  DescriptonBox({required this.title});
   _DescriptonBox desBoxState = _DescriptonBox();
   final String title;
-  // final AdminProfile parent;
 
   void setSelectedType(HelpRequestType selectedType) {
     desBoxState.setSelectedType(selectedType);
@@ -235,9 +219,9 @@ class DescriptonBox extends StatefulWidget {
 
 class _DescriptonBox extends State<DescriptonBox> {
   String _inputtext = '';
-  HelpRequest helpRequest;
+  late HelpRequest helpRequest;
   TextEditingController inputtextField = TextEditingController();
-  HelpRequestType helpRequestType;
+  late HelpRequestType helpRequestType;
 
 
 

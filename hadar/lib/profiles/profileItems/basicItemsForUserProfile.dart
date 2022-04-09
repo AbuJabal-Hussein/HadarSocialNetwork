@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hadar/Design/basicTools.dart';
-import 'package:hadar/feeds/feed_items/category_scrol.dart';
-import 'package:hadar/screens/buttons/buttonClass.dart';
+
 import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/users/User.dart' as a;
 import 'package:hadar/utils/HelpRequestType.dart';
@@ -23,15 +20,14 @@ class VolunteerShowCategories extends StatefulWidget {
 
 class _VolunteerShowCategoriesState extends State<VolunteerShowCategories> {
   var isVisible = false;
-  List<HelpRequestType> types;
+  late List<HelpRequestType> types;
   ProfileButton buttonCreate = ProfileButton();
 
-  _VolunteerShowCategoriesState();
 
-  checkBoxForCategories checkBox;
-  Volunteer user = CurrentUser.curr_user;
+  late checkBoxForCategories checkBox;
+  Volunteer user = CurrentUser.curr_user as Volunteer;
 
-  Future<List<HelpRequestType>> initTypes() async {
+  Future initTypes() async {
     types = await DataBaseService().helpRequestTypesAsList();
   }
 
@@ -63,7 +59,7 @@ class _VolunteerShowCategoriesState extends State<VolunteerShowCategories> {
       children: [
         TextButton(
           child: buttonCreate.getChild(
-              AppLocalizations.of(context).favoriteCategories, Icons.favorite),
+              AppLocalizations.of(context)!.favoriteCategories, Icons.favorite),
           style: buttonCreate.getStyle(context),
           onPressed: () {
             setState(
@@ -101,7 +97,7 @@ class _VolunteerShowCategoriesState extends State<VolunteerShowCategories> {
                 },
               );
             },
-            child: Text(AppLocalizations.of(context).update),
+            child: Text(AppLocalizations.of(context)!.update),
           ),
         )
       ],
@@ -109,16 +105,19 @@ class _VolunteerShowCategoriesState extends State<VolunteerShowCategories> {
   }
 }
 
-class ContactUs extends StatelessWidget {
-  a.User user;
-  Widget parent;
-  ProfileButton buttonCreate;
+class ContactUs extends StatefulWidget {
+  final a.User user;
+  final parent;
 
-  ContactUs(a.User currUser, Widget parent) {
-    this.user = currUser;
-    this.parent = parent;
-    buttonCreate = ProfileButton();
-  }
+  ContactUs(this.user, this.parent);
+
+  @override
+  State<ContactUs> createState() => _ContactUsState();
+}
+
+class _ContactUsState extends State<ContactUs> {
+  late ProfileButton buttonCreate;
+
 
   _launchCaller() async {
     String number;
@@ -138,20 +137,20 @@ class ContactUs extends StatelessWidget {
       children: [
         TextButton(
           child: buttonCreate.getChild(
-              AppLocalizations.of(context).fillApplication,
+              AppLocalizations.of(context)!.fillApplication,
               Icons.wysiwyg_rounded),
           style: style,
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => TechSupportForm(parent, context)),
+                  builder: (context) => TechSupportForm(widget.parent, context)),
             );
           },
         ),
         TextButton(
           child: buttonCreate.getChild(
-              AppLocalizations.of(context).call, Icons.phone),
+              AppLocalizations.of(context)!.call, Icons.phone),
           style: style,
           onPressed: () {
             _launchCaller();
@@ -162,14 +161,18 @@ class ContactUs extends StatelessWidget {
   }
 }
 
-class OtherUserAccess extends StatelessWidget {
-  a.User user;
-  ProfileButton buttonCreate;
+class OtherUserAccess extends StatefulWidget {
+  final a.User user;
 
-  OtherUserAccess(a.User currUser) {
-    this.user = currUser;
-    buttonCreate = ProfileButton();
-  }
+  OtherUserAccess(this.user);
+
+  @override
+  State<OtherUserAccess> createState() => _OtherUserAccessState();
+}
+
+class _OtherUserAccessState extends State<OtherUserAccess> {
+
+  ProfileButton buttonCreate = ProfileButton();
 
   @override
   Widget build(BuildContext context) {
@@ -177,13 +180,13 @@ class OtherUserAccess extends StatelessWidget {
       children: [
         TextButton(
           child: buttonCreate.getChild(
-              AppLocalizations.of(context).deleteMeFromSystem,
+              AppLocalizations.of(context)!.deleteMeFromSystem,
               Icons.person_remove),
           style: buttonCreate.getStyle(context),
           onPressed: () {
             showDialog(
               context: context,
-              builder: (BuildContext context) => RemoveUser(user),
+              builder: (BuildContext context) => RemoveUser(widget.user),
             );
           },
         ),
@@ -192,14 +195,17 @@ class OtherUserAccess extends StatelessWidget {
   }
 }
 
-class OtherAdminAccess extends StatelessWidget {
-  a.User user;
-  ProfileButton buttonCreate;
+class OtherAdminAccess extends StatefulWidget {
+  final a.User user;
 
-  OtherAdminAccess(a.User currUser) {
-    this.user = currUser;
-    buttonCreate = ProfileButton();
-  }
+  OtherAdminAccess(this.user);
+
+  @override
+  State<OtherAdminAccess> createState() => _OtherAdminAccessState();
+}
+
+class _OtherAdminAccessState extends State<OtherAdminAccess> {
+  ProfileButton buttonCreate = ProfileButton();
 
   @override
   Widget build(BuildContext context) {
@@ -207,13 +213,13 @@ class OtherAdminAccess extends StatelessWidget {
       children: [
         TextButton(
           child: buttonCreate.getChild(
-              AppLocalizations.of(context).deleteUserFromSystem,
+              AppLocalizations.of(context)!.deleteUserFromSystem,
               Icons.person_remove),
           style: buttonCreate.getStyle(context),
           onPressed: () {
             showDialog(
               context: context,
-              builder: (BuildContext context) => RemoveUser(user),
+              builder: (BuildContext context) => RemoveUser(widget.user),
             );
           },
         ),

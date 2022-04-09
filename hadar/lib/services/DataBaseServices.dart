@@ -222,7 +222,7 @@ class DataBaseService{
     in case of admin or user in need catoergires are null
 
    */
-  Future AcceptVerificationRequest(VerificationRequest verificationRequest , List<HelpRequestType> categories){
+  Future acceptVerificationRequest(VerificationRequest verificationRequest) async{
 
     switch (verificationRequest.type){
 

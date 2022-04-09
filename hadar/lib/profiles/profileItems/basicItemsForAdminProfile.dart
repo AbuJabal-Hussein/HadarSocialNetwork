@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/adminFeatures/adminAddOrganization.dart';
@@ -12,12 +11,10 @@ import 'basicItemsForAllProfiles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ManageTheSystem extends StatelessWidget {
-  ProfileButton buttonCreate;
-  DescriptonBox desBox;
 
-  Widget addCategory(BuildContext context) {
+  Widget addCategory(BuildContext context, DescriptonBox desBox) {
     return new AlertDialog( backgroundColor: BasicColor.backgroundClr,
-      title: Center(child: Text(AppLocalizations.of(context).addCategory)),
+      title: Center(child: Text(AppLocalizations.of(context)!.addCategory)),
       content:desBox,
       actions: <Widget>[
         new FlatButton(
@@ -25,7 +22,7 @@ class ManageTheSystem extends StatelessWidget {
             desBox.processText();
           },
           textColor: Theme.of(context).primaryColor,
-          child: Text(AppLocalizations.of(context).confirm),
+          child: Text(AppLocalizations.of(context)!.confirm),
         ),
       ],
     );
@@ -34,23 +31,24 @@ class ManageTheSystem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    buttonCreate=ProfileButton();
+    ProfileButton buttonCreate=ProfileButton();
+    DescriptonBox desBox;
     ButtonStyle style =buttonCreate.getStyle(context);
     return Column(
       children: [
         TextButton(
-          child: buttonCreate.getChild(AppLocalizations.of(context).addCategory, Icons.add_box_outlined),
+          child: buttonCreate.getChild(AppLocalizations.of(context)!.addCategory, Icons.add_box_outlined),
           style: style,
           onPressed: () {
-            desBox = DescriptonBox();
+            desBox = DescriptonBox('');
             showDialog(
               context: context,
-              builder: (BuildContext context) => addCategory(context),
+              builder: (BuildContext context) => addCategory(context, desBox),
             );
           },
         ),
         TextButton(
-          child: buttonCreate.getChild(AppLocalizations.of(context).showAllCategories, Icons.list),
+          child: buttonCreate.getChild(AppLocalizations.of(context)!.showAllCategories, Icons.list),
           style: style,
           onPressed: () async {
             List<HelpRequestType> types = await DataBaseService().helpRequestTypesAsList();
@@ -62,7 +60,7 @@ class ManageTheSystem extends StatelessWidget {
           },
         ),
         TextButton(
-          child: buttonCreate.getChild(AppLocalizations.of(context).addRequest, Icons.post_add),
+          child: buttonCreate.getChild(AppLocalizations.of(context)!.addRequest, Icons.post_add),
           style: style,
           onPressed: () async{
             List<HelpRequestType> types = await DataBaseService().helpRequestTypesAsList();
@@ -75,7 +73,7 @@ class ManageTheSystem extends StatelessWidget {
           },
         ),
         TextButton(
-          child: buttonCreate.getChild(AppLocalizations.of(context).addOrginaization, Icons.add_business_outlined),
+          child: buttonCreate.getChild(AppLocalizations.of(context)!.addOrginaization, Icons.add_business_outlined),
           style: style,
           onPressed: ()async {
             List<HelpRequestType> types = await DataBaseService().helpRequestTypesAsList();
@@ -88,7 +86,7 @@ class ManageTheSystem extends StatelessWidget {
           },
         ),
         TextButton(
-          child: buttonCreate.getChild(AppLocalizations.of(context).showAllOrginaization, Icons.business_outlined),
+          child: buttonCreate.getChild(AppLocalizations.of(context)!.showAllOrginaization, Icons.business_outlined),
           style: style,
           onPressed: () {
             Navigator.push(
@@ -99,13 +97,13 @@ class ManageTheSystem extends StatelessWidget {
           },
         ),
         TextButton(
-          child: buttonCreate.getChild(AppLocalizations.of(context).usersInquiries, Icons.warning_rounded),
+          child: buttonCreate.getChild(AppLocalizations.of(context)!.usersInquiries, Icons.warning_rounded),
           style: style,
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => userInquiryView()),
+                  builder: (context) => UserInquiryView()),
             );
           },
         ),

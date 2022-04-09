@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:hadar/Design/basicTools.dart';
-import 'package:hadar/Design/mainDesign.dart';
 import 'package:hadar/feeds/feed_items/help_request_tile.dart';
 import 'package:hadar/lang/HebrewText.dart';
 import 'package:hadar/feeds/feed_items/translateRequests.dart';
@@ -8,23 +6,17 @@ import 'package:hadar/profiles/profileItems/basicItemsForAllProfiles.dart';
 import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/services/getters/getUserName.dart';
 import 'package:hadar/users/Admin.dart';
-import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/users/Privilege.dart';
-import 'package:hadar/users/User.dart';
 import 'package:hadar/users/UserInNeed.dart';
 import 'package:hadar/users/Volunteer.dart';
 import 'package:hadar/utils/HelpRequest.dart';
-import 'package:hadar/utils/HelpRequestType.dart';
 import 'package:intl/intl.dart' as Intl;
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:translator/translator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../HelpRequestAdminDialouge.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../main.dart';
 
 class AdminVerifiedHelpRequestsFeed extends StatelessWidget {
   final Admin curr_user;
@@ -38,6 +30,7 @@ class AdminVerifiedHelpRequestsFeed extends StatelessWidget {
       value: status == Status.UNVERFIED
           ? DataBaseService().getAll_unverfied_requests_Requests()
           : DataBaseService().getAll_approved_Requests(),
+      initialData: [],
       child: _AdminVerifiedHelpRequestsFeed(),
     );
   }
@@ -53,7 +46,7 @@ class _AdminVerifiedHelpRequestsFeedState
     extends State<_AdminVerifiedHelpRequestsFeed> {
   @override
   Widget build(BuildContext context) {
-    final requests = Provider.of<List<HelpRequest>>(context);
+    final requests = Provider.of<List<HelpRequest>?>(context);
 
     return new Directionality(
       textDirection: TextDirection.rtl,
@@ -63,8 +56,16 @@ class _AdminVerifiedHelpRequestsFeedState
             padding: const EdgeInsets.only(bottom: 70.0, top: 10),
             itemCount: (requests == null) ? 0 : requests.length,
             itemBuilder: (context, index) {
-              return FeedTile(
-                  tileWidget: AdminHelpRequestFeedTile(requests[index]));
+              if(requests != null) {
+                return FeedTile(
+                    tileWidget: AdminHelpRequestFeedTile(requests[index]));
+              }
+              else{
+                //todo: translate this sentence
+                return Center(
+                  child: Text('No Verified Help Requests Available'),
+                );
+              }
             },
           );
         },
@@ -85,16 +86,11 @@ class AdminHelpRequestFeedTile extends StatefulWidget {
 
 class _AdminHelpRequestFeedTileState extends State<AdminHelpRequestFeedTile> {
   ProfileButton buttonCreate = ProfileButton();
-  String category;
-  String description;
-  TranslateRequest translation;
 
 
   @override
   Widget build(BuildContext context) {
-    // category = widget.helpRequest.category.description;
-    // description = widget.helpRequest.description;
-    translation = TranslateRequest(widget.helpRequest,'adminVerified');
+    TranslateRequest translation = TranslateRequest(widget.helpRequest,'adminVerified');
     final DateTime now = widget.helpRequest.date;
     final Intl.DateFormat formatter = Intl.DateFormat.yMd().add_Hm();
     Color color = Colors.white;
@@ -184,7 +180,7 @@ class AdminHelpRequestFeedTileStatus extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context).theUserInNeed,
+                                    AppLocalizations.of(context)!.theUserInNeed,
                                     style: TextStyle(
                                         color: Colors.blueAccent,
                                         fontSize: 22.0,
@@ -197,7 +193,7 @@ class AdminHelpRequestFeedTileStatus extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context).theVolunteer,
+                                    AppLocalizations.of(context)!.theVolunteer,
                                     style: TextStyle(
                                         color: Colors.blueAccent,
                                         fontSize: 22.0,
@@ -252,7 +248,7 @@ class AdminHelpRequestFeedTileStatus extends StatelessWidget {
                       children: [
                         Container(
                           child: Text(
-                            AppLocalizations.of(context).categoryTwoDots,
+                            AppLocalizations.of(context)!.categoryTwoDots,
                             style: TextStyle(
                                 fontSize: 15,
                                 color: BasicColor.clr,
@@ -271,7 +267,7 @@ class AdminHelpRequestFeedTileStatus extends StatelessWidget {
                     Container(
                       alignment: Alignment.topRight,
                       child: Text(
-                        AppLocalizations.of(context).requestDescriptionTwoDots,
+                        AppLocalizations.of(context)!.requestDescriptionTwoDots,
                         style: TextStyle(
                             fontSize: 15,
                             color: BasicColor.clr,

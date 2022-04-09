@@ -1,15 +1,5 @@
-import 'dart:ui';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
-import 'package:hadar/feeds/adminfeedtile.dart';
-import 'package:hadar/main_pages/AdminPage.dart';
-import 'package:hadar/users/CurrentUser.dart';
 
-import '../profiles/adminProfile.dart';
-import '../profiles/profile.dart';
-import '../feeds/viewRegisteredUsers.dart';
 import 'basicTools.dart';
-import 'package:flutter/material.dart';
-
 import 'package:flutter/material.dart';
 
 
@@ -17,7 +7,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   String title;
 
-  MySliverAppBar({@required this.expandedHeight, this.title});
+  MySliverAppBar({required this.expandedHeight, required this.title});
 
   @override
   Widget build(
@@ -133,7 +123,7 @@ class BottomBar extends StatelessWidget {
                         color: BasicColor.clr,
                       ),
                       onPressed: () {
-                        if(ModalRoute.of(context).settings.name != '/userProfile') {
+                        if(ModalRoute.of(context)!.settings.name != '/userProfile') {
                           Navigator.pushNamed(
                               context,
                               '/userProfile',
@@ -152,7 +142,7 @@ class BottomBar extends StatelessWidget {
                         color: BasicColor.clr,
                       ),
                       onPressed: () async {
-                        if(ModalRoute.of(context).settings.name != '/userMainPage' && ModalRoute.of(context).settings.name != '/'){
+                        if(ModalRoute.of(context)!.settings.name != '/userMainPage' && ModalRoute.of(context)!.settings.name != '/'){
                           Navigator.pushNamed(
                             context,
                             '/userMainPage',
@@ -208,7 +198,7 @@ class AdminBottomBar extends StatelessWidget {
                         color: BasicColor.clr,
                       ),
                       onPressed: () {
-                        if(ModalRoute.of(context).settings.name != '/adminProfile'){
+                        if(ModalRoute.of(context)!.settings.name != '/adminProfile'){
                           Navigator.pushNamed(
                             context,
                             '/adminProfile',
@@ -225,7 +215,7 @@ class AdminBottomBar extends StatelessWidget {
                         color: BasicColor.clr,
                       ),
                       onPressed: () {
-                        if(ModalRoute.of(context).settings.name != '/adminAllUsersView') {
+                        if(ModalRoute.of(context)!.settings.name != '/adminAllUsersView') {
                           Navigator.pushNamed(
                             context,
                             '/adminAllUsersView',
@@ -243,8 +233,8 @@ class AdminBottomBar extends StatelessWidget {
                         color: BasicColor.clr,
                       ),
                       onPressed: (){
-                        if(ModalRoute.of(context).settings.name != '/adminPage'
-                            && ModalRoute.of(context).settings.name != '/') {
+                        if(ModalRoute.of(context)!.settings.name != '/adminPage'
+                            && ModalRoute.of(context)!.settings.name != '/') {
                           Navigator.pushNamed(
                             context,
                             '/adminPage',
@@ -290,9 +280,9 @@ class UserCircle extends StatelessWidget {
 }
 
 
-class adminViewRequestsBar extends StatelessWidget {
-  String title;
-  adminViewRequestsBar(this.title);
+class AdminViewRequestsBar extends StatelessWidget {
+  final String title;
+  AdminViewRequestsBar(this.title);
 
   @override
   Widget build(BuildContext context) {
@@ -302,14 +292,10 @@ class adminViewRequestsBar extends StatelessWidget {
         child: IconButton(
             icon: Icon(Icons.chevron_right , color: Colors.white,size: 45,),
             onPressed: (){
-              print("asdasd");
               if(Navigator.canPop(context)){
-                print("asdasdddd23333333333");
                 Navigator.pop(context);
               }else{
-                print("asdasdddd");
                 Navigator.pop(context);
-
               }
             },
         ),

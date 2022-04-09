@@ -4,26 +4,22 @@ import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/services/getters/getHelpRequestSize.dart';
 import 'package:hadar/users/CurrentUser.dart';
-import 'package:hadar/users/Privilege.dart';
 import 'package:hadar/utils/HelpRequest.dart';
 import 'package:hadar/utils/HelpRequestType.dart';
 import 'package:provider/provider.dart';
 
 import '../helper_feed.dart';
-import '../OrganizationFeed.dart';
 
 
 class father_state{
-  static _StatefulCategoriesListState father = null;
+  static _StatefulCategoriesListState? father;
 }
-
-
 
 
 
 class MyListView extends StatelessWidget {
 
-  String Help_request_type;
+  final String Help_request_type;
 
   MyListView(this.Help_request_type );
   
@@ -36,24 +32,24 @@ class MyListView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector( onTap: (){
-              father_state.father.setState(() {
-                father_state.father.provider = DataBaseService().get_requests_for_category(HelpRequestType(Help_request_type),CurrentUser.curr_user.id);
-                father_state.father.category = Help_request_type;
+              father_state.father!.setState(() {
+                father_state.father!.provider = DataBaseService().get_requests_for_category(HelpRequestType(Help_request_type),CurrentUser.curr_user.id);
+                father_state.father!.category = Help_request_type;
               });
 
-              volunteer_feed_pafe_state.state.setState(() {
-                volunteer_feed_pafe_state.state.title = Help_request_type;
+              volunteer_feed_pafe_state.state!.setState(() {
+                volunteer_feed_pafe_state.state!.title = Help_request_type;
               });
 
             },child: Center(child: Text(Help_request_type , style: TextStyle(color: BasicColor.clr , fontWeight: FontWeight.bold),))),
             SizedBox(height: 10,),
             GestureDetector( onTap: (){
-              father_state.father.setState(() {
-                father_state.father.provider = DataBaseService().get_requests_for_category(HelpRequestType(Help_request_type),CurrentUser.curr_user.id);
-                father_state.father.category = Help_request_type;
+              father_state.father!.setState(() {
+                father_state.father!.provider = DataBaseService().get_requests_for_category(HelpRequestType(Help_request_type),CurrentUser.curr_user.id);
+                father_state.father!.category = Help_request_type;
               });
-              volunteer_feed_pafe_state.state.setState(() {
-                volunteer_feed_pafe_state.state.title = Help_request_type;
+              volunteer_feed_pafe_state.state!.setState(() {
+                volunteer_feed_pafe_state.state!.title = Help_request_type;
               });
 
             }, child: Center(child: getHelpRequestTypeSize(HelpRequestType(Help_request_type),CurrentUser.curr_user.id))),
@@ -61,12 +57,12 @@ class MyListView extends StatelessWidget {
         ),
       ),
       onTap: (){
-             father_state.father.setState(() {
-               father_state.father.provider = DataBaseService().get_requests_for_category(HelpRequestType(Help_request_type),CurrentUser.curr_user.id);
-               father_state.father.category = Help_request_type;
+             father_state.father!.setState(() {
+               father_state.father!.provider = DataBaseService().get_requests_for_category(HelpRequestType(Help_request_type),CurrentUser.curr_user.id);
+               father_state.father!.category = Help_request_type;
              });
-             volunteer_feed_pafe_state.state.setState(() {
-               volunteer_feed_pafe_state.state.title = Help_request_type;
+             volunteer_feed_pafe_state.state!.setState(() {
+               volunteer_feed_pafe_state.state!.title = Help_request_type;
              });
 
              },
@@ -76,9 +72,9 @@ class MyListView extends StatelessWidget {
 }
 
 class StatefulCategoriesList extends StatefulWidget {
-  List<MyListView> categories;
-  var provider;
-  String category;
+  final List<MyListView> categories;
+  final provider;
+  final String category;
   StatefulCategoriesList(this.categories,this.provider , this.category);
   @override
   _StatefulCategoriesListState createState() => _StatefulCategoriesListState(categories,provider,category);
@@ -95,6 +91,7 @@ class _StatefulCategoriesListState extends State<StatefulCategoriesList> {
     father_state.father = this;
     return  StreamProvider<List<HelpRequest>>.value(
       value: provider,
+      initialData: [],
       child: Column(
         children: [
           Container(

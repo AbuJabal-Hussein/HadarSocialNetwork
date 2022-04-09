@@ -88,7 +88,7 @@ class GetUserInNeedInfo extends StatelessWidget {
 
 class GetHelpRequestTileUserInfo extends StatelessWidget {
   final String documentId;
-  final HelpRequest helpRequest;
+  final HelpRequest? helpRequest;
   final CollectionReference collectionReference;
 
   GetHelpRequestTileUserInfo(this.documentId , this.collectionReference,this.helpRequest);
@@ -154,7 +154,7 @@ class GetHelpRequestTileUserInfo extends StatelessWidget {
                 height: 7,
               ),
               //TODO
-              Text(helpRequest == null ? "${data['location']}" : helpRequest.location
+              Text(helpRequest == null ? "${data['location']}" : helpRequest!.location
                 , style: TextStyle(
                     color: Colors.black,
                     fontSize: fontSize,

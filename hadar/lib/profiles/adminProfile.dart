@@ -7,14 +7,14 @@ import '../Design/basicTools.dart';
 import '../Design/mainDesign.dart';
 
 class AdminProfile extends StatelessWidget {
-  a.User user;
-  String privilege;
-  BasicLists getLists;
+  late a.User user;
+  late String privilege;
+  late BasicLists getLists;
   bool adminIsOnProfile = false;
 
   AdminProfile(a.User user) {
     this.user = user;
-    privilege = 'Admin';
+    this.privilege = 'Admin';
     a.User currUser= CurrentUser.curr_user;
     if(currUser.id != user.id)
       adminIsOnProfile=true;
@@ -49,7 +49,6 @@ class AdminProfile extends StatelessWidget {
                     SizedBox(
                       height: 40,
                     ),
-                    // SortByCatForAll(user, this, getLists.listForAdminView),
                     userOrAdminAccess(),
                     SizedBox(
                       height: 80,

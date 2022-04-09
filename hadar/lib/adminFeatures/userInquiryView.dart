@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hadar/services/DataBaseServices.dart';
 
 import 'package:hadar/adminFeatures/specificInquiryView.dart';
@@ -23,6 +21,7 @@ class InquiriesView extends StatelessWidget{
   Widget build(BuildContext context) {
     return StreamProvider<List<UserInquiry>>.value(
       value: DataBaseService().getAll_inquires(),
+      initialData: [],
       child: AllInquieriesView(),
     );
   }
@@ -30,11 +29,10 @@ class InquiriesView extends StatelessWidget{
 }
 
 class AllInquieriesView extends StatelessWidget{
-  List<UserInquiry> usersInquiries;
 
   @override
   Widget build(BuildContext context) {
-    usersInquiries = Provider.of<List<UserInquiry>>(context);
+    List<UserInquiry>? usersInquiries = Provider.of<List<UserInquiry>?>(context);
     List<FeedTile> feedTiles = [];
 
     if (usersInquiries != null) {
@@ -61,7 +59,7 @@ class AllInquieriesView extends StatelessWidget{
 
 
 class InquiryItem extends StatelessWidget {
-  InquiryItem({this.inquiry, this.parent})
+  InquiryItem({required this.inquiry, required this.parent})
       : super(key: ObjectKey(inquiry));
 
   final UserInquiry inquiry;
@@ -76,14 +74,14 @@ class InquiryItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => specificInquiryView(inquiry)
+              builder: (context) => SpecificInquiryView(inquiry)
           ),
         );
       },
       isThreeLine: true,
       title: Row(children: <Widget>[
         Container(
-          child: Text(AppLocalizations.of(context).inquiryReasonTwoDots + inquiry.reasonForInquiry,
+          child: Text(AppLocalizations.of(context)!.inquiryReasonTwoDots + inquiry.reasonForInquiry,
               style: TextStyle(color: BasicColor.clr)),
         ),
         Spacer(),
@@ -91,12 +89,12 @@ class InquiryItem extends StatelessWidget {
       subtitle: Row(
         children: <Widget>[
           Container(
-            child: Text(AppLocalizations.of(context).nameTwoDots +inquiry.name),
+            child: Text(AppLocalizations.of(context)!.nameTwoDots +inquiry.name),
             padding: const EdgeInsets.only(top: 8, left: 8),
           ),
           Spacer(),
           Container(
-            child: Text(AppLocalizations.of(context).telNumberTwoDots +inquiry.phoneNumber),
+            child: Text(AppLocalizations.of(context)!.telNumberTwoDots +inquiry.phoneNumber),
             padding: const EdgeInsets.only(top: 8, left: 8),
           ),
           Spacer(),
@@ -107,12 +105,8 @@ class InquiryItem extends StatelessWidget {
 }
 
 
-
-
-
-
-class userInquiryView extends StatelessWidget {
-  userInquiryView();
+class UserInquiryView extends StatelessWidget {
+  UserInquiryView();
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +116,7 @@ class userInquiryView extends StatelessWidget {
           slivers: [
             SliverPersistentHeader(
               delegate:
-              MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context).usersInquiries),
+              MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context)!.usersInquiries),
               pinned: true,
             ),
             SliverFillRemaining(
@@ -139,7 +133,7 @@ class userInquiryView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            AppLocalizations.of(context).back,
+                            AppLocalizations.of(context)!.back,
                             style: TextStyle(
                                 fontSize: 17.0,
                                 decoration: TextDecoration.underline,

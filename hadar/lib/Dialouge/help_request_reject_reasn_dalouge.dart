@@ -3,12 +3,12 @@ import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/utils/HelpRequest.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class shoReject_Reason extends StatelessWidget {
+class ShowRejectReason extends StatelessWidget {
 
   final reason_reject = TextEditingController();
   final HelpRequest help_request;
 
-  shoReject_Reason( this.help_request);
+  ShowRejectReason( this.help_request);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class shoReject_Reason extends StatelessWidget {
             RaisedButton(onPressed: (){
               DataBaseService().delete_help_reqeust(help_request);
               return Navigator.of(context).pop(true);
-            }, child: Text(AppLocalizations.of(context).deleteRequest), color: Colors.white, textColor: Colors.redAccent,)
+            }, child: Text(AppLocalizations.of(context)!.deleteRequest), color: Colors.white, textColor: Colors.redAccent,)
           ],
         )
       ],

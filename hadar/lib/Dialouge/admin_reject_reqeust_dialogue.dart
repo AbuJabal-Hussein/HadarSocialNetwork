@@ -45,7 +45,7 @@ class ExitConfirmationDialog extends StatelessWidget {
           ),
         ),
         SizedBox(height: 24,),
-        Text(AppLocalizations.of(context).reqeustRejectReason, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+        Text(AppLocalizations.of(context)!.reqeustRejectReason, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
         SizedBox(height: 8,),
         Padding(
           padding: const EdgeInsets.only(right: 16, left: 16),
@@ -66,7 +66,7 @@ class ExitConfirmationDialog extends StatelessWidget {
               hintStyle: TextStyle(
                 color: Colors.white,
               ),
-              hintText: AppLocalizations.of(context).rejectReason,
+              hintText: AppLocalizations.of(context)!.rejectReason,
 
 
             ),
@@ -79,10 +79,10 @@ class ExitConfirmationDialog extends StatelessWidget {
             SizedBox(width: 8,),
             RaisedButton(onPressed: (){
               print(reason_reject.text);
-              help_request.reject_reason = reason_reject.text.isEmpty ? AppLocalizations.of(context).adminDidntDescribeRejection : reason_reject.text;
+              help_request.reject_reason = reason_reject.text.isEmpty ? AppLocalizations.of(context)!.adminDidntDescribeRejection : reason_reject.text;
               DataBaseService().cancel_help_reqeust(help_request);
               return Navigator.of(context).pop(true);
-            }, child: Text(AppLocalizations.of(context).send), color: Colors.white, textColor: Colors.redAccent,)
+            }, child: Text(AppLocalizations.of(context)!.send), color: Colors.white, textColor: Colors.redAccent,)
           ],
         )
       ],

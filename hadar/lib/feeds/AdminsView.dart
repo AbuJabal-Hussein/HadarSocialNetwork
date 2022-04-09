@@ -19,6 +19,7 @@ class AdminsView extends StatelessWidget{
   Widget build(BuildContext context) {
     return StreamProvider<List<Admin>>.value(
       value: DataBaseService().getAllAdmins(),
+      initialData: [],
       child: AllAdminsView(),
     );
   }
@@ -26,11 +27,10 @@ class AdminsView extends StatelessWidget{
 }
 
 class AllAdminsView extends StatelessWidget{
-  List<Admin> admins;
 
   @override
   Widget build(BuildContext context) {
-    admins = Provider.of<List<Admin>>(context);
+    List<Admin>? admins = Provider.of<List<Admin>?>(context);
     List<FeedTile> feedTiles = [];
 
     if (admins != null) {
@@ -57,7 +57,7 @@ class AllAdminsView extends StatelessWidget{
 
 
 class UserItem extends StatelessWidget {
-  UserItem({this.user, this.parent})
+  UserItem({required this.user, required this.parent})
       : super(key: ObjectKey(user));
 
   final User user;
@@ -76,7 +76,7 @@ class UserItem extends StatelessWidget {
       isThreeLine: true,
       title: Row(children: <Widget>[
         Container(
-          child: Text(AppLocalizations.of(context).nameTwoDots + user.name,
+          child: Text(AppLocalizations.of(context)!.nameTwoDots + user.name,
               style: TextStyle(color: BasicColor.clr)),
         ),
         Spacer(),
@@ -88,7 +88,7 @@ class UserItem extends StatelessWidget {
       subtitle: Row(
         children: <Widget>[
           Container(
-            child: Text(AppLocalizations.of(context).telNumberTwoDots + user.phoneNumber),
+            child: Text(AppLocalizations.of(context)!.telNumberTwoDots + user.phoneNumber),
             padding: const EdgeInsets.only(top: 8, left: 8),
           ),
           Spacer(),

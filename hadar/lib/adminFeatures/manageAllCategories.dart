@@ -40,7 +40,7 @@ class CategoriesView extends StatelessWidget {
 }
 
 class CategoryItem extends StatelessWidget {
-  CategoryItem({this.category, this.parent}) : super(key: ObjectKey(category));
+  CategoryItem({required this.category, required this.parent}) : super(key: ObjectKey(category));
 
   final HelpRequestType category;
   final CategoriesView parent;
@@ -88,7 +88,7 @@ class CategoryItem extends StatelessWidget {
                               Icons.delete,
                               color: Colors.black54,
                             ),
-                            Text(AppLocalizations.of(context).delete,),
+                            Text(AppLocalizations.of(context)!.delete,),
                           ],
                         ),
                         value: 1,
@@ -121,7 +121,7 @@ class CategoriesViewPage extends StatelessWidget {
           SliverPersistentHeader(
             delegate: MySliverAppBar(
                 expandedHeight: 150,
-                title: AppLocalizations.of(context).showAllCategories),
+                title: AppLocalizations.of(context)!.showAllCategories),
             pinned: true,
           ),
           SliverFillRemaining(

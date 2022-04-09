@@ -1,5 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/main.dart';
@@ -23,7 +22,7 @@ class ChangeLangDialogue extends StatelessWidget {
       userEmail = CurrentUser.curr_user.email;
     }
     return new AlertDialog(
-      title: Center(child: Text(AppLocalizations.of(context).changeLanguage, style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),)),
+      title: Center(child: Text(AppLocalizations.of(context)!.changeLanguage, style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),)),
       backgroundColor: BasicColor.backgroundClr,
       actions: [
         Container(
@@ -36,7 +35,7 @@ class ChangeLangDialogue extends StatelessWidget {
                   child: Center(child: new Text(value, style: TextStyle(fontSize: 18),)),
                 );
               }).toList(),
-              value: MainApp.of(context).getLanguage(),
+              value: MainApp.of(context)!.getLanguage(),
               onChanged: (String newLang) {
                 String langCode;
                 switch (newLang) {

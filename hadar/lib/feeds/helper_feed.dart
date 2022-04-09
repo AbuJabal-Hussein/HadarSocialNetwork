@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/Design/mainDesign.dart';
-import 'package:hadar/feeds/feed_items/VolFeedDropDown.dart';
-import 'package:hadar/lang/HebrewText.dart';
+
 import 'package:hadar/services/DataBaseServices.dart';
-import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/users/Volunteer.dart';
 import 'package:hadar/utils/HelpRequest.dart';
 import 'package:hadar/feeds/feed_items/help_request_tile.dart';
@@ -14,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'feed_items/category_scrol.dart';
 
 class volunteer_feed_pafe_state {
-  static _VolunteerFeedStatefullState state = null;
+  static _VolunteerFeedStatefullState? state;
 }
 
 class HelperFeed extends StatefulWidget {
@@ -25,7 +23,7 @@ class HelperFeed extends StatefulWidget {
 class _HelperFeedState extends State<HelperFeed> {
   @override
   Widget build(BuildContext context) {
-    final requests = Provider.of<List<HelpRequest>>(context);
+    final requests = Provider.of<List<HelpRequest>?>(context);
 
     return new Directionality(
       textDirection: TextDirection.rtl,
@@ -35,7 +33,13 @@ class _HelperFeedState extends State<HelperFeed> {
             padding: const EdgeInsets.only(bottom: 70.0, top: 20),
             itemCount: (requests == null) ? 0 : requests.length,
             itemBuilder: (context, index) {
-              return FeedTile(tileWidget: VolunteerFeedTile(requests[index]));
+              if(requests != null) {
+                return FeedTile(tileWidget: VolunteerFeedTile(requests[index]));
+              }
+              //todo: translate this sentence
+              return Center(
+                child: Text('No Help Requests Available'),
+              );
             },
           );
         },
@@ -45,8 +49,8 @@ class _HelperFeedState extends State<HelperFeed> {
 }
 
 class VolunteerFeedStatefull extends StatefulWidget {
-  Volunteer curr_user;
-  String title = '';
+  final Volunteer curr_user;
+  final String title;
 
   VolunteerFeedStatefull(this.curr_user, this.categories, this.title);
 
@@ -69,16 +73,10 @@ class _VolunteerFeedStatefullState extends State<VolunteerFeedStatefull> {
   Widget build(BuildContext context) {
     volunteer_feed_pafe_state.state = this;
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () async {
-      //     await DataBaseService().updateVolCategories([HelpRequestType("אוכל")], curr_user as Volunteer);
-      //   },
-      //
-      // ),
       bottomNavigationBar: BottomBar(),
       backgroundColor: BasicColor.backgroundClr,
       body: CustomScrollView(slivers: [
-        adminViewRequestsBar(title),
+        AdminViewRequestsBar(title),
         SliverFillRemaining(
           child: Container(
             // margin: EdgeInsets.only(top: 40),
@@ -103,12 +101,11 @@ class _VolunteerFeedStatefullState extends State<VolunteerFeedStatefull> {
 }
 
 class VolunteerFeed extends StatelessWidget {
-  Volunteer curr_user;
-  String title = '';
+  final Volunteer curr_user;
+  final String title;
+  final List<MyListView> categories;
 
-  VolunteerFeed(this.curr_user, this.categoers, this.title);
-
-  List<MyListView> categoers;
+  VolunteerFeed(this.curr_user, this.categories, this.title);
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +113,7 @@ class VolunteerFeed extends StatelessWidget {
       bottomNavigationBar: BottomBar(),
       backgroundColor: BasicColor.backgroundClr,
       body: CustomScrollView(slivers: [
-        adminViewRequestsBar(title),
+        AdminViewRequestsBar(title),
         SliverFillRemaining(
           child: Container(
             // margin: EdgeInsets.only(top: 40),
@@ -124,11 +121,11 @@ class VolunteerFeed extends StatelessWidget {
               children: [
                 Expanded(
                     child: StatefulCategoriesList(
-                        categoers,
+                        categories,
                         DataBaseService().get_requests_for_category(
-                            HelpRequestType(categoers[0].Help_request_type),
+                            HelpRequestType(categories[0].Help_request_type),
                             curr_user.id),
-                        categoers[0].Help_request_type)),
+                        categories[0].Help_request_type)),
                 //Expanded(child: HelperFeed()),
               ],
             ),

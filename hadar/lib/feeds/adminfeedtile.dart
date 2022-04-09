@@ -35,6 +35,7 @@ class AdminHelpRequestsFeed extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<List<HelpRequest>>.value(
       value: status == Status.UNVERFIED ?DataBaseService().getAll_unverfied_requests_Requests() : DataBaseService(). getAll_approved_Requests(),
+      initialData: [],
       child:_AdminHelpRequestsFeed(),
     );
   }
@@ -82,18 +83,18 @@ class AdminHelpRequestFeedTile extends StatefulWidget {
 
 
 class _AdminHelpRequestFeedTileState extends State<AdminHelpRequestFeedTile> {
-  TranslateRequest translation;
+  late TranslateRequest translation;
 
   @override
   Widget build(BuildContext context) {
     translation = TranslateRequest(widget.helpRequest,'adminRequest');
     final DateTime now = widget.helpRequest.date;
     final intl.DateFormat formatter = intl.DateFormat.yMd().add_Hm();
-    Color color =  Colors.white ;
+    Color color =  Colors.white;
     return ListTile(
       tileColor: color,
      // onTap: () => print("List tile pressed!"),//showHelpRequestStatus(helpRequest),
-      onTap: () => HelpRequestAdminDialuge(context,widget.helpRequest)   ,
+      onTap: () => HelpRequestAdminDialuge(context,widget.helpRequest),
       isThreeLine: false,
       title: Row(children: <Widget>[
         Container(
@@ -103,7 +104,7 @@ class _AdminHelpRequestFeedTileState extends State<AdminHelpRequestFeedTile> {
         ),
         Spacer(),
         Container(
-          child: HebrewText(  formatter.format(now) ),
+          child: Text(  formatter.format(now) ),
           alignment: Alignment.topLeft,
         ),
       ]),
@@ -155,7 +156,7 @@ class ThreeDotsWidget extends StatelessWidget {
   ThreeDotsWidget(this.helpRequest);
 
 
-  Offset _tapPosition;
+  late Offset _tapPosition;
   void _storePosition(TapDownDetails details) {
     _tapPosition = details.globalPosition;
   }
@@ -166,8 +167,8 @@ class ThreeDotsWidget extends StatelessWidget {
       onTapDown: _storePosition,
       onTap: () async {
         final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject();
-        final int _selected = await showMenu(
+        Overlay.of(context)!.context.findRenderObject() as RenderBox;
+        final int? _selected = await showMenu(
           items: [
             PopupMenuItem(
               value: 1,
@@ -177,7 +178,7 @@ class ThreeDotsWidget extends StatelessWidget {
                     Icons.done,
                     color: Colors.green,
                   ),
-                  Text(AppLocalizations.of(context).approveRequest),
+                  Text(AppLocalizations.of(context)!.approveRequest),
                 ],
               ),
             ),
@@ -186,7 +187,7 @@ class ThreeDotsWidget extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   const Icon(Icons.person),
-                  Text(AppLocalizations.of(context).user),
+                  Text(AppLocalizations.of(context)!.user),
                 ],
               ),
             )

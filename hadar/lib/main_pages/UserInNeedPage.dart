@@ -1,8 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:hadar/feeds/helper_feed.dart';
 import 'package:hadar/services/DataBaseServices.dart';
-import 'package:hadar/users/User.dart';
 import 'package:hadar/users/UserInNeed.dart';
 import 'package:hadar/utils/HelpRequest.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +17,7 @@ class UserInNeedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<List<HelpRequest>>.value(
       value: DataBaseService().getUserHelpRequests(curr_user),
+      initialData: [],
       child: UserInNeedHelpRequestsFeed(),
     );
   }

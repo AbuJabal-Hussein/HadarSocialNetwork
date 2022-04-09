@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/Design/descriptionBox.dart';
@@ -18,29 +17,29 @@ import 'notificationSwitch.dart';
 
 Widget changeLocationDialogue(BuildContext context) {
   // a.User user = CurrentUser.curr_user;
-  final newLoaction_key = GlobalKey<FormState>();
-  final newLoaction_controller = TextEditingController();
+  final newLoactionKey = GlobalKey<FormState>();
+  final newLoactionController = TextEditingController();
 
   return SingleChildScrollView(
     child: new AlertDialog(
       backgroundColor: BasicColor.backgroundClr,
       title: Center(
-          child: Text(AppLocalizations.of(context).changeStableLocation)),
+          child: Text(AppLocalizations.of(context)!.changeStableLocation)),
       content: Column(
         children: [
           Container(
             height: 90,
             child: Form(
               child: DescriptionBox(
-                  AppLocalizations.of(context).current,
+                  AppLocalizations.of(context)!.current,
                   Icon(Icons.lock, color: Colors.white),
                   Colors.white,
                   Colors.white,
                   Validators.location_validator,
-                  newLoaction_controller,
+                  newLoactionController,
                   false,
                   Colors.black),
-              key: newLoaction_key,
+              key: newLoactionKey,
             ),
           ),
         ],
@@ -55,7 +54,7 @@ Widget changeLocationDialogue(BuildContext context) {
               onPressed: () {
                 Navigator.pop(context, true);
               },
-              child: Text(AppLocalizations.of(context).cancel),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             Spacer(
               flex: 1,
@@ -65,10 +64,10 @@ Widget changeLocationDialogue(BuildContext context) {
                 primary: Theme.of(context).primaryColor,
               ),
               onPressed: ()async {
-               await DataBaseService().updateLocation(newLoaction_controller.text, CurrentUser.curr_user);
+               await DataBaseService().updateLocation(newLoactionController.text, CurrentUser.curr_user);
                 Navigator.pop(context, true);
               },
-              child: Text(AppLocalizations.of(context).confirm),
+              child: Text(AppLocalizations.of(context)!.confirm),
             ),
           ],
         ),
@@ -80,8 +79,10 @@ Widget changeLocationDialogue(BuildContext context) {
 //when a user clicks on the category, he gets a description box,
 // where he can describe his request
 class DescriptonBox extends StatefulWidget {
-  DescriptonBox({Key key, this.title}) : super(key: key);
-  _DescriptonBox desBoxState = _DescriptonBox();
+
+  DescriptonBox(this.title);
+
+  final _DescriptonBox desBoxState = _DescriptonBox();
   final String title;
 
   void processText() {
@@ -100,7 +101,7 @@ class _DescriptonBox extends State<DescriptonBox> {
     setState(() {
       _inputtext = inputtextField.text;
       HelpRequestType helpRequestType = HelpRequestType(_inputtext);
-      _inputtext = null;
+      _inputtext = ''; //todo: if there is a problem return this to null and check it
       DataBaseService().addHelpRequestTypeDataBase(helpRequestType);
       Navigator.of(context).pop();
     });
@@ -133,13 +134,10 @@ class _DescriptonBox extends State<DescriptonBox> {
 }
 
 class MainInfo extends StatelessWidget {
-  a.User user;
-  String privilege;
+  final a.User user;
+  final String privilege;
 
-  MainInfo(a.User user, String privilege) {
-    this.user = user;
-    this.privilege = privilege;
-  }
+  MainInfo(this.user, this.privilege);
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +148,7 @@ class MainInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(AppLocalizations.of(context).language),
+                Text(AppLocalizations.of(context)!.language),
                 Icon(Icons.language),
               ],
             ),
@@ -189,18 +187,16 @@ class MainInfo extends StatelessWidget {
 }
 
 class AboutMe extends StatelessWidget {
-  a.User user;
+  final a.User user;
 
-  AboutMe(a.User currUser) {
-    this.user = currUser;
-  }
+  AboutMe(this.user);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Text(
-          AppLocalizations.of(context).telNumberTwoDots + user.phoneNumber,
+          AppLocalizations.of(context)!.telNumberTwoDots + user.phoneNumber,
           style: TextStyle(
               fontSize: 15.0,
               color: Colors.blueGrey,
@@ -211,7 +207,7 @@ class AboutMe extends StatelessWidget {
           height: 10,
         ),
         Text(
-          AppLocalizations.of(context).emailTwoDots + user.email,
+          AppLocalizations.of(context)!.emailTwoDots + user.email,
           style: TextStyle(
               fontSize: 15.0,
               color: Colors.blueGrey,
@@ -226,26 +222,39 @@ class AboutMe extends StatelessWidget {
   }
 }
 
-class ManagePersonalInfo extends StatelessWidget {
-  a.User user;
-  final nameKey = GlobalKey<FormState>();
-  final name_Controller = TextEditingController();
-  ProfileButton buttonCreate;
-  List<HelpRequestType> types;
+class ManagePersonalInfo extends StatefulWidget {
+  final a.User user;
 
-  ManagePersonalInfo(a.User currUser) {
-    this.user = currUser;
+  ManagePersonalInfo(this.user);
+
+  @override
+  State<ManagePersonalInfo> createState() => _ManagePersonalInfoState();
+}
+
+class _ManagePersonalInfoState extends State<ManagePersonalInfo> {
+  final nameKey = GlobalKey<FormState>();
+
+  final nameController = TextEditingController();
+
+  late ProfileButton buttonCreate;
+
+  late List<HelpRequestType> types;
+
+  _ManagePersonalInfoState(){
     buttonCreate = ProfileButton();
     init();
   }
+
 
   init() async {
     List<HelpRequestType> types =
         await DataBaseService().helpRequestTypesAsList();
   }
 
+
+
   ifVolunteerShowCat(BuildContext context) {
-    if (user.privilege == Privilege.Volunteer) {
+    if (widget.user.privilege == Privilege.Volunteer) {
       return VolunteerShowCategories();
     } else
       return SizedBox();
@@ -253,10 +262,10 @@ class ManagePersonalInfo extends StatelessWidget {
 
   ifNotAdminShowLocation(BuildContext context){
     ButtonStyle style = buttonCreate.getStyle(context);
-    if(user.privilege!=Privilege.Admin){
+    if(widget.user.privilege!=Privilege.Admin){
       return TextButton(
         child: buttonCreate.getChild(
-            AppLocalizations.of(context).changeStableLocation,
+            AppLocalizations.of(context)!.changeStableLocation,
             Icons.location_on),
         style: style,
         onPressed: () {
@@ -283,7 +292,7 @@ class ManagePersonalInfo extends StatelessWidget {
           children: [
             TextButton(
               child: buttonCreate.getChild(
-                  AppLocalizations.of(context).notification,
+                  AppLocalizations.of(context)!.notification,
                   Icons.notifications_rounded),
               style: style,
               onPressed: (){},
@@ -298,7 +307,7 @@ class ManagePersonalInfo extends StatelessWidget {
         ifNotAdminShowLocation(context),
         TextButton(
           child: buttonCreate.getChild(
-              AppLocalizations.of(context).changePassword, Icons.lock),
+              AppLocalizations.of(context)!.changePassword, Icons.lock),
           style: style,
           onPressed: () {
             showDialog(
@@ -315,7 +324,6 @@ class ManagePersonalInfo extends StatelessWidget {
 }
 
 class SignOut extends StatelessWidget {
-  const SignOut({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +333,7 @@ class SignOut extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            AppLocalizations.of(context).signOut,
+            AppLocalizations.of(context)!.signOut,
             style: TextStyle(
                 fontSize: 17.0,
                 decoration: TextDecoration.underline,
@@ -347,8 +355,8 @@ class SignOut extends StatelessWidget {
 
 class Item {
   Item({
-    this.name,
-    this.builder,
+    required this.name,
+    required this.builder,
     this.isExpanded = false,
   });
 
@@ -360,56 +368,55 @@ class Item {
 class BasicLists {
   a.User user;
   Widget parent;
-  List<Item> listForUserView;
-  List<Item> listForUserAdminView;
-  List<Item> listForAdminView;
+  late List<Item> listForUserView;
+  late List<Item> listForUserAdminView;
+  late List<Item> listForAdminView;
 
-  BasicLists(a.User user, Widget parent, BuildContext context) {
-    this.user = user;
-    this.parent = parent;
+  BasicLists(this.user, this.parent, BuildContext context) {
+
     listForAdminView = [
       Item(
-        name: AppLocalizations.of(context).infoAboutMe,
+        name: AppLocalizations.of(context)!.infoAboutMe,
         builder: AboutMe(user),
       ),
       Item(
-        name: AppLocalizations.of(context).managePersonalInfo,
+        name: AppLocalizations.of(context)!.managePersonalInfo,
         builder: ManagePersonalInfo(user),
       ),
       Item(
-        name: AppLocalizations.of(context).manageSystem,
+        name: AppLocalizations.of(context)!.manageSystem,
         builder: ManageTheSystem(),
       ),
       Item(
-        name: AppLocalizations.of(context).other,
+        name: AppLocalizations.of(context)!.other,
         builder: OtherUserAccess(user),
       ),
     ];
     listForUserView = [
       Item(
-        name: AppLocalizations.of(context).infoAboutMe,
+        name: AppLocalizations.of(context)!.infoAboutMe,
         builder: AboutMe(user),
       ),
       Item(
-        name: AppLocalizations.of(context).managePersonalInfo,
+        name: AppLocalizations.of(context)!.managePersonalInfo,
         builder: ManagePersonalInfo(user),
       ),
       Item(
-        name: AppLocalizations.of(context).contact,
+        name: AppLocalizations.of(context)!.contact,
         builder: ContactUs(user, parent),
       ),
       Item(
-        name: AppLocalizations.of(context).other,
+        name: AppLocalizations.of(context)!.other,
         builder: OtherUserAccess(user),
       ),
     ];
     listForUserAdminView = [
       Item(
-        name: AppLocalizations.of(context).userInfo,
+        name: AppLocalizations.of(context)!.userInfo,
         builder: AboutMe(user),
       ),
       Item(
-        name: AppLocalizations.of(context).other,
+        name: AppLocalizations.of(context)!.other,
         builder: OtherAdminAccess(user),
       ),
     ];
@@ -417,11 +424,9 @@ class BasicLists {
 }
 
 class RemoveUser extends StatelessWidget {
-  a.User user;
+  final a.User user;
 
-  RemoveUser(a.User user) {
-    this.user = user;
-  }
+  RemoveUser(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -429,7 +434,7 @@ class RemoveUser extends StatelessWidget {
       backgroundColor: BasicColor.backgroundClr,
       title: Center(
           child: Text(
-        AppLocalizations.of(context).areYouSure,
+        AppLocalizations.of(context)!.areYouSure,
         textDirection: TextDirection.rtl,
       )),
       actions: <Widget>[
@@ -442,7 +447,7 @@ class RemoveUser extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context, true);
               },
-              child: Text(AppLocalizations.of(context).cancel),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             Spacer(
               flex: 1,
@@ -456,7 +461,7 @@ class RemoveUser extends StatelessWidget {
                 DataBaseService().RemoveUserfromdatabase(user);
                 DataBaseService().Sign_out(context);
               },
-              child: Text(AppLocalizations.of(context).confirm),
+              child: Text(AppLocalizations.of(context)!.confirm),
             ),
           ],
         ),
@@ -466,15 +471,11 @@ class RemoveUser extends StatelessWidget {
 }
 
 class SortByCatForAll extends StatefulWidget {
-  Widget parent;
-  a.User user;
-  List<Item> items;
+  final Widget parent;
+  final a.User user;
+  final List<Item> items;
 
-  SortByCatForAll(a.User currUser, Widget parent, List<Item> items) {
-    this.user = currUser;
-    this.parent = parent;
-    this.items = items;
-  }
+  SortByCatForAll(this.parent, this.user, this.items);
 
   @override
   _SortByCatForAllState createState() =>
@@ -486,11 +487,7 @@ class _SortByCatForAllState extends State<SortByCatForAll> {
   Widget parent;
   List<Item> _items;
 
-  _SortByCatForAllState(a.User currUser, Widget parent, List<Item> items) {
-    this.user = currUser;
-    this.parent = parent;
-    this._items = items;
-  }
+  _SortByCatForAllState(this.user, this.parent, this._items);
 
   ExpansionPanelRadio _buildExpansionPanelRadio(Item item) {
     return ExpansionPanelRadio(

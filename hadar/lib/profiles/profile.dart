@@ -1,18 +1,17 @@
 import 'package:hadar/profiles/profileItems/basicItemsForAllProfiles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/users/Privilege.dart';
 import 'package:hadar/users/User.dart' as a;
 import '../Design/basicTools.dart';
 import '../Design/mainDesign.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+//todo: this class should be stateful?
 class ProfilePage extends StatelessWidget {
-  a.User user;
-  String privilege;
+  late a.User user;
+  late String privilege;
   bool adminIsOnProfile = false;
-  BasicLists getLists;
+  late BasicLists getLists;
 
   ProfilePage(a.User currUser) {
     user = CurrentUser.curr_user;
