@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hadar/Design/basicTools.dart';
-import 'package:hadar/services/DataBaseServices.dart';
-import 'package:hadar/services/authentication/LogInPage.dart';
-import 'package:hadar/users/CurrentUser.dart';
-import 'package:hadar/users/User.dart';
 import 'package:hadar/utils/HelpRequest.dart';
 
 
@@ -32,8 +28,11 @@ class GetUserName extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data.data();
-          if(data == null){return Text('shouldnt be here , u might instered request with wrong id');}
+          Map<String, dynamic>? data;
+          if(snapshot.data != null) {
+            data = snapshot.data!.data() as Map<String,dynamic>?;
+          }
+          if(data == null){return Text('shouldnt be here , u might inserted request with wrong id');}
           return Text("${data['name']}"
                     , style: TextStyle(
               color: BasicColor.clr,
@@ -42,7 +41,7 @@ class GetUserName extends StatelessWidget {
           );
         }
 
-        return Text("loading");
+        return Text("loading..");
       },
     );
   }
@@ -69,7 +68,10 @@ class GetUserInNeedInfo extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data.data();
+          Map<String, dynamic>? data;
+          if(snapshot.data != null) {
+            data = snapshot.data!.data() as Map<String,dynamic>?;
+          }
           if(data == null){return Text('invalid id');}
           //"בן/בת " + userInNeed.Age.toString() + ", " + userInNeed.Location;
           return Text("בן/בת " + "${data['Age']}" + ", " + helpRequest.location
@@ -108,7 +110,10 @@ class GetHelpRequestTileUserInfo extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data.data();
+          Map<String, dynamic>? data;
+          if(snapshot.data != null) {
+            data = snapshot.data!.data() as Map<String,dynamic>?;
+          }
           if(data == null){return Text('invalid id');}
           double fontSize = 15.0;
           return Column(

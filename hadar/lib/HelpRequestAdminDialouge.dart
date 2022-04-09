@@ -1,18 +1,12 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hadar/Dialouge/admin_reject_reqeust_dialogue.dart';
 import 'package:hadar/Dialouge/dialogue_helper_admin.dart';
 import 'package:hadar/services/DataBaseServices.dart';
-
 import 'package:hadar/utils/HelpRequest.dart';
-import 'package:marquee/marquee.dart';
-
-
 import 'Design/basicTools.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void HelpRequestAdminDialuge(context,HelpRequest helpRequest){
+void helpRequestAdminDialuge(context,HelpRequest helpRequest){
 
   showModalBottomSheet(context: context, builder: (BuildContext bc){
     return  Container(
@@ -33,7 +27,7 @@ void HelpRequestAdminDialuge(context,HelpRequest helpRequest){
             children: [
               Container(
                 margin: EdgeInsets.only(top: 15),
-                child: Text(AppLocalizations.of(context).requestDescription , style: TextStyle(
+                child: Text(AppLocalizations.of(context)!.requestDescription , style: TextStyle(
                   fontSize: 30,
                   color: BasicColor.clr,fontWeight: FontWeight.bold
                 ),),
@@ -60,7 +54,7 @@ void HelpRequestAdminDialuge(context,HelpRequest helpRequest){
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context).userInNeedTwoDots ,
+                      AppLocalizations.of(context)!.userInNeedTwoDots ,
                       style: TextStyle(fontSize: 18 , color: BasicColor.clr ,),
                     ),
                     Container(margin: EdgeInsets.only(right: 10),),
@@ -77,7 +71,7 @@ void HelpRequestAdminDialuge(context,HelpRequest helpRequest){
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context).categoryTwoDots ,
+                      AppLocalizations.of(context)!.categoryTwoDots ,
                       style: TextStyle(fontSize: 18 , color: BasicColor.clr ,),
                     ),
                     Container(margin: EdgeInsets.only(right: 10),),
@@ -95,7 +89,7 @@ void HelpRequestAdminDialuge(context,HelpRequest helpRequest){
                   children: [
                     //Container(margin: EdgeInsets.only(right: 10),),
                     Text(
-                      AppLocalizations.of(context).requestDescription ,
+                      AppLocalizations.of(context)!.requestDescription ,
                       style: TextStyle(fontSize: 18 , color: BasicColor.clr , ),
                     ),
 
@@ -130,7 +124,7 @@ void HelpRequestAdminDialuge(context,HelpRequest helpRequest){
                         await DialogHelper.exit(context,helpRequest);
                         Navigator.pop(context);
                       },
-                      child: Text(AppLocalizations.of(context).rejectRequest , style: TextStyle(color: Colors.white),),
+                      child: Text(AppLocalizations.of(context)!.rejectRequest , style: TextStyle(color: Colors.white),),
                     ),
                   ),
 
@@ -146,7 +140,7 @@ void HelpRequestAdminDialuge(context,HelpRequest helpRequest){
                         DataBaseService().verify_help_request(helpRequest);
                         Navigator.pop(context);
                       },
-                      child: Text(AppLocalizations.of(context).approveRequest, style: TextStyle(color: Colors.white),),
+                      child: Text(AppLocalizations.of(context)!.approveRequest, style: TextStyle(color: Colors.white),),
                     ),
                   ),
                 ],

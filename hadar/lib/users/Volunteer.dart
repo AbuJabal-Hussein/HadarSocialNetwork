@@ -1,5 +1,4 @@
 
-import 'dart:collection';
 import 'dart:core';
 
 
@@ -11,7 +10,7 @@ import 'Privilege.dart';
 import 'RegisteredUser.dart';
 
 class Volunteer extends RegisteredUser{
-  List helpRequests;
+  List helpRequests = [];
   int count;
   String stars;
   String birthdate;
@@ -24,28 +23,13 @@ class Volunteer extends RegisteredUser{
   String mobility ;
   String firstaidcourse ;
   List<HelpRequestType> categories;
-  List<MyListView> categoriesAsList;
+  List<MyListView> categoriesAsList = [];
 
-  Volunteer(String name, String phoneNumber, String email, String id ,int lastNotifiedTime, String stars , int count
-      , String birthdate, String location, String status, String work, String birthplace
-      , String spokenlangs, String mobility, String firstaidcourse ,List<HelpRequestType> categories )
+  Volunteer(String name, String phoneNumber, String email, String id ,int lastNotifiedTime, this.stars , this.count
+      , this.birthdate, this.location, this.status, this.work, this.birthplace
+      , this.spokenlangs, this.mobility, this.firstaidcourse , this.categories )
       : super(name, phoneNumber, email, Privilege.Volunteer, id, lastNotifiedTime){
-    this.birthplace =birthplace;
-    this.birthdate = birthdate;
-    this.location = location;
-    this.status = status;
-    this.work = work;
-    this.spokenlangs  = spokenlangs;
 
-
-    this.firstaidcourse = firstaidcourse;
-    this.mobility = mobility;
-
-    helpRequests = new List<HelpRequest>();
-    this.count  = count;
-    this.stars = stars;
-    this.categories = categories;
-    this.categoriesAsList = [];
     if (categories == null){
       return;
     }

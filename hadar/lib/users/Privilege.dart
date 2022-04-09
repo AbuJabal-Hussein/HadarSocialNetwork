@@ -2,10 +2,9 @@
 
 enum Privilege {Admin, UserInNeed, Volunteer, UnregisterUser, Organization, Anonymous}
 
-Privilege stringToPrivilege(String prev){
+Privilege? stringToPrivilege(String prev){
   switch(prev){
     case "Privilege.Admin":
-      print("heeeeeeeeeeeeeeeeeeeehaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       return Privilege.Admin;
     case "Privilege.UserInNeed":
       return Privilege.UserInNeed;
@@ -18,7 +17,6 @@ Privilege stringToPrivilege(String prev){
     case "Privilege.Anonymous":
       return Privilege.Anonymous;
     default:
-      print("oooooooohhhhhhhhhhhhh noooooooooooooooooooooooooo");
       return null;
   }
 }

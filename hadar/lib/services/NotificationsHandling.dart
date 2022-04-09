@@ -1,19 +1,9 @@
 
-
-import 'dart:io';
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:hadar/services/DataBaseServices.dart';
-import 'package:hadar/users/Admin.dart';
-import 'package:hadar/users/CurrentUser.dart';
-import 'package:hadar/users/Privilege.dart';
-import 'package:hadar/users/User.dart';
 
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
 import '../main.dart';
 
@@ -43,7 +33,7 @@ Future initNotifications() async {
 }
 
 
-Future selectNotification(String payload) async {
+Future selectNotification(String? payload) async {
   if (payload != null) {
     debugPrint('notification payload: $payload');
   }

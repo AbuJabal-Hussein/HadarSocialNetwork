@@ -412,14 +412,14 @@ class DataBaseServiceMock{
     to_add['id'] = user.id;
     to_add['privilege'] = user.privilege.toString().substring(10);
 
-    to_add['Age'] = user.Age;
-    to_add['Location'] = user.Location;
-    to_add['Status'] = user.Status;
+    to_add['Age'] = user.age;
+    to_add['Location'] = user.location;
+    to_add['Status'] = user.status;
     to_add['numKids'] = user.numKids;
     to_add['eduStatus'] = user.eduStatus;
     to_add['homePhone'] = user.homePhone;
     to_add['specialStatus'] = user.specialStatus;
-    to_add['Rav7a'] = user.Rav7a;
+    to_add['Rav7a'] = user.rav7a;
 
     return await userInNeedCollection.doc(user.id).set(to_add);
   }

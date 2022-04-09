@@ -94,7 +94,7 @@ class _AdminHelpRequestFeedTileState extends State<AdminHelpRequestFeedTile> {
     return ListTile(
       tileColor: color,
      // onTap: () => print("List tile pressed!"),//showHelpRequestStatus(helpRequest),
-      onTap: () => HelpRequestAdminDialuge(context,widget.helpRequest),
+      onTap: () => helpRequestAdminDialuge(context,widget.helpRequest),
       isThreeLine: false,
       title: Row(children: <Widget>[
         Container(

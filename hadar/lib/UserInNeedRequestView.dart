@@ -1,18 +1,12 @@
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hadar/Design/basicTools.dart';
-import 'package:hadar/lang/HebrewText.dart';
-
 import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/users/UserInNeed.dart';
 import 'package:hadar/utils/HelpRequest.dart';
 import 'package:hadar/utils/HelpRequestType.dart';
 import 'package:hadar/services/DataBaseServices.dart';
 import 'package:provider/provider.dart';
-
 import 'Design/mainDesign.dart';
 import 'feeds/OrganizationFeed.dart';
 import 'feeds/user_inneed_feed.dart';
@@ -20,29 +14,35 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'main.dart';
 
-class RequestWindow extends StatelessWidget {
-  HelpRequestFeedState parent;
-  DescriptonBox desBox;
+class RequestWindow extends StatefulWidget {
+  final HelpRequestFeedState parent;
+  final List<HelpRequestType> types;
+  static TextEditingController locationController = TextEditingController();
 
-  Dropdown drop;
-  List<HelpRequestType> types;
-  static TextEditingController location_controller = TextEditingController();
+  RequestWindow(this.parent, this.types);
 
-  RequestWindow(HelpRequestFeedState parent, List<HelpRequestType> types) {
-    this.parent = parent;
-    this.types = types;
+  @override
+  State<RequestWindow> createState() => _RequestWindowState();
+}
+
+class _RequestWindowState extends State<RequestWindow> {
+  late DescriptonBox desBox;
+
+  late Dropdown drop;
+
+  _RequestWindowState(){
     init();
   }
 
   void init() {
-    this.desBox = DescriptonBox(title: AppLocalizations.of(parent.context).explanation, parent: parent);
+    this.desBox = DescriptonBox(title: AppLocalizations.of(widget.parent.context)!.explanation, parent: widget.parent);
 
-    this.drop = Dropdown(desBox, types);
+    this.drop = Dropdown(desBox, widget.types);
   }
 
   @override
   Widget build(BuildContext context) {
-    String langCode = MainApp.of(parent.context).getLangCode();
+    String langCode = MainApp.of(widget.parent.context)!.getLangCode();
     bool isRTL = (langCode == "he" || langCode == "ar");
     return Scaffold(
         //backgroundColor: BasicColor.backgroundClr,
@@ -51,7 +51,7 @@ class RequestWindow extends StatelessWidget {
           slivers: [
             SliverPersistentHeader(
               delegate:
-                  MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context).chooseCategory),
+                  MySliverAppBar(expandedHeight: 150, title: AppLocalizations.of(context)!.chooseCategory),
               pinned: true,
             ),
             SliverFillRemaining(
@@ -69,13 +69,13 @@ class RequestWindow extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
                       child: TextFormField(
-                        controller: RequestWindow.location_controller,
+                        controller: RequestWindow.locationController,
                         decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: BasicColor.clr),
                             ),
 
-                            hintText:  AppLocalizations.of(context).changeRequestLocation,
+                            hintText:  AppLocalizations.of(context)!.changeRequestLocation,
                             hintStyle: TextStyle(
                               color: Colors.grey,
                             )
@@ -90,7 +90,7 @@ class RequestWindow extends StatelessWidget {
                       padding: EdgeInsets.only(top: 15, right: 10, left: 10),
                       alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
                       child: Text(
-                        AppLocalizations.of(context).organizationServices,
+                        AppLocalizations.of(context)!.organizationServices,
                         style: TextStyle(
                             fontSize: 15.0,
                             color: BasicColor.clr,
@@ -117,13 +117,11 @@ class RequestWindow extends StatelessWidget {
 }
 
 class Dropdown extends StatefulWidget {
-  DescriptonBox desBox;
-  DropDownState dropDownState;
-  List<HelpRequestType> types;
+  final DescriptonBox desBox;
+  late final DropDownState dropDownState;
+  final List<HelpRequestType> types;
 
-  Dropdown(DescriptonBox desBox, List<HelpRequestType> types) {
-    this.types = types;
-    this.desBox = desBox;
+  Dropdown(this.desBox, this.types) {
     this.dropDownState = DropDownState(desBox, types);
   }
 
@@ -136,14 +134,11 @@ class Dropdown extends StatefulWidget {
 }
 
 class DropDownState extends State<Dropdown> {
-  HelpRequestType selectedType;
+  late HelpRequestType selectedType;
   DescriptonBox desBox;
   List<HelpRequestType> types;
 
-  DropDownState(DescriptonBox desBox, List<HelpRequestType> types) {
-    this.desBox = desBox;
-    this.types = types;
-  }
+  DropDownState(this.desBox, this.types);
 
   HelpRequestType getSelectedType() {
     return selectedType;
@@ -156,12 +151,12 @@ class DropDownState extends State<Dropdown> {
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: DropdownButton<HelpRequestType>(
-            hint: Text(AppLocalizations.of(context).chooseCategory),
+            hint: Text(AppLocalizations.of(context)!.chooseCategory),
             value: selectedType,
-            onChanged: (HelpRequestType Value) {
+            onChanged: (HelpRequestType? value) {
               setState(
                 () {
-                  selectedType = Value;
+                  selectedType = value!;
                   desBox.setSelectedType(selectedType);
                 },
               );
@@ -193,8 +188,9 @@ class DropDownState extends State<Dropdown> {
 //when a user clicks on the category, he gets a description box,
 // where he can describe his request
 class DescriptonBox extends StatefulWidget {
-  DescriptonBox({Key key, this.title, this.parent}) : super(key: key);
-  _DescriptonBox desBoxState = _DescriptonBox();
+  DescriptonBox({required this.title, required this.parent});
+
+  final _DescriptonBox desBoxState = _DescriptonBox();
   final String title;
   final HelpRequestFeedState parent;
 
@@ -208,9 +204,9 @@ class DescriptonBox extends StatefulWidget {
 
 class _DescriptonBox extends State<DescriptonBox> {
   String _inputtext = '';
-  HelpRequest helpRequest;
+  late HelpRequest helpRequest;
   TextEditingController inputtextField = TextEditingController();
-  HelpRequestType helpRequestType;
+  late HelpRequestType helpRequestType;
 
   void setSelectedType(HelpRequestType selectedType) {
     setState(() {
@@ -223,7 +219,7 @@ class _DescriptonBox extends State<DescriptonBox> {
       helpRequestType = HelpRequestType(_inputtext);
       _inputtext = inputtextField.text;
       helpRequest =
-          HelpRequest(helpRequestType, _inputtext, DateTime.now(), CurrentUser.curr_user.id,'',Status.UNVERFIED,RequestWindow.location_controller.text.isEmpty ? (CurrentUser.curr_user as UserInNeed).Location: RequestWindow.location_controller.text);
+          HelpRequest(helpRequestType, _inputtext, DateTime.now(), CurrentUser.curr_user.id,'',Status.UNVERFIED,RequestWindow.locationController.text.isEmpty ? (CurrentUser.curr_user as UserInNeed).location: RequestWindow.locationController.text);
       print("input text" + _inputtext);
       print("helpRequest" + helpRequestType.description);
 
@@ -245,6 +241,7 @@ class _DescriptonBox extends State<DescriptonBox> {
       MaterialPageRoute(builder: (context) {
         return StreamProvider<List<HelpRequest>>.value(
           value: DataBaseService().getUserHelpRequests(CurrentUser.curr_user as UserInNeed),
+          initialData: [],
           child: UserInNeedHelpRequestsFeed(),
         );
       }),
@@ -277,7 +274,7 @@ class _DescriptonBox extends State<DescriptonBox> {
                   onPressed: () {
                     returnToFeed();
                   },
-                  child: Text(AppLocalizations.of(context).cancel),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
                 SizedBox(
                   width: 25,
@@ -286,7 +283,7 @@ class _DescriptonBox extends State<DescriptonBox> {
                   onPressed: () {
                     _processText();
                   },
-                  child: Text(AppLocalizations.of(context).confirm),
+                  child: Text(AppLocalizations.of(context)!.confirm),
                 ),
 
               ],

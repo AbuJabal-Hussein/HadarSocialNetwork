@@ -171,7 +171,7 @@ class _UserInNeedRegisterPageState extends State<UserInNeedRegisterPage> {
                             if(!age.currentState!.validate() || !location.currentState!.validate() || !numKids.currentState!.validate() ){
                               return;
                             }
-                            user.Age = age_controller.text == ''
+                            user.age = age_controller.text == ''
                                 ? 0
                                 : int.parse(age_controller.text);
                             user.homePhone = homephone_controller.text;
@@ -179,10 +179,10 @@ class _UserInNeedRegisterPageState extends State<UserInNeedRegisterPage> {
                                 ? 0
                                 : int.parse(numKids_controller.text);
                             user.eduStatus = eduStatus_controller.text;
-                            user.Status = status_controller.text;
-                            user.Location = location_controller.text;
+                            user.status = status_controller.text;
+                            user.location = location_controller.text;
                             user.specialStatus = specialstatus_controller.text;
-                            user.Rav7a = rev7a_controller.text;
+                            user.rav7a = rev7a_controller.text;
                             DataBaseService().addUserInNeedToDataBase(user);
                             Navigator.pop(context);
                             Navigator.pop(context);

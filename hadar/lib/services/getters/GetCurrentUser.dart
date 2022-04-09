@@ -22,7 +22,7 @@ class GetCurrentUser extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          return snapshot.data == null ? LogInPage() : snapshot.data;
+          return snapshot.data == null ? LogInPage() : snapshot.data!;
         }
 
         return Column(
