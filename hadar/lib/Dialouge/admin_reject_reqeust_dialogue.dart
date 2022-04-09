@@ -80,7 +80,7 @@ class ExitConfirmationDialog extends StatelessWidget {
             RaisedButton(onPressed: (){
               print(reason_reject.text);
               help_request.reject_reason = reason_reject.text.isEmpty ? AppLocalizations.of(context)!.adminDidntDescribeRejection : reason_reject.text;
-              DataBaseService().cancel_help_reqeust(help_request);
+              DataBaseService().cancelHelpRequest(help_request);
               return Navigator.of(context).pop(true);
             }, child: Text(AppLocalizations.of(context)!.send), color: Colors.white, textColor: Colors.redAccent,)
           ],

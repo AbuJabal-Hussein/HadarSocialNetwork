@@ -137,7 +137,7 @@ void helpRequestAdminDialuge(context,HelpRequest helpRequest){
                       color: BasicColor.clr,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       onPressed: () {
-                        DataBaseService().verify_help_request(helpRequest);
+                        DataBaseService().verifyHelpRequest(helpRequest);
                         Navigator.pop(context);
                       },
                       child: Text(AppLocalizations.of(context)!.approveRequest, style: TextStyle(color: Colors.white),),

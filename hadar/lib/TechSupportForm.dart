@@ -75,7 +75,7 @@ class TechSupportForm extends StatelessWidget {
                       print(reason);
                       print(description);
                       UserInquiry userInquiry= UserInquiry(userName, userId, userPhone, reason, description, DateTime.now());
-                      DataBaseService().addInquryToDataBase(userInquiry);
+                      DataBaseService().addInquiryToDataBase(userInquiry);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

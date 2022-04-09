@@ -33,7 +33,7 @@ class MyListView extends StatelessWidget {
           children: [
             GestureDetector( onTap: (){
               father_state.father!.setState(() {
-                father_state.father!.provider = DataBaseService().get_requests_for_category(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id);
+                father_state.father!.provider = DataBaseService().getVolunteerHelpRequestsByCategory(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id);
                 father_state.father!.category = Help_request_type;
               });
 
@@ -45,7 +45,7 @@ class MyListView extends StatelessWidget {
             SizedBox(height: 10,),
             GestureDetector( onTap: (){
               father_state.father!.setState(() {
-                father_state.father!.provider = DataBaseService().get_requests_for_category(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id);
+                father_state.father!.provider = DataBaseService().getVolunteerHelpRequestsByCategory(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id);
                 father_state.father!.category = Help_request_type;
               });
               volunteer_feed_pafe_state.state!.setState(() {
@@ -58,7 +58,7 @@ class MyListView extends StatelessWidget {
       ),
       onTap: (){
              father_state.father!.setState(() {
-               father_state.father!.provider = DataBaseService().get_requests_for_category(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id);
+               father_state.father!.provider = DataBaseService().getVolunteerHelpRequestsByCategory(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id);
                father_state.father!.category = Help_request_type;
              });
              volunteer_feed_pafe_state.state!.setState(() {

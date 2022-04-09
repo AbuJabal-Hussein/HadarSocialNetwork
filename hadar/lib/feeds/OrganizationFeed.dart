@@ -49,7 +49,7 @@ class RemoveOrganization extends StatelessWidget {
                     .primaryColor,
               ),
               onPressed: (){
-                DataBaseService().RemoveOrginazation(org.name);
+                DataBaseService().removeOrganization(org.name);
                 Navigator.pop(context, true);
               },
               child: Text(AppLocalizations.of(context)!.confirm),

@@ -364,7 +364,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   setState(() {
                     show_spinner = true;
                   });
-                  bool id_check_if_exsist = await DataBaseService().is_id_taken(id_Controller.text,email_Controller.text);
+                  bool id_check_if_exsist = await DataBaseService().isIdTaken(id_Controller.text,email_Controller.text);
                   if(id_check_if_exsist){
                     setState(() {
                       alert=true;
@@ -410,7 +410,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => UserInNeedRegisterPage(user_in_need)));
                         break;
                       case Privilege.Admin:
-                        DataBaseService().addVerficationRequestToDb(VerificationRequest(UnregisteredUser(name_Controller.text, phone_Controller.text, email_Controller.text, id_Controller.text),  clicked_priv!, DateTime.now(),"","","","","","","","",[]));
+                        DataBaseService().addVerificationRequestToDb(VerificationRequest(UnregisteredUser(name_Controller.text, phone_Controller.text, email_Controller.text, id_Controller.text),  clicked_priv!, DateTime.now(),"","","","","","","","",[]));
                         Navigator.pop(context);
                         break;
                       case Privilege.Volunteer:

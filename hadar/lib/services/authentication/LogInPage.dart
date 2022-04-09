@@ -207,7 +207,7 @@ class _LogInPageState extends State<LogInPage> {
       }
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => curr_widget!),
+        MaterialPageRoute(builder: (context) => curr_widget),
       );
       setState(() {
         show_spinner = false;

@@ -52,7 +52,7 @@ class ShowRejectReason extends StatelessWidget {
           children: <Widget>[
             SizedBox(width: 8,),
             RaisedButton(onPressed: (){
-              DataBaseService().delete_help_reqeust(help_request);
+              DataBaseService().deleteHelpRequest(help_request);
               return Navigator.of(context).pop(true);
             }, child: Text(AppLocalizations.of(context)!.deleteRequest), color: Colors.white, textColor: Colors.redAccent,)
           ],

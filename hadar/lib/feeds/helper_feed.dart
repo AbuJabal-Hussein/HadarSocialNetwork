@@ -85,7 +85,7 @@ class _VolunteerFeedStatefullState extends State<VolunteerFeedStatefull> {
                 Expanded(
                     child: StatefulCategoriesList(
                         categories,
-                        DataBaseService().get_requests_for_category(
+                        DataBaseService().getVolunteerHelpRequestsByCategory(
                             HelpRequestType(categories[0].Help_request_type),
                             curr_user.id),
                         categories[0].Help_request_type)),
@@ -122,7 +122,7 @@ class VolunteerFeed extends StatelessWidget {
                 Expanded(
                     child: StatefulCategoriesList(
                         categories,
-                        DataBaseService().get_requests_for_category(
+                        DataBaseService().getVolunteerHelpRequestsByCategory(
                             HelpRequestType(categories[0].Help_request_type),
                             curr_user.id),
                         categories[0].Help_request_type)),

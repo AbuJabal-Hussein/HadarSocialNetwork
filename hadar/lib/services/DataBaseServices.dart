@@ -1,22 +1,11 @@
-//import 'dart:html';
 
-//import 'dart:html';
-
-
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
-//import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:hadar/feeds/feed_items/category_scrol.dart';
 import 'package:hadar/services/authentication/LogInPage.dart';
 import 'package:hadar/users/Admin.dart';
 
-import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/users/Organization.dart';
 import 'package:hadar/users/Privilege.dart';
 import 'package:hadar/users/UnregisteredUser.dart';
@@ -27,8 +16,6 @@ import 'package:hadar/utils/HelpRequest.dart';
 import 'package:hadar/utils/HelpRequestType.dart';
 import 'package:hadar/utils/UsersInquiry.dart';
 import 'package:hadar/utils/VerificationRequest.dart';
-
-import '../main.dart';
 
 class DataBaseService{
 
@@ -86,13 +73,13 @@ class DataBaseService{
    */
   Future<bool> checkIfVerfied(String email) async{
 
-    bool ans;
+    bool ans = false;
     await verificationsRequestsCollection.doc(email).get().then((value) => ans = !value.exists);
     return ans;
 
   }
 
-  Future addVerficationRequestToDb(VerificationRequest verificationRequest) async{
+  Future addVerificationRequestToDb(VerificationRequest verificationRequest) async{
 
     Map<String,dynamic> to_add = Map();
     to_add['sender_id'] = verificationRequest.sender.id;
@@ -125,7 +112,7 @@ class DataBaseService{
     
   }
 
-  Future RemoveOrginazation(String name) async{
+  Future removeOrganization(String name) async{
 
     await organizationsCollection.doc(name).delete();
 
@@ -145,7 +132,7 @@ class DataBaseService{
 
   }
 
-  Future RemoveCategory(HelpRequestType helpRequestType) async{
+  Future removeCategory(HelpRequestType helpRequestType) async{
 
     Map<String,dynamic> update = Map();
     update['category'] = 'אחר';
@@ -163,15 +150,15 @@ class DataBaseService{
 
   }
 
-  Future RemoveCurrentuserFromAuthentication() async{
-    fb_auth.User curr_db_user = fb_auth.FirebaseAuth.instance.currentUser;
+  Future deAuthenticationUser() async{
+    fb_auth.User curr_db_user = fb_auth.FirebaseAuth.instance.currentUser!;
     curr_db_user.delete();
   }
 
-  Future RemoveUserfromdatabase(hadar.User user) async {
+  Future removeUserFromDB(hadar.User user) async {
 
 
-    //REMOVE FROM ALL HLEP REQUEST
+    //REMOVE FROM ALL HELP REQUESTS
     //REMOVE FROM SUITABLE COLLECTION
     if (user.privilege == Privilege.Admin){
       adminsCollection.doc(user.id).delete();
@@ -213,10 +200,11 @@ class DataBaseService{
 
 
   }
-  Future DenyVerficationRequest(VerificationRequest verificationRequest){
-    verificationsRequestsCollection.doc(verificationRequest.sender.email).delete();
 
+  Future denyVerificationRequest(VerificationRequest verificationRequest) async {
+    verificationsRequestsCollection.doc(verificationRequest.sender.email).delete();
   }
+
   /*/
     this function will also add the user to db and delte its request
     in case of admin or user in need catoergires are null
@@ -287,53 +275,11 @@ class DataBaseService{
   }
 
 
-    /*
-  THIS FUNCTION WILL AUTOMATICALLY ADD THE REQUEST TO ALL THE RELEVANT
-  VOULNTEERS -- nooooooooooo !!!
-  it now add them to pending request collection
-   */
-  // Future addHelpRequestToDataBaseForUserInNeed(HelpRequest helpRequest) async{
-  //
-  //   Map<String,dynamic> to_add = Map();
-  //   to_add['category'] = helpRequest.category.description;
-  //   to_add['sender_id'] = helpRequest.sender_id;
-  //   to_add['description'] = helpRequest.description;
-  //   to_add['date'] = helpRequest.date.toString();
-  //   to_add['time'] = helpRequest.time;
-  //   to_add['handler_id'] = helpRequest.handler_id;
-  //   to_add['verfied'] = helpRequest.verfied;
-  //
-  //
-  //    userInNeedCollection.doc(helpRequest.sender_id).collection(user_in_need_requests).doc(helpRequest.date.toString()+"-"+helpRequest.sender_id)
-  //       .set(to_add).catchError((error) => print("problem in addHelpRequestToDataBaseForUserInNeed"));
-  //
-  //    allHelpsRequestsCollection.doc(helpRequest.date.toString()+"-"+helpRequest.sender_id).set(to_add);
-  //
-  //
-  //
-  //
-  // }
 
   Future<int> getSizeOfHelpReqType(HelpRequestType helpRequestType,String id) async {
-    List<HelpRequest> list = await get_requests_for_category(helpRequestType,id).first;
+    List<HelpRequest> list = await getVolunteerHelpRequestsByCategory(helpRequestType,id).first;
     return list.length;
 
-    // QuerySnapshot querySnapshot = await allHelpsRequestsCollection.where('category',isEqualTo: helpRequestType.description).get();
-    // int counter = 0;
-    //
-    // if (querySnapshot.size == 0){
-    //   return 0;
-    // }
-    //
-    // for(int i = 0 ; i< querySnapshot.docs.length ; i++){
-    //    DocumentSnapshot doc = querySnapshot.docs[i];
-    //    doc['name'] ?? '';
-    //    if(doc['']){
-    //
-    //    }
-    // }
-    //
-    // return counter;
   }
   Future addHelpRequestToDataBaseForUserInNeed(HelpRequest helpRequest) async{
 
@@ -368,7 +314,7 @@ class DataBaseService{
     }
   }
 
-  Future addInquryToDataBase(UserInquiry userInquiry) async{
+  Future addInquiryToDataBase(UserInquiry userInquiry) async{
 
     Map<String,dynamic> to_add = Map();
     to_add['name'] = userInquiry.name;
@@ -384,39 +330,7 @@ class DataBaseService{
 
 
 
-  /*/
-    this function will also put the reqeust to the relvenat voulnteers
-   */
-  // Future verify_help_request(HelpRequest helpRequest) async{
-  //
-  //   Map<String,dynamic> to_add = Map();
-  //   to_add['category'] = helpRequest.category.description;
-  //   to_add['sender_id'] = helpRequest.sender_id;
-  //   to_add['description'] = helpRequest.description;
-  //   to_add['date'] = helpRequest.date.toString();
-  //   to_add['time'] = helpRequest.time;
-  //   to_add['handler_id'] = helpRequest.handler_id;
-  //   to_add['verfied'] = true;
-  //
-  //   allHelpsRequestsCollection.doc(helpRequest.date.toString()+"-"+helpRequest.sender_id).delete();
-  //
-  //   helpersCollection.where('helpRequestsCategories' , arrayContains: helpRequest.category.description )
-  //       .get().then((QuerySnapshot querySnapshot) => {
-  //     querySnapshot.docs.forEach((doc) {
-  //       doc.reference.collection(volunteer_pending_requests).doc(helpRequest.date.toString()+"-"+helpRequest.sender_id).set(to_add).catchError((error) => print("failed to add for this voulnteer"));
-  //     })
-  //   } );
-  //
-  //   Map<String,dynamic> to_update = Map();
-  //   to_update['verfied'] = true;
-  //
-  //   userInNeedCollection.doc(helpRequest.sender_id).collection(user_in_need_requests).doc(helpRequest.date.toString()+"-"+helpRequest.sender_id).update(to_update);
-  //
-  //
-  //
-  // }
-
-  Future verify_help_request(HelpRequest helpRequest) async{
+  Future verifyHelpRequest(HelpRequest helpRequest) async{
 
     Map<String,dynamic> to_add = Map();
     to_add['status'] = Status.AVAILABLE.toString().substring(7);
@@ -426,21 +340,13 @@ class DataBaseService{
 
   }
 
-  // //TODO ALSO CHECK HOW TO REMOVE THE USER FROM THE AUTH
-  // Future cancel_help_reqeust(HelpRequest helpRequest) async {
-  //
-  //   allHelpsRequestsCollection.doc(helpRequest.date.toString()+"-"+helpRequest.sender_id).delete();
-  //   userInNeedCollection.doc(helpRequest.sender_id).collection(user_in_need_requests).doc(helpRequest.date.toString()+"-"+helpRequest.sender_id).delete();
-  //
-  // }
-  //TODO ALSO CHECK HOW TO REMOVE THE USER FROM THE AUTH
-  Future delete_help_reqeust(HelpRequest helpRequest) async {
+  Future deleteHelpRequest(HelpRequest helpRequest) async {
     allHelpsRequestsCollection.doc(helpRequest.date.toString()+"-"+helpRequest.sender_id).delete();
   }
-  Future cancel_help_reqeust(HelpRequest helpRequest) async {
+
+  Future cancelHelpRequest(HelpRequest helpRequest) async {
     helpRequest.status = Status.REJECTED;
     addHelpRequestToDataBaseForUserInNeed(helpRequest);
-    //allHelpsRequestsCollection.doc(helpRequest.date.toString()+"-"+helpRequest.sender_id).delete();
   }
 
   Future addUserInNeedToDataBase(UserInNeed user) async{
@@ -545,29 +451,6 @@ class DataBaseService{
   }
 
 
-
-  /*
-  this function move the request from pending to accepted collection.
-  make sure to put the exact date of the request and not the current date
-   */
-  // Future assignHelpRequestForVolunteer(Volunteer volunteer,HelpRequest helpRequest) async{
-  //
-  //   Map<String,dynamic> to_update = Map();
-  //   to_update['handler_id'] = volunteer.id;
-  //
-  //   QuerySnapshot docs = await helpersCollection.get();
-  //
-  //   for (QueryDocumentSnapshot doc_snap_shot in docs.docs){
-  //     DocumentReference curr_doc = doc_snap_shot.reference;
-  //     if(curr_doc.id != volunteer.id) {
-  //       curr_doc.collection(volunteer_pending_requests).doc(
-  //           helpRequest.date.toString() + "-" + helpRequest.sender_id).delete();
-  //     }
-  //   }
-  //
-  //   helpersCollection.doc(volunteer.id).collection(volunteer_pending_requests).doc(helpRequest.date.toString() + "-" + helpRequest.sender_id).update(to_update);
-  //   userInNeedCollection.doc(helpRequest.sender_id).collection(user_in_need_requests).doc(helpRequest.date.toString() + "-" + helpRequest.sender_id).update(to_update);
-  // }
   Future assignHelpRequestForVolunteer(Volunteer volunteer,HelpRequest helpRequest) async{
 
     Map<String,dynamic> to_update = Map();
@@ -575,29 +458,11 @@ class DataBaseService{
     to_update['status'] = Status.APPROVED.toString().substring(7);
     allHelpsRequestsCollection.doc(helpRequest.date.toString()+"-"+helpRequest.sender_id).update(to_update);
   }
-  /*
-  before u call this function u must type await . so u only use the returned value when the function  ends
-  and also u should check if the returned  value is not null (if it is null it means the user hasnt been found)
-  one more thing - u should relate to the returned value using as because future return dynamic type,
-  for exmaple :
-    onPressed: () async {
-                UserInNeed userInNeed = (await DataBaseService().getUserById("123456789", Privilege.UserInNeed)) as UserInNeed;
-                print("printing user");
-                if (userInNeed == null){
-                  print('got null');
-                }else {
-                  print(userInNeed.name);
-                  print(userInNeed.id);
-                  print(userInNeed.phoneNumber);
-                }
-              },
-      here i know that i want user in need , therfore i put as user in need , so i can
-      reach its fields
-   */
-  //TODO tell hsenn
-  Future getUserById(String id,Privilege privilege) async{
 
-    DocumentSnapshot doc;
+
+  Future getUserById(String id, Privilege privilege) async{
+
+    DocumentSnapshot? doc;
     int defaultLastNotifiedTime = DateTime.now().millisecondsSinceEpoch;
     if (privilege == Privilege.UserInNeed){
 
@@ -608,8 +473,8 @@ class DataBaseService{
         return null;
       }
 
-      return UserInNeed(getTypeFromString(doc['privilege']) ,doc['name'] ?? '', doc['phoneNumber'] ?? '', doc['email'] ?? '',
-          doc['id'] ?? '', doc['lastNotifiedTime'] ?? defaultLastNotifiedTime ,doc['Age'] ?? 0 ,doc['Location'] ?? '' ,doc['Status'] ?? '' , doc['numKids'] ?? 0, doc['eduStatus'] ?? '', doc['homePhone'] ?? '',doc['specialStatus'] ?? '' ,doc['Rav7a'] ?? '' );
+      return UserInNeed(getTypeFromString(doc!['privilege']) ,doc!['name'] ?? '', doc!['phoneNumber'] ?? '', doc!['email'] ?? '',
+          doc!['id'] ?? '', doc!['lastNotifiedTime'] ?? defaultLastNotifiedTime ,doc!['Age'] ?? 0 ,doc!['Location'] ?? '' ,doc!['Status'] ?? '' , doc!['numKids'] ?? 0, doc!['eduStatus'] ?? '', doc!['homePhone'] ?? '',doc!['specialStatus'] ?? '' ,doc!['Rav7a'] ?? '' );
     }
 
     if (privilege == Privilege.Admin){
@@ -621,8 +486,8 @@ class DataBaseService{
         return null;
       }
 
-      return  Admin(doc['name'] ?? '', doc['phoneNumber'] ?? '', doc['email'] ?? '',
-          doc['id'] ?? '', doc['lastNotifiedTime'] ?? defaultLastNotifiedTime );
+      return  Admin(doc!['name'] ?? '', doc!['phoneNumber'] ?? '', doc!['email'] ?? '',
+          doc!['id'] ?? '', doc!['lastNotifiedTime'] ?? defaultLastNotifiedTime );
     }
 
     if (privilege == Privilege.Volunteer){
@@ -634,65 +499,49 @@ class DataBaseService{
         return null;
       }
 
-      return  Volunteer(doc['name'] ?? '', doc['phoneNumber'] ?? '', doc['email'] ?? '' ,
-          doc['id'] ?? '', doc['lastNotifiedTime'] ?? defaultLastNotifiedTime  ,doc['stars'] ?? 0,
-          doc['count'] ?? 0 ,doc['birthdate'] ?? ''  ,doc['location'] ?? ''  ,doc['status'] ?? ''  ,
-          doc['work'] ?? ''  ,doc['birthplace'] ?? ''  ,doc['spokenlangs'] ?? ''  ,doc['firstaidcourse'] ?? ''  ,doc['mobility'] ?? '' , convertCategoreisAsStringToHLT(doc['categories'] ?? []));
+      return  Volunteer(doc!['name'] ?? '', doc!['phoneNumber'] ?? '', doc!['email'] ?? '' ,
+          doc!['id'] ?? '', doc!['lastNotifiedTime'] ?? defaultLastNotifiedTime  ,doc!['stars'] ?? 0,
+          doc!['count'] ?? 0 ,doc!['birthdate'] ?? ''  ,doc!['location'] ?? ''  ,doc!['status'] ?? ''  ,
+          doc!['work'] ?? ''  ,doc!['birthplace'] ?? ''  ,doc!['spokenlangs'] ?? ''  ,doc!['firstaidcourse'] ?? ''  ,doc!['mobility'] ?? '' , convertCategoreisAsStringToHLT(doc!['categories'] ?? []));
     }
 
 
   }
 
-  // Stream<List<HelpRequest>> getUserHelpRequests(hadar.User user) {
-  //
-  //   return userInNeedCollection.doc(user.id).collection(user_in_need_requests).orderBy('time',descending: true)
-  //       .snapshots()
-  //       .map(helpRequestListFromSnapShot);
-  // }
 
   Stream<List<HelpRequest>> getUserHelpRequests(hadar.User user) {
 
     return allHelpsRequestsCollection.where('sender_id' , isEqualTo: user.id).orderBy('time',descending: true)
       .snapshots().map(helpRequestListFromSnapShot);
-    //TODO - u might need to delete order by time
   }
-  Stream<List<HelpRequest>> getAll_waiting_Requests_for_volunteer(String id) {
 
+  Stream<List<HelpRequest>> getVolunteerAllWaitingHelpRequests(String id) {
     current_vol_id = id;
     return allHelpsRequestsCollection.orderBy('time' , descending: true)
         .snapshots()
         .map(helpRequestListFromSnapShotForSpecificVolunteer);
-
   }
 
-  Stream<List<HelpRequest>> getAll_waiting_Requests() {
-
-
+  Stream<List<HelpRequest>> getAllWaitingHelpRequests() {
     return allHelpsRequestsCollection.where('status' , isEqualTo: Status.AVAILABLE.toString().substring(7)).orderBy('time' , descending: true)
         .snapshots()
         .map(helpRequestListFromSnapShot);
 
   }
 
-  Stream<List<HelpRequest>> getAll_unverfied_requests_Requests() {
-
-
+  Stream<List<HelpRequest>> getAllUnverifiedHelpRequests() {
     return allHelpsRequestsCollection.where('status' , isEqualTo: Status.UNVERFIED.toString().substring(7)).orderBy('time' , descending: true)
         .snapshots()
         .map(helpRequestListFromSnapShot);
-
   }
-  Stream<List<HelpRequest>> getAll_approved_Requests() {
 
-
+  Stream<List<HelpRequest>> getAllApprovedHelpRequests() {
     return allHelpsRequestsCollection.where('status' , isEqualTo: Status.APPROVED.toString().substring(7)).orderBy('time' , descending: true)
         .snapshots()
         .map(helpRequestListFromSnapShot);
-
   }
 
   Future<bool> hasUnverifiedHelpRequestsAfter(int timestamp) async {
-
     var requests = await allHelpsRequestsCollection
         .where('status' , isEqualTo: Status.UNVERFIED.toString().substring(7))
         .where('time', isGreaterThan: timestamp)
@@ -702,11 +551,11 @@ class DataBaseService{
   }
 
   Future<bool> hasApprovedHelpRequestsAfter(int timestamp) async {
-
     var requests = await allHelpsRequestsCollection
         .where('status' , isEqualTo: Status.APPROVED.toString().substring(7))
         .where('time', isGreaterThan: timestamp)
         .get();
+
     return requests.size > 0;
   }
 
@@ -720,118 +569,63 @@ class DataBaseService{
   }
 
   Stream<List<UserInquiry>> getAll_inquires_for_user(String id) {
-
-
     return inquiryCollection.where('id',isEqualTo: id).orderBy('date',descending: true)
         .snapshots()
         .map(UserInqurytListFromSnapShot);
-
   }
 
   Stream<List<UserInquiry>> getAll_inquires() {
-
-
     return inquiryCollection.orderBy('date',descending: true)
         .snapshots()
         .map(UserInqurytListFromSnapShot);
-
   }
 
-  // Stream<List<HelpRequest>> getVolPendingRequests(Volunteer volunteer) {
-  //
-  //   return helpersCollection.doc(volunteer.id).collection(volunteer_pending_requests).orderBy('time',descending: true)
-  //       .snapshots()
-  //       .map(helpRequestListFromSnapShot);
-  // }
-
   Stream<List<HelpRequest>> getVolAcceptedRequestsRequests(Volunteer volunteer) {
-
     return allHelpsRequestsCollection.where('handler_id' , isEqualTo:volunteer.id).orderBy('time',descending: true)
         .snapshots().map(helpRequestListFromSnapShot);
-    //TODO - might delete time
   }
 
 
   Stream<List<HelpRequestType>> getHelpRequestsTypes() {
-
     return helpRequestsTypeCollection
         .snapshots()
         .map(helpRequestTypeListFromSnapShot);
   }
 
-  // Stream<List<Volunteer>> getAllVolunteersForSpecificRequest(HelpRequestType helpRequestType){
-  //
-  //   CollectionReference col = helpersCollection.where('helpRequestsCategories' , arrayContains: helpRequestType.description );
-  //   return col
-  //       .snapshots()
-  //       .map(VolunteerListFromSnapShot);
-  // }
 
-  Stream<List<HelpRequest>> get_requests_for_category(HelpRequestType helpRequestType , String id){
+  Stream<List<HelpRequest>> getVolunteerHelpRequestsByCategory(HelpRequestType helpRequestType , String id){
     current_vol_id = id;
-
-    //TODO - u might delete time
     return allHelpsRequestsCollection.where('category' , isEqualTo: helpRequestType.description).orderBy('time' , descending: true)
         .snapshots()
         .map(helpRequestListFromSnapShotVerified);
-
   }
-/*
-  Future<List<HelpRequestType>> getOrganizationServices(Organization organization){
-    //todo: implement this
-    //returns the services that this organization provides
-    //implementation: get the field services from this organization in
-    //organizationsCollection and convert it from List<String> to List<HelpRequestType>
-
-  }
-
-  Future<List<HelpRequestType>> helpRequestTypesAsList() async {
-
-    List<HelpRequestType> list1 = List<HelpRequestType>();
-
-    await helpRequestsTypeCollection.get().then((querySnapshot){
-      querySnapshot.docs.forEach((element){
-        list1.add(HelpRequestType(element['description']));
-      });
-    });
-
-    return list1;
-
-  }
-*/
 
   Stream<List<Volunteer>> getAllVolunteers(){
-
     return helpersCollection
         .snapshots()
         .map(VolunteerListFromSnapShot);
   }
 
   Stream<List<Admin>> getAllAdmins(){
-
     return adminsCollection
         .snapshots()
         .map(AdminListFromSnapShot);
   }
 
   Stream<List<UserInNeed>> getAllUsersInNeed(){
-
     return userInNeedCollection
         .snapshots()
         .map(UserInNeedListFromSnapShot);
   }
 
   Stream<List<Organization>> getAllOrganizations(){
-
     return organizationsCollection
         .snapshots()
         .map(organizationListFromSnapShot);
   }
 
   Future<List<HelpRequestType>> helpRequestTypesAsList() async {
-
-    List<HelpRequestType> list1 = List<HelpRequestType>();
-
+    List<HelpRequestType> list1 = [];
     await helpRequestsTypeCollection.get().then((querySnapshot){
       querySnapshot.docs.forEach((element){
         list1.add(HelpRequestType(element['description']));
@@ -839,15 +633,14 @@ class DataBaseService{
     });
 
     return list1;
-
   }
 
 
 
-  Future getUserByEmail(String email,Privilege privilege) async{
+  Future<hadar.User?> getUserByEmail(String email,Privilege privilege) async{
 
-    QuerySnapshot querySnapshot = null;
-    DocumentSnapshot doc = null;
+    QuerySnapshot? querySnapshot;
+    DocumentSnapshot? doc;
     int defaultLastNotifiedTime = DateTime.now().millisecondsSinceEpoch;
 
     if (privilege == Privilege.UserInNeed){
@@ -861,8 +654,24 @@ class DataBaseService{
         doc = querySnapshot.docs[i];
       }
 
-      return UserInNeed(Privilege.UserInNeed , doc['name'] ?? '', doc['phoneNumber'] ?? '', doc['email'] ?? '' ,
-          doc['id'] ?? '', doc['lastNotifiedTime'] ?? defaultLastNotifiedTime, doc['Age'] ?? 0 ,doc['Location'] ?? '' ,doc['Status'] ?? '' , doc['numKids'] ?? 0, doc['eduStatus'] ?? '', doc['homePhone'] ?? '',doc['specialStatus'] ?? '' ,doc['Rav7a'] ?? '' );
+      if(doc != null) {
+        return UserInNeed(
+            Privilege.UserInNeed,
+            doc['name'] ?? '',
+            doc['phoneNumber'] ?? '',
+            doc['email'] ?? '',
+            doc['id'] ?? '',
+            doc['lastNotifiedTime'] ?? defaultLastNotifiedTime,
+            doc['Age'] ?? 0,
+            doc['Location'] ?? '',
+            doc['Status'] ?? '',
+            doc['numKids'] ?? 0,
+            doc['eduStatus'] ?? '',
+            doc['homePhone'] ?? '',
+            doc['specialStatus'] ?? '',
+            doc['Rav7a'] ?? '');
+      }
+      return null;
     }
 
     if (privilege == Privilege.Admin){
@@ -876,8 +685,15 @@ class DataBaseService{
         doc = querySnapshot.docs[i];
       }
 
-      return  Admin(doc['name'] ?? '', doc['phoneNumber'] ?? '', doc['email'] ?? '' ,
-          doc['id'] ?? '', doc['lastNotifiedTime'] ?? defaultLastNotifiedTime );
+      if(doc != null) {
+        return Admin(
+            doc['name'] ?? '',
+            doc['phoneNumber'] ?? '',
+            doc['email'] ?? '',
+            doc['id'] ?? '',
+            doc['lastNotifiedTime'] ?? defaultLastNotifiedTime);
+      }
+      return null;
     }
 
     if (privilege == Privilege.Volunteer){
@@ -891,9 +707,28 @@ class DataBaseService{
         doc = querySnapshot.docs[i];
       }
 
-      return  Volunteer(doc['name'] ?? '', doc['phoneNumber'] ?? '', doc['email'] ?? '' ,
-          doc['id'] ?? '', doc['lastNotifiedTime'] ?? defaultLastNotifiedTime, doc['stars'] ?? 0,doc['count'] ?? 0 ,doc['birthdate'] ?? ''  ,doc['location'] ?? ''  ,doc['status'] ?? ''  ,doc['work'] ?? ''  ,doc['birthplace'] ?? ''  ,doc['spokenlangs'] ?? ''  ,doc['firstaidcourse'] ?? ''  ,doc['mobility'] ?? '' ,convertCategoreisAsStringToHLT(doc['categories'] ?? []));
+      if(doc != null) {
+        return Volunteer(
+            doc['name'] ?? '',
+            doc['phoneNumber'] ?? '',
+            doc['email'] ?? '',
+            doc['id'] ?? '',
+            doc['lastNotifiedTime'] ?? defaultLastNotifiedTime,
+            doc['stars'] ?? 0,
+            doc['count'] ?? 0,
+            doc['birthdate'] ?? '',
+            doc['location'] ?? '',
+            doc['status'] ?? '',
+            doc['work'] ?? '',
+            doc['birthplace'] ?? '',
+            doc['spokenlangs'] ?? '',
+            doc['firstaidcourse'] ?? '',
+            doc['mobility'] ?? '',
+            convertCategoreisAsStringToHLT(doc['categories'] ?? []));
+      }
+      return null;
     }
+    return null;
 
   }
 
@@ -901,47 +736,26 @@ class DataBaseService{
   check the privilage of the returned type and use as to correct its actual type
    */
   Future getCurrentUser() async {
-    fb_auth.User curr_db_user = fb_auth.FirebaseAuth.instance.currentUser;
-    hadar.User user = null;
+    fb_auth.User? curr_db_user = fb_auth.FirebaseAuth.instance.currentUser;
+    hadar.User? user;
     if(curr_db_user == null){
       return null;
     }
-    user = await getUserByEmail(curr_db_user.email, Privilege.UserInNeed);
+    user = await getUserByEmail(curr_db_user.email!, Privilege.UserInNeed);
     if(user == null){
-      user = await getUserByEmail(curr_db_user.email, Privilege.Admin);
+      user = await getUserByEmail(curr_db_user.email!, Privilege.Admin);
       if(user == null){
-        user = await getUserByEmail(curr_db_user.email, Privilege.Volunteer);
+        user = await getUserByEmail(curr_db_user.email!, Privilege.Volunteer);
       }
     }
 
     return user;
   }
-  /*Future get_token(String email) async{
 
-    String token_to_return = null;
-    await tokens.doc(email).get().then((value) => token_to_return = value.exists ? value.get('token') : null);
-    return token_to_return;
-  }
-  Future add_user_token_to_db() async{
 
-    if (CurrentUser.curr_user! == null){
-      return;
-    }
-    String token = await FirebaseMessaging.instance.getToken();
-    if(token != null){
-      Map<String,dynamic> to_add = new Map();
-      to_add['token'] = token;
-      to_add['email'] = CurrentUser.curr_user!.email;
-      tokens.doc(CurrentUser.curr_user!.email).set(to_add);
-    }
-
-  }*/
   Future Sign_out(var context) async{
     await fb_auth.FirebaseAuth.instance.signOut();
-    //print('length is :' , Navigator.)
-    // while (Navigator.canPop(context)){
-    //   Navigator.pop(context);
-    // }
+
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
@@ -952,7 +766,7 @@ class DataBaseService{
 
 
   }
-  Future<bool> is_id_taken(String id,String email)async{
+  Future<bool> isIdTaken(String id,String email)async{
 
     DocumentSnapshot snapShot_helper = await helpersCollection.doc(id).get();
     DocumentSnapshot snapShot_need = await userInNeedCollection.doc(id).get();
@@ -967,8 +781,19 @@ class DataBaseService{
   List<HelpRequest> helpRequestListFromSnapShotForSpecificVolunteer(QuerySnapshot snapshot ){
 
     List<HelpRequest> all_help_requests = snapshot.docs.map((doc) =>
-        HelpRequest(HelpRequestType(doc['category']) ?? '', doc['description'] ?? '', DateTime.parse(doc['date']) ?? '' , doc['sender_id'] ?? '',doc['handler_id'] ?? '', getStatusFromString(doc['status'] ),doc['location'] ?? "",doc['reject_reason'] ?? "")).toList();
-    List<HelpRequest> handled_or_avaible = List();
+        HelpRequest(
+            HelpRequestType(doc['category'] ?? ''),
+            doc['description'] ?? '',
+            DateTime.parse(doc['date'] ?? ''),
+            doc['sender_id'] ?? '',
+            doc['handler_id'] ?? '',
+            getStatusFromString(doc['status'] ),
+            doc['location'] ?? "",
+            doc['reject_reason'] ?? ""
+        )
+    ).toList();
+
+    List<HelpRequest> handled_or_avaible = [];
     for(var i = 0; i < all_help_requests.length; i++){
       if(all_help_requests[i].status == Status.AVAILABLE || all_help_requests[i].handler_id == this.current_vol_id){
         handled_or_avaible.add(all_help_requests[i]);
@@ -979,8 +804,21 @@ class DataBaseService{
   }
 
   List<HelpRequest> helpRequestListFromSnapShotVerified(QuerySnapshot snapshot){
-    List<HelpRequest> all_req_for_category =  snapshot.docs.map((doc) => HelpRequest(HelpRequestType(doc['category']) ?? '', doc['description'] ?? '', DateTime.parse(doc['date']) ?? '' , doc['sender_id'] ?? '',doc['handler_id'] ?? '', getStatusFromString(doc['status'] ),doc['location'] ?? "",doc['reject_reason'] ?? "")).toList();
-    List<HelpRequest> all_req_for_category_verfied = List();
+
+    List<HelpRequest> all_req_for_category =  snapshot.docs.map((doc) =>
+        HelpRequest(
+            HelpRequestType(doc['category'] ?? ''),
+            doc['description'] ?? '',
+            DateTime.parse(doc['date'] ?? ''),
+            doc['sender_id'] ?? '',
+            doc['handler_id'] ?? '',
+            getStatusFromString(doc['status'] ),
+            doc['location'] ?? "",
+            doc['reject_reason'] ?? ""
+        )
+    ).toList();
+
+    List<HelpRequest> all_req_for_category_verfied = [];
     for(var i = 0; i < all_req_for_category.length; i++){
       if(all_req_for_category[i].status == Status.AVAILABLE || all_req_for_category[i].handler_id == current_vol_id ){
         all_req_for_category_verfied.add(all_req_for_category[i]);
@@ -989,12 +827,12 @@ class DataBaseService{
     return all_req_for_category_verfied;
   }
 
-  Future<String> getUserAppLanguage() async{
-    fb_auth.User curr_db_user = fb_auth.FirebaseAuth.instance.currentUser;
+  Future<String?> getUserAppLanguage() async{
+    fb_auth.User? curr_db_user = fb_auth.FirebaseAuth.instance.currentUser;
     if(curr_db_user == null){
       return null;
     }
-    String langCode;
+    String? langCode;
     await usersLanguagesCollection.doc(curr_db_user.email).get().then((value) => langCode = (value.exists ? value["language"] : null));
     return langCode;
   }
@@ -1009,8 +847,10 @@ class DataBaseService{
 
   static void changePassword(String password) async{
     //Create an instance of the current user.
-    fb_auth.User user= await fb_auth.FirebaseAuth.instance.currentUser;
-
+    fb_auth.User? user= await fb_auth.FirebaseAuth.instance.currentUser;
+    if(user == null){
+      return;
+    }
     //Pass in the password to updatePassword.
     user.updatePassword(password).then((_){
       print("Successfully changed password");
@@ -1018,7 +858,6 @@ class DataBaseService{
       print("Password can't be changed" + error.toString());
     });
   }
-
 }
 
 Status getStatusFromString(String type){
@@ -1035,9 +874,7 @@ Status getStatusFromString(String type){
   if (type == 'REJECTED'){
     return Status.REJECTED;
   }
-
-
-  //assert(false);
+  return Status.UNVERFIED;
 
 }
 
@@ -1059,32 +896,27 @@ Privilege getTypeFromString(String type){
   if (type == 'Anonymous'){
     return Privilege.Anonymous;
   }
-  assert(false);
+  return Privilege.UnregisterUser;
 
 }
 
 List<VerificationRequest> VerficationRequestListFromSnapShot(QuerySnapshot snapshot){
   return snapshot.docs.map((doc) =>
-      VerificationRequest(UnregisteredUser(doc['name'] ?? '' , doc['phoneNumber'] ?? '' , doc['email'] ?? '' , doc['sender_id'] ?? ''), getTypeFromString(doc['type'] ?? '') ,DateTime.parse(doc['date']) ?? '' , doc['birthdate'] ?? '', doc['location'] ?? '', doc['status'] ?? '', doc['work'] ?? ''
+      VerificationRequest(UnregisteredUser(doc['name'] ?? '' , doc['phoneNumber'] ?? '' , doc['email'] ?? '' , doc['sender_id'] ?? ''), getTypeFromString(doc['type'] ?? ''), DateTime.parse(doc['date'] ?? ''), doc['birthdate'] ?? '', doc['location'] ?? '', doc['status'] ?? '', doc['work'] ?? ''
   , doc['birthplace'] ?? '', doc['spokenlangs'] ?? '', doc['firstaidcourse'] ?? ''
-  , doc['mobility'] ?? '',List<HelpRequestType>())).toList();
+  , doc['mobility'] ?? '',[])).toList();
 }
 
 List<HelpRequest> helpRequestListFromSnapShot(QuerySnapshot snapshot){
   return snapshot.docs.map((doc) =>
-      HelpRequest(HelpRequestType(doc['category']) ?? '', doc['description'] ?? '', DateTime.parse(doc['date']) ?? '' , doc['sender_id'] ?? '',doc['handler_id'] ?? '', getStatusFromString(doc['status'] ),doc['location'] ?? "",doc['reject_reason'] ?? "")).toList();
+      HelpRequest(HelpRequestType(doc['category'] ?? ''), doc['description'] ?? '', DateTime.parse(doc['date'] ?? ''), doc['sender_id'] ?? '', doc['handler_id'] ?? '', getStatusFromString(doc['status'] ), doc['location'] ?? "", doc['reject_reason'] ?? "")).toList();
 }
 
 List<UserInquiry> UserInqurytListFromSnapShot(QuerySnapshot snapshot){
 
   return snapshot.docs.map((doc) =>
-  UserInquiry(doc['name'] ?? '',doc['id'] ?? '',doc['phoneNumber'] ?? '',doc['reasonForInquiry'] ?? '',doc['description'] ?? '',DateTime.parse(doc['date']) ?? '')).toList();
+  UserInquiry(doc['name'] ?? '', doc['id'] ?? '', doc['phoneNumber'] ?? '', doc['reasonForInquiry'] ?? '', doc['description'] ?? '', DateTime.parse(doc['date'] ?? ''))).toList();
 }
-
-
-
-
-
 
 
 List<HelpRequestType> helpRequestTypeListFromSnapShot(QuerySnapshot snapshot){
@@ -1113,7 +945,7 @@ List<UserInNeed> UserInNeedListFromSnapShot(QuerySnapshot snapshot){
   List<UserInNeed> all_users =  snapshot.docs.map((doc) =>
       UserInNeed( getTypeFromString(doc['privilege']), doc['name'] ?? '', doc['phoneNumber'] ?? '', doc['email'] ?? '' ,
   doc['id'] ?? '', doc['lastNotifiedTime'] ?? defaultLastNotifiedTime, doc['Age'] ?? 0 ,doc['Location'] ?? '' ,doc['Status'] ?? '' , doc['numKids'] ?? 0, doc['eduStatus'] ?? '', doc['homePhone'] ?? '',doc['specialStatus'] ?? '' ,doc['Rav7a'] ?? '' )).toList();
-  List<UserInNeed> all_users_without_annoy = List();
+  List<UserInNeed> all_users_without_annoy = [];
   for(var i = 0; i < all_users.length; i++){
     if(all_users[i].privilege == Privilege.UserInNeed){
       all_users_without_annoy.add(all_users[i]);

@@ -196,7 +196,7 @@ class _VolunteerRegisterPageState extends State<VolunteerRegisterPage> {
                             user.work = workController.text;
                             UnregisteredUser sender = UnregisteredUser(user.name, user.phoneNumber, user.email, user.id);
 
-                            DataBaseService().addVerficationRequestToDb(VerificationRequest(sender, Privilege.Volunteer, DateTime.now()
+                            DataBaseService().addVerificationRequestToDb(VerificationRequest(sender, Privilege.Volunteer, DateTime.now()
                             ,user.birthdate , user.location , user.status , user.work , user.birthplace , user.spokenlangs , user.mobility ,user.firstaidcourse,[]));
                             Navigator.pop(context);
                             Navigator.pop(context);

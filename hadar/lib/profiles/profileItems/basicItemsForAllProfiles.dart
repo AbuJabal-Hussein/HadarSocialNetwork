@@ -457,8 +457,8 @@ class RemoveUser extends StatelessWidget {
                 primary: Theme.of(context).primaryColor,
               ),
               onPressed: () async {
-                await DataBaseService().RemoveCurrentuserFromAuthentication();
-                DataBaseService().RemoveUserfromdatabase(user);
+                await DataBaseService().deAuthenticationUser();
+                DataBaseService().removeUserFromDB(user);
                 DataBaseService().Sign_out(context);
               },
               child: Text(AppLocalizations.of(context)!.confirm),

@@ -334,7 +334,7 @@ class JoinRequestStatusWidget extends StatelessWidget {
                       RaisedButton(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
                         onPressed: () {
-                          DataBaseService().DenyVerficationRequest(joinRequest);
+                          DataBaseService().denyVerificationRequest(joinRequest);
                           if (Navigator.canPop(context)) {
                             Navigator.pop(
                               context,

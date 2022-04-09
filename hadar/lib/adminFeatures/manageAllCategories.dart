@@ -74,7 +74,7 @@ class CategoryItem extends StatelessWidget {
                 PopupMenuButton(
                   onSelected:(value) {
                     if(value == 1){
-                      DataBaseService().RemoveCategory(category);
+                      DataBaseService().removeCategory(category);
                     }
                   },
                   child: Center(child:Icon(Icons.more_vert, color: Colors.black54),),
