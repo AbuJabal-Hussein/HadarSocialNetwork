@@ -40,7 +40,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
   final phone_Controller = TextEditingController();
   final email_Controller = TextEditingController();
   final location_Controller = TextEditingController();
-  late checkBoxForCategories categories;
+  late CheckBoxForCategories categories;
 
   _AddOrganizationWindowState(this.types);
 
@@ -96,7 +96,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
 
   @override
   Widget build(BuildContext context) {
-    this.categories = checkBoxForCategories(types, context);
+    this.categories = CheckBoxForCategories(types, context);
     return
           Scaffold(
             bottomNavigationBar: AdminBottomBar(),
@@ -123,7 +123,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                                     color: Colors.white),
                                 Colors.white,
                                 Colors.white,
-                                Validators.ValidateName,
+                                Validators.validateName,
                                 name_Controller,
                                 false,
                                 Colors.black),
@@ -137,7 +137,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                                 Icon(Icons.phone, color: Colors.white),
                                 Colors.white,
                                 Colors.white,
-                                Validators.ValidatePhone,
+                                Validators.validatePhone,
                                 phone_Controller,
                                 false,
                                 Colors.black),
@@ -151,7 +151,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                                 Icon(Icons.email, color: Colors.white),
                                 Colors.white,
                                 Colors.white,
-                                Validators.ValidateEmail,
+                                Validators.validateEmail,
                                 email_Controller,
                                 false,
                                 Colors.black),
@@ -165,7 +165,7 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                                 Icon(Icons.location_on, color: Colors.white),
                                 Colors.white,
                                 Colors.white,
-                                Validators.ValidateLocation,
+                                Validators.validateLocation,
                                 location_Controller,
                                 false,
                                 Colors.black),

@@ -35,7 +35,7 @@ Widget changeLocationDialogue(BuildContext context) {
                   Icon(Icons.lock, color: Colors.white),
                   Colors.white,
                   Colors.white,
-                  Validators.location_validator,
+                  Validators.validateLocation,
                   newLoactionController,
                   false,
                   Colors.black),

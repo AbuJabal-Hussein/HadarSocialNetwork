@@ -24,7 +24,7 @@ class _VolunteerShowCategoriesState extends State<VolunteerShowCategories> {
   ProfileButton buttonCreate = ProfileButton();
 
 
-  late checkBoxForCategories checkBox;
+  late CheckBoxForCategories checkBox;
   Volunteer user = CurrentUser.curr_user as Volunteer;
 
   Future initTypes() async {
@@ -54,7 +54,7 @@ class _VolunteerShowCategoriesState extends State<VolunteerShowCategories> {
   @override
   Widget build(BuildContext context) {
     initTypes();
-    checkBox=checkBoxForCategories(types, context);
+    checkBox=CheckBoxForCategories(types, context);
     return Column(
       children: [
         TextButton(

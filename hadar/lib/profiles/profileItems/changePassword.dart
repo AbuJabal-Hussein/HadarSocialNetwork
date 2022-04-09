@@ -1,5 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/Design/descriptionBox.dart';
@@ -13,28 +12,28 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 Widget changePasswordDialogue(BuildContext context) {
   a.User user = CurrentUser.curr_user;
   final currentPassword = GlobalKey<FormState>();
-  final newPasswordfirst = GlobalKey<FormState>();
-  final newPasswordsec = GlobalKey<FormState>();
-  final currentPass_controller = TextEditingController();
-  final firstPass_Controller = TextEditingController();
-  final sectPass_Controller = TextEditingController();
+  final newPasswordFirst = GlobalKey<FormState>();
+  final newPasswordSec = GlobalKey<FormState>();
+  final currentPassController = TextEditingController();
+  final firstPassController = TextEditingController();
+  final sectPassController = TextEditingController();
 
   return SingleChildScrollView(
     child: new AlertDialog(
       backgroundColor: BasicColor.backgroundClr,
-      title: Center(child: Text(AppLocalizations.of(context).changePassword)),
+      title: Center(child: Text(AppLocalizations.of(context)!.changePassword)),
       content: Column(
         children: [
           Container(
             height: 90,
             child: Form(
               child: DescriptionBox(
-                  AppLocalizations.of(context).current,
+                  AppLocalizations.of(context)!.current,
                   Icon(Icons.lock, color: Colors.white),
                   Colors.white,
                   Colors.white,
-                  Validators.password_Validator,
-                  currentPass_controller,
+                  Validators.validatePassword,
+                  currentPassController,
                   true,
                   Colors.black),
               key: currentPassword,
@@ -44,30 +43,30 @@ Widget changePasswordDialogue(BuildContext context) {
             height: 90,
             child: Form(
               child: DescriptionBox(
-                  AppLocalizations.of(context).newPass,
+                  AppLocalizations.of(context)!.newPass,
                   Icon(Icons.lock, color: Colors.white),
                   Colors.white,
                   Colors.white,
-                  Validators.password_Validator,
-                  firstPass_Controller,
+                  Validators.validatePassword,
+                  firstPassController,
                   true,
                   Colors.black),
-              key: newPasswordfirst,
+              key: newPasswordFirst,
             ),
           ),
           Container(
             height: 90,
             child: Form(
               child: DescriptionBox(
-                  AppLocalizations.of(context).reTypeNew,
+                  AppLocalizations.of(context)!.reTypeNew,
                   Icon(Icons.lock, color: Colors.white),
                   Colors.white,
                   Colors.white,
-                  Validators.password_Validator,
-                  sectPass_Controller,
+                  Validators.validatePassword,
+                  sectPassController,
                   true,
                   Colors.black),
-              key: newPasswordsec,
+              key: newPasswordSec,
             ),
           ),
         ],
@@ -82,7 +81,7 @@ Widget changePasswordDialogue(BuildContext context) {
               onPressed: () {
                 Navigator.pop(context, true);
               },
-              child: Text(AppLocalizations.of(context).cancel),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             Spacer(
               flex: 1,
@@ -93,37 +92,37 @@ Widget changePasswordDialogue(BuildContext context) {
               ),
               onPressed: () async{
 
-                if (currentPass_controller.text.isEmpty){
-                  showError(context, AppLocalizations.of(context).passworIsnotValid,
+                if (currentPassController.text.isEmpty){
+                  showError(context, AppLocalizations.of(context)!.passworIsnotValid,
                       Icons.warning_amber_rounded);
                   return;
                 }
 
-                bool match = await DataBaseService().checkIfPasswordIsMatch(user.email, currentPass_controller.text);
+                bool match = await DataBaseService().checkIfPasswordIsMatch(user.email, currentPassController.text);
 
                 if (!match){
-                  showError(context, AppLocalizations.of(context).passworIsnotValid,
+                  showError(context, AppLocalizations.of(context)!.passworIsnotValid,
                       Icons.warning_amber_rounded);
                   return;
                 }
 
-                if (firstPass_Controller.text.isEmpty || sectPass_Controller.text.isEmpty ) {
-                  showError(context, AppLocalizations.of(context).cantEmptyPassword,
+                if (firstPassController.text.isEmpty || sectPassController.text.isEmpty ) {
+                  showError(context, AppLocalizations.of(context)!.cantEmptyPassword,
                       Icons.warning_amber_rounded);
                   return;
                 }
 
-                if (firstPass_Controller.text != sectPass_Controller.text ) {
-                    showError(context, AppLocalizations.of(context).passDontMatch,
+                if (firstPassController.text != sectPassController.text ) {
+                    showError(context, AppLocalizations.of(context)!.passDontMatch,
                         Icons.warning_amber_rounded);
                     return;
                 }
 
                   Navigator.pop(context, true);
-                DataBaseService.changePassword(firstPass_Controller.text);
+                DataBaseService.changePassword(firstPassController.text);
 
               },
-              child: Text(AppLocalizations.of(context).confirm),
+              child: Text(AppLocalizations.of(context)!.confirm),
             ),
           ],
         ),

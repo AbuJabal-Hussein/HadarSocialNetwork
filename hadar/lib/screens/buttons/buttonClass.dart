@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hadar/screens/appBarCustom/DecorationBoxes.dart';
 
 
-class my_Buttons extends ElevatedButton {
-
+class MyButtons {
+  
   ElevatedButton helpButton(){
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -15,7 +15,7 @@ class my_Buttons extends ElevatedButton {
         width: 200,
         height: 200,
         alignment: Alignment.center,
-        decoration: Decorations_Boxes().HelpButtonDecoration(),
+        decoration: DecorationsBoxes().HelpButtonDecoration(),
         child: Text(
           'HELP',
           style: TextStyle(fontSize: 40),

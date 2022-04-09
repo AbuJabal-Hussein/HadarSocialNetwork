@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/services/DataBaseServices.dart';
@@ -7,7 +6,6 @@ import 'package:hadar/users/CurrentUser.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class NotificationSwitch extends StatefulWidget {
-  const NotificationSwitch({Key key}) : super(key: key);
 
   @override
   _NotificationSwitchState createState() => _NotificationSwitchState();

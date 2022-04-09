@@ -36,7 +36,7 @@ class ChangeLangDialogue extends StatelessWidget {
                 );
               }).toList(),
               value: MainApp.of(context)!.getLanguage(),
-              onChanged: (String newLang) {
+              onChanged: (String? newLang) {
                 String langCode;
                 switch (newLang) {
                   case "עברית":
@@ -54,8 +54,7 @@ class ChangeLangDialogue extends StatelessWidget {
                   default:
                     langCode = "he";
                 }
-                MainApp.of(context)
-                    .setLocale(Locale.fromSubtags(languageCode: langCode));
+                MainApp.of(context)!.setLocale(Locale.fromSubtags(languageCode: langCode));
                 Navigator.pop(context);
                 if(userIsLoggedIn) {
                   DataBaseService().setUserAppLanguage(userEmail, langCode);

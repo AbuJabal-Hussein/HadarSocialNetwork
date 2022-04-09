@@ -6,12 +6,11 @@ import 'package:hadar/users/User.dart' as a;
 import '../Design/basicTools.dart';
 import '../Design/mainDesign.dart';
 
-//todo: this class should be stateful?
-class ProfilePage extends StatelessWidget {
+//todo: fix this
+class ProfilePage extends StatefulWidget {
   late a.User user;
-  late String privilege;
+  late final String privilege;
   bool adminIsOnProfile = false;
-  late BasicLists getLists;
 
   ProfilePage(a.User currUser) {
     user = CurrentUser.curr_user;
@@ -37,25 +36,32 @@ class ProfilePage extends StatelessWidget {
     }
   }
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  late BasicLists getLists;
+
   Widget userOrAdminAccess() {
-    if (adminIsOnProfile) return SortByCatForAll(user, this,getLists.listForUserAdminView);
-    return SortByCatForAll(user, this,getLists.listForUserView);
+    if (widget.adminIsOnProfile) return SortByCatForAll(widget, widget.user, getLists.listForUserAdminView);
+    return SortByCatForAll(widget, widget.user, getLists.listForUserView);
   }
 
   Widget checkBottomBar() {
-    if (adminIsOnProfile) return AdminBottomBar();
+    if (widget.adminIsOnProfile) return AdminBottomBar();
     return BottomBar();
   }
 
   Widget ifUserShowSignOut() {
-    if (adminIsOnProfile) return SizedBox();
+    if (widget.adminIsOnProfile) return SizedBox();
     return SignOut();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    getLists=BasicLists(user, this, context);
+    getLists=BasicLists(widget.user, widget, context);
 
     return  Scaffold(
         bottomNavigationBar: checkBottomBar(),
@@ -63,14 +69,14 @@ class ProfilePage extends StatelessWidget {
         body: CustomScrollView(
           slivers: [
             SliverPersistentHeader(
-              delegate: MySliverAppBar(expandedHeight: 150, title: user.name),
+              delegate: MySliverAppBar(expandedHeight: 150, title: widget.user.name),
               pinned: true,
             ),
             SliverFillRemaining(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    MainInfo(user, privilege),
+                    MainInfo(widget.user, widget.privilege),
                     SizedBox(
                       height: 40,
                     ),

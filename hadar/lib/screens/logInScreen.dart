@@ -25,14 +25,14 @@ class _LogInScreenState extends State<LogInScreen> {
           flexibleSpace: ClipPath(
             clipper: CustomAppBar(),
             child:Container(
-              decoration: Decorations_Boxes().app_bar_decation(),
+              decoration: DecorationsBoxes().app_bar_decation(),
             ),
           ),
         ),
 
       ),
       body: Container(
-        child: my_Buttons().helpButton(),
+        child: MyButtons().helpButton(),
         alignment: Alignment.topCenter,
         margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
       )
