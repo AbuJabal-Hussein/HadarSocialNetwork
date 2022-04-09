@@ -1,25 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hadar/Design/basicTools.dart';
-import 'package:hadar/Design/mainDesign.dart';
 import 'package:hadar/Design/text_feilds/custom_text_feild.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/services/authentication/validators.dart';
-import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/users/UserInNeed.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class userInNeedRegisterPage extends StatefulWidget {
+class UserInNeedRegisterPage extends StatefulWidget {
   final UserInNeed user;
-  userInNeedRegisterPage(this.user);
+  UserInNeedRegisterPage(this.user);
   @override
-  _userInNeedRegisterPageState createState() =>
-      _userInNeedRegisterPageState(this.user);
+  _UserInNeedRegisterPageState createState() =>
+      _UserInNeedRegisterPageState(this.user);
 }
 
-class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
+class _UserInNeedRegisterPageState extends State<UserInNeedRegisterPage> {
   final age = GlobalKey<FormState>();
   final location = GlobalKey<FormState>();
   final status = GlobalKey<FormState>();
@@ -29,7 +24,7 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
   final specialstatus = GlobalKey<FormState>();
   final rev7a = GlobalKey<FormState>();
   final UserInNeed user;
-  _userInNeedRegisterPageState(this.user);
+  _UserInNeedRegisterPageState(this.user);
 
   final age_controller = TextEditingController();
   final location_controller = TextEditingController();
@@ -58,7 +53,6 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
           top: false,
           bottom: false,
           child: new Form(
-              autovalidate: true,
               child: new ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
@@ -66,7 +60,7 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
                     SizedBox(height: 60),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).age,
+                          AppLocalizations.of(context)!.age,
                           null,
                           Colors.white,
                           Colors.white,
@@ -78,7 +72,7 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).address,
+                          AppLocalizations.of(context)!.address,
                           null,
                           Colors.white,
                           Colors.white,
@@ -90,7 +84,7 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).familyStatus,
+                          AppLocalizations.of(context)!.familyStatus,
                           null,
                           Colors.white,
                           Colors.white,
@@ -102,7 +96,7 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).childrenNumbers,
+                          AppLocalizations.of(context)!.childrenNumbers,
                           null,
                           Colors.white,
                           Colors.white,
@@ -114,7 +108,7 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).education,
+                          AppLocalizations.of(context)!.education,
                           null,
                           Colors.white,
                           Colors.white,
@@ -126,7 +120,7 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).homePhoneNumber,
+                          AppLocalizations.of(context)!.homePhoneNumber,
                           null,
                           Colors.white,
                           Colors.white,
@@ -138,7 +132,7 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).whereYouCame,
+                          AppLocalizations.of(context)!.whereYouCame,
                           null,
                           Colors.white,
                           Colors.white,
@@ -150,7 +144,7 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).rev7aPatient,
+                          AppLocalizations.of(context)!.rev7aPatient,
                           null,
                           Colors.white,
                           Colors.white,
@@ -170,11 +164,11 @@ class _userInNeedRegisterPageState extends State<userInNeedRegisterPage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
                           child: Text(
-                            AppLocalizations.of(context).apply,
+                            AppLocalizations.of(context)!.apply,
                             style: TextStyle(fontSize: 18, color: Colors.white),
                           ),
                           onPressed: () async{
-                            if(!age.currentState.validate() || !location.currentState.validate() || !numKids.currentState.validate() ){
+                            if(!age.currentState!.validate() || !location.currentState!.validate() || !numKids.currentState!.validate() ){
                               return;
                             }
                             user.Age = age_controller.text == ''

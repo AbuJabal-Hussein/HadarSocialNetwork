@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
 
 class Email_Validator{
 
-  static String Validate(String value){
+  static String? Validate(String value){
     if(value.isEmpty){
       return 'האימייל לא יכול להיות ריק';
     }
@@ -20,7 +19,7 @@ class Email_Validator{
 class password_Validator{
 
   // ignore: non_constant_identifier_names
-  static String Validate(String value){
+  static String? Validate(String value){
     if(value.isEmpty){
       return 'הסיסמה לא יכולה להיות ריקה';
     }
@@ -33,7 +32,7 @@ class password_Validator{
 
 class Id_Validator{
 
-  static String Validate(String value){
+  static String? Validate(String value){
     if(value.isEmpty){
       return 'תעודת זהות לא יכול להיות ריק';
     }
@@ -51,7 +50,7 @@ class Id_Validator{
 
 class Age_Validator{
 
-  static String Validate(String value){
+  static String? Validate(String value){
     if(value.isEmpty){
       return 'גיל לא יכול להיות ריק';
     }
@@ -69,7 +68,7 @@ class Age_Validator{
 
 class name_Validator{
 
-  static String Validate(String value){
+  static String? Validate(String value){
     if(value.isEmpty){
       return 'השם לא יכול להיות ריק';
     }
@@ -85,7 +84,7 @@ class name_Validator{
 
 class number_Validator{
 
-  static String Validate(String value){
+  static String? Validate(String value){
     if(value.isEmpty){
       return 'מספר טלפון לא יכול להיות ריק';
     }
@@ -104,8 +103,8 @@ class number_Validator{
 
 class second_pw_Validator{
 
-  static String First_pw;
-  static String Validate(String value){
+  static String First_pw = '';
+  static String? Validate(String value){
     if(First_pw != value){
       return 'הסיסמה לא תואמת';
     }else{
@@ -117,7 +116,7 @@ class second_pw_Validator{
 
 class place_Validator{
 
-  static String Validate(String value){
+  static String? Validate(String value){
     if(value.isEmpty){
       return 'מיקום לא יכול להיות ריק';
     }
@@ -133,7 +132,7 @@ class place_Validator{
 
 class num_Of_Son_Validator{
 
-  static String Validate(String value){
+  static String? Validate(String value){
     if(value.isEmpty){
       return 'מספר בנים יכול להיות ריק';
     }

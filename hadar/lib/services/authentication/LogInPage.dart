@@ -1,8 +1,5 @@
 
-//import 'dart:html';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,11 +10,7 @@ import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/services/authentication/ReigsterPage.dart';
 import 'package:hadar/services/authentication/validators.dart';
 import 'package:hadar/users/CurrentUser.dart';
-import 'package:hadar/utils/HelpRequest.dart';
-import 'package:hadar/utils/HelpRequestType.dart';
-import 'package:provider/provider.dart';
 
-import '../../HelpRequestAdminDialouge.dart';
 import '../../main.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -34,7 +27,7 @@ class _LogInPageState extends State<LogInPage> {
   final paswwordKey = GlobalKey<FormState>();
   final nameKey = GlobalKey<FormState>();
   bool show_spinner = false;
-  String _error = null;
+  String? _error;
 
   Widget showAlert() {
     if (_error != null) {
@@ -57,7 +50,7 @@ class _LogInPageState extends State<LogInPage> {
             ),
             Expanded(
               child: Text(
-                _error,
+                _error!,
                 maxLines: 3,
                 textAlign: TextAlign.right,
                 style: TextStyle(color: Colors.white),
@@ -95,7 +88,7 @@ class _LogInPageState extends State<LogInPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(AppLocalizations.of(context).language),
+                        Text(AppLocalizations.of(context)!.language),
                         Icon(Icons.language),
                       ],
                     ),
@@ -114,7 +107,7 @@ class _LogInPageState extends State<LogInPage> {
               Container(
                 margin: EdgeInsets.only(top: 15),
                 child: Text(
-                  AppLocalizations.of(context).welcome,
+                  AppLocalizations.of(context)!.welcome,
                   textDirection: TextDirection.rtl,
                   style: TextStyle(
                       fontSize: 30
@@ -123,13 +116,13 @@ class _LogInPageState extends State<LogInPage> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 80),
-                child:Form(key:nameKey,child: Custom_Text_feild(AppLocalizations.of(context).email, Icon(Icons.email),BasicColor.clr,Colors.black,Email_Validator.Validate,email_control,false,Colors.grey, allowWhiteSpaces: false,)),
+                child:Form(key:nameKey,child: Custom_Text_feild(AppLocalizations.of(context)!.email, Icon(Icons.email),BasicColor.clr,Colors.black,Email_Validator.Validate,email_control,false,Colors.grey, allowWhiteSpaces: false,)),
               ),
               Container(
                 margin: EdgeInsets.only(top: 20),
                 child: Form(
                   key: paswwordKey,
-                  child: Custom_Text_feild(AppLocalizations.of(context).password, Icon(Icons.lock),BasicColor.clr,Colors.black,password_Validator.Validate,pw_control,true,Colors.grey,parent: this),
+                  child: Custom_Text_feild(AppLocalizations.of(context)!.password, Icon(Icons.lock),BasicColor.clr,Colors.black,password_Validator.Validate,pw_control,true,Colors.grey,parent: this),
                 ),
               ),
 
@@ -138,7 +131,7 @@ class _LogInPageState extends State<LogInPage> {
                 child: show_spinner ? SpinKitCircle(color: BasicColor.clr,) : RaisedButton(
                   color: BasicColor.clr,
                   splashColor: Colors.white,
-                  child: Text(AppLocalizations.of(context).login, style: TextStyle(fontSize: 18 , color: Colors.white),),
+                  child: Text(AppLocalizations.of(context)!.login, style: TextStyle(fontSize: 18 , color: Colors.white),),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   onPressed: signInOnPressed,
                 ),
@@ -156,7 +149,7 @@ class _LogInPageState extends State<LogInPage> {
   }
 
   Future signInOnPressed() async {
-    if(!nameKey.currentState.validate() || !paswwordKey.currentState.validate() ){
+    if(!nameKey.currentState!.validate() || !paswwordKey.currentState!.validate() ){
       return;
     }
     //TDOD : SWITCH PLACES
@@ -185,7 +178,7 @@ class _LogInPageState extends State<LogInPage> {
       if(!is_verfied){
         await FirebaseAuth.instance.signOut();
         setState(() {
-          _error = AppLocalizations.of(context).accountNotApprovedYet;
+          _error = AppLocalizations.of(context)!.accountNotApprovedYet;
           show_spinner = false;
         });
         return;
@@ -193,14 +186,15 @@ class _LogInPageState extends State<LogInPage> {
 
       print(FirebaseAuth.instance.currentUser);
 
-      Widget curr_widget = await CurrentUser.init_user(context);
+      Widget? curr_widget = await CurrentUser.init_user(context);
 
+      //todo: look into this
       //in case of deleted user
       var is_deleted_by_admin = curr_widget;
       if(is_deleted_by_admin == null){
         await FirebaseAuth.instance.signOut();
         setState(() {
-          _error = AppLocalizations.of(context).deletedAccount;
+          _error = AppLocalizations.of(context)!.deletedAccount;
           show_spinner = false;
         });
         return;
@@ -212,7 +206,7 @@ class _LogInPageState extends State<LogInPage> {
       }
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => curr_widget),
+        MaterialPageRoute(builder: (context) => curr_widget!),
       );
       setState(() {
         show_spinner = false;
@@ -223,7 +217,7 @@ class _LogInPageState extends State<LogInPage> {
         setState(() {
           email_control.clear();
           pw_control.clear();
-          _error = AppLocalizations.of(context).userNotFound;
+          _error = AppLocalizations.of(context)!.userNotFound;
           show_spinner = false;
         });
 
@@ -232,13 +226,13 @@ class _LogInPageState extends State<LogInPage> {
         setState(() {
           email_control.clear();
           pw_control.clear();
-          _error = AppLocalizations.of(context).nameAndPwNotMatch;
+          _error = AppLocalizations.of(context)!.nameAndPwNotMatch;
           show_spinner = false;
         });
 
       }
     }
-    MainApp.of(context).fetchUserLocale();
+    MainApp.of(context)!.fetchUserLocale();
 
   }
 
@@ -249,8 +243,8 @@ class _LogInPageState extends State<LogInPage> {
 
 
 class Sign_up_here_text extends StatelessWidget {
-  TextStyle defaultStyle = TextStyle(color: BasicColor.clr, fontSize: 15 );
-  TextStyle linkStyle = TextStyle(color: BasicColor.clr , fontSize: 15 , fontWeight: FontWeight.bold , decoration: TextDecoration.underline);
+  final TextStyle defaultStyle = TextStyle(color: BasicColor.clr, fontSize: 15 );
+  final TextStyle linkStyle = TextStyle(color: BasicColor.clr , fontSize: 15 , fontWeight: FontWeight.bold , decoration: TextDecoration.underline);
   @override
   Widget build(BuildContext context) {
     return RichText(
@@ -258,13 +252,13 @@ class Sign_up_here_text extends StatelessWidget {
         children: <TextSpan>[
 
           TextSpan(
-              text: AppLocalizations.of(context).clickHereToRegister,
+              text: AppLocalizations.of(context)!.clickHereToRegister,
               style: linkStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ReigesterPage()),
+                    MaterialPageRoute(builder: (context) => RegisterPage()),
                   );
                 }),
         ],

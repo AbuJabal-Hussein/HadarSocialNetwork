@@ -4,34 +4,29 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/Design/text_feilds/custom_text_feild.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hadar/lang/HebrewText.dart';
-import 'package:hadar/main.dart';
+
 import 'package:hadar/services/DataBaseServices.dart';
 
 import 'package:hadar/services/authentication/validators.dart';
-import 'package:hadar/users/Admin.dart';
 import 'package:hadar/users/Organization.dart';
 import 'package:hadar/users/Privilege.dart';
 import 'package:hadar/users/UnregisteredUser.dart';
-import 'package:hadar/users/User.dart' as hadar;
-import 'package:hadar/users/User.dart';
+
 import 'package:hadar/users/UserInNeed.dart';
 import 'package:hadar/users/Volunteer.dart';
-import 'package:hadar/utils/HelpRequestType.dart';
 import 'package:hadar/utils/VerificationRequest.dart';
-import 'package:intl/intl.dart';
 
 import 'forms/UserInNeedRegPage.dart';
 import 'forms/VolunteerRegPage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ReigesterPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _ReigesterPageState createState() => _ReigesterPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 
 }
 
-class _ReigesterPageState extends State<ReigesterPage> {
+class _RegisterPageState extends State<RegisterPage> {
 
   final nameKey = GlobalKey<FormState>();
 
@@ -44,9 +39,9 @@ class _ReigesterPageState extends State<ReigesterPage> {
   String _error_msg = '';
   bool alert = false;
   bool clicked=false;
-  Privilege clicked_priv = null;
+  Privilege? clicked_priv;
   Map<String, Icon> tripTypes = user_types([Colors.grey , Colors.grey , Colors.grey, Colors.grey]);
-  List<String> tripKeys ;
+  List<String> tripKeys = [];
   TextStyle linkStyle = TextStyle(color: BasicColor.clr , fontSize: 15 , fontWeight: FontWeight.bold , decoration: TextDecoration.underline);
   final name_Controller = TextEditingController();
   final id_Controller = TextEditingController();
@@ -55,6 +50,7 @@ class _ReigesterPageState extends State<ReigesterPage> {
   final first_pw_Controller = TextEditingController();
   final second_pw_Controller = TextEditingController();
   bool show_spinner = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -167,27 +163,27 @@ class _ReigesterPageState extends State<ReigesterPage> {
                   SizedBox(height: 60),
                   Container(child: showAlert_as_col()),
                   Form(
-                    child: Custom_Text_feild(AppLocalizations.of(context).fullName, Icon(Icons.account_circle_rounded,color: Colors.white ),Colors.white,Colors.white,name_Validator.Validate,name_Controller,false,Colors.white),
+                    child: Custom_Text_feild(AppLocalizations.of(context)!.fullName, Icon(Icons.account_circle_rounded,color: Colors.white ),Colors.white,Colors.white,name_Validator.Validate,name_Controller,false,Colors.white),
                     key: nameKey,
                   ),
                   Form(
-                    child: Custom_Text_feild(AppLocalizations.of(context).id, Icon(Icons.arrow_left_outlined,color: Colors.white),Colors.white,Colors.white,Id_Validator.Validate,id_Controller,false,Colors.white, allowWhiteSpaces: false,),
+                    child: Custom_Text_feild(AppLocalizations.of(context)!.id, Icon(Icons.arrow_left_outlined,color: Colors.white),Colors.white,Colors.white,Id_Validator.Validate,id_Controller,false,Colors.white, allowWhiteSpaces: false,),
                     key: idKey,
                   ),
                   Form(
-                    child: Custom_Text_feild(AppLocalizations.of(context).telNumber, Icon(Icons.phone,color: Colors.white),Colors.white,Colors.white,number_Validator.Validate,phone_Controller,false,Colors.white, allowWhiteSpaces: false,),
+                    child: Custom_Text_feild(AppLocalizations.of(context)!.telNumber, Icon(Icons.phone,color: Colors.white),Colors.white,Colors.white,number_Validator.Validate,phone_Controller,false,Colors.white, allowWhiteSpaces: false,),
                     key: phoneKey,
                   ),
                   Form(
-                    child: Custom_Text_feild(AppLocalizations.of(context).emailAddress, Icon(Icons.email,color: Colors.white),Colors.white,Colors.white,Email_Validator.Validate,email_Controller,false,Colors.white, allowWhiteSpaces: false,),
+                    child: Custom_Text_feild(AppLocalizations.of(context)!.emailAddress, Icon(Icons.email,color: Colors.white),Colors.white,Colors.white,Email_Validator.Validate,email_Controller,false,Colors.white, allowWhiteSpaces: false,),
                     key: emailKey,
                   ),
                   Form(
-                    child: Custom_Text_feild(AppLocalizations.of(context).password, Icon(Icons.lock, color: Colors.white),Colors.white,Colors.white,password_Validator.Validate,first_pw_Controller,true,Colors.white),
+                    child: Custom_Text_feild(AppLocalizations.of(context)!.password, Icon(Icons.lock, color: Colors.white),Colors.white,Colors.white,password_Validator.Validate,first_pw_Controller,true,Colors.white),
                     key: paswwordKey,
                   ),
                   Form(
-                    child: Custom_Text_feild(AppLocalizations.of(context).confirmPassword, Icon(Icons.lock,color: Colors.white),Colors.white,Colors.white,second_pw_Validator.Validate,second_pw_Controller,true,Colors.white),
+                    child: Custom_Text_feild(AppLocalizations.of(context)!.confirmPassword, Icon(Icons.lock,color: Colors.white),Colors.white,Colors.white,second_pw_Validator.Validate,second_pw_Controller,true,Colors.white),
                     key: secnd_pass_Key,
                   ),
                 ],
@@ -196,7 +192,7 @@ class _ReigesterPageState extends State<ReigesterPage> {
             Container(
               margin: EdgeInsets.only(top:30),
               child: Text(
-                AppLocalizations.of(context).signedAs,
+                AppLocalizations.of(context)!.signedAs,
                 style: TextStyle(
                   fontSize: 18,
                   color: BasicColor.clr,
@@ -223,8 +219,8 @@ class _ReigesterPageState extends State<ReigesterPage> {
                     },
                     child: Column(
                       children: [
-                        tripTypes["מנהל"],
-                        Text(AppLocalizations.of(context).admin),
+                        tripTypes["מנהל"]!,
+                        Text(AppLocalizations.of(context)!.admin),
                       ],
                     ),
                   ),
@@ -239,8 +235,8 @@ class _ReigesterPageState extends State<ReigesterPage> {
                     },
                     child: Column(
                       children: [
-                        tripTypes["מבקש עזרה"],
-                        Text(AppLocalizations.of(context).userInNeed),
+                        tripTypes["מבקש עזרה"]!,
+                        Text(AppLocalizations.of(context)!.userInNeed),
                       ],
                     ),
                   ),
@@ -255,8 +251,8 @@ class _ReigesterPageState extends State<ReigesterPage> {
                     },
                     child: Column(
                       children: [
-                        tripTypes["עוזר"],
-                        Text(AppLocalizations.of(context).volunteer),
+                        tripTypes["עוזר"]!,
+                        Text(AppLocalizations.of(context)!.volunteer),
                       ],
                     ),
                   ),
@@ -284,8 +280,8 @@ class _ReigesterPageState extends State<ReigesterPage> {
             Row(
               children: [
                 Spacer(flex: 1,),
-                Checkbox(value: isChecked, onChanged: (bool value) { setState(() {
-                  isChecked = value;
+                Checkbox(value: isChecked, onChanged: (bool? value) { setState(() {
+                  isChecked = value!;
                 }); },
                 ),
                 RichText(
@@ -293,7 +289,7 @@ class _ReigesterPageState extends State<ReigesterPage> {
                     children: <TextSpan>[
 
                       TextSpan(
-                          text: AppLocalizations.of(context).terms,
+                          text: AppLocalizations.of(context)!.terms,
                           style: linkStyle,
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
@@ -355,13 +351,13 @@ class _ReigesterPageState extends State<ReigesterPage> {
               child: show_spinner ? SpinKitCircle(color: BasicColor.clr,) :RaisedButton(
                 color: BasicColor.clr,
                 splashColor: Colors.white,
-                child: Text(AppLocalizations.of(context).register,style: TextStyle(fontSize: 18 , color: Colors.white),),
+                child: Text(AppLocalizations.of(context)!.register,style: TextStyle(fontSize: 18 , color: Colors.white),),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                 onPressed: () async {
                   second_pw_Validator.First_pw = first_pw_Controller.text;
-                  if(!nameKey.currentState.validate() ||!idKey.currentState.validate() ||!phoneKey.currentState.validate()
-                      ||!emailKey.currentState.validate() || !paswwordKey.currentState.validate()
-                      ||!secnd_pass_Key.currentState.validate()
+                  if(!nameKey.currentState!.validate() ||!idKey.currentState!.validate() ||!phoneKey.currentState!.validate()
+                      ||!emailKey.currentState!.validate() || !paswwordKey.currentState!.validate()
+                      ||!secnd_pass_Key.currentState!.validate()
                   ){
                     return;
                   }
@@ -373,7 +369,7 @@ class _ReigesterPageState extends State<ReigesterPage> {
                     setState(() {
                       alert=true;
                       show_spinner = false;
-                      _error_msg = AppLocalizations.of(context).idAlreadyTaken;
+                      _error_msg = AppLocalizations.of(context)!.idAlreadyTaken;
 
                     });
                     return;
@@ -382,7 +378,7 @@ class _ReigesterPageState extends State<ReigesterPage> {
                     setState(() {
                       alert=true;
                       show_spinner = false;
-                      _error_msg = AppLocalizations.of(context).chooseUrPrevilge;
+                      _error_msg = AppLocalizations.of(context)!.chooseUrPrevilge;
 
                     });
                     return;
@@ -411,16 +407,16 @@ class _ReigesterPageState extends State<ReigesterPage> {
                     switch(clicked_priv){
                       case Privilege.UserInNeed:
                         user_in_need = UserInNeed(Privilege.UserInNeed , name_Controller.text, phone_Controller.text, email_Controller.text, id_Controller.text,lastNotifiedTime, 0,'','',0,'','','','');
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => userInNeedRegisterPage(user_in_need)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => UserInNeedRegisterPage(user_in_need)));
                         break;
                       case Privilege.Admin:
-                        DataBaseService().addVerficationRequestToDb(VerificationRequest(UnregisteredUser(name_Controller.text, phone_Controller.text, email_Controller.text, id_Controller.text),  clicked_priv, DateTime.now(),"","","","","","","","",List<HelpRequestType>()));
+                        DataBaseService().addVerficationRequestToDb(VerificationRequest(UnregisteredUser(name_Controller.text, phone_Controller.text, email_Controller.text, id_Controller.text),  clicked_priv!, DateTime.now(),"","","","","","","","",[]));
                         Navigator.pop(context);
                         break;
                       case Privilege.Volunteer:
                         volunteer = Volunteer(name_Controller.text, phone_Controller.text, email_Controller.text, id_Controller.text, lastNotifiedTime,'',0,'','','','','','','','',[]);
 
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => volunteerRegisterPage(volunteer)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => VolunteerRegisterPage(volunteer)));
                         break;
                       // case Privilege.Organization:
                       //   String location = "מזרח הדר";
@@ -447,14 +443,14 @@ class _ReigesterPageState extends State<ReigesterPage> {
                       setState(() {
                         alert=true;
                         show_spinner = false;
-                        _error_msg = AppLocalizations.of(context).passwordIsTooWeak;
+                        _error_msg = AppLocalizations.of(context)!.passwordIsTooWeak;
                       });
                       print('The password provided is too weak.');
                     } else if (e.code == 'email-already-in-use') {
                       setState(() {
                         alert=true;
                         show_spinner = false;
-                        _error_msg = AppLocalizations.of(context).emailIsAlreadyTaken;
+                        _error_msg = AppLocalizations.of(context)!.emailIsAlreadyTaken;
                       });
                       print('The account already exists for that email.');
                     }
@@ -462,7 +458,7 @@ class _ReigesterPageState extends State<ReigesterPage> {
                     setState(() {
                       alert=true;
                       show_spinner = false;
-                      _error_msg = AppLocalizations.of(context).systemError;
+                      _error_msg = AppLocalizations.of(context)!.systemError;
                     });
                   }
                 },
@@ -484,15 +480,7 @@ Map<String, Icon> user_types(List<Color> colors) => {
   "מבקש עזרה": Icon(Icons.account_circle_outlined, size: 25,color: colors[1]),
   "עוזר": Icon(Icons.supervisor_account_sharp, size: 25,color: colors[2] ),
   "עמותה": Icon(Icons.house_siding_sharp, size: 25,color: colors[3] ),
- // "צד שלישי": Icon(Icons.app_registration, size: 27,color: colors[3] ),
 };
-
-bool Check_user(name, String id, String phone_number, String email, String pw, String second_pw){
-
-
-
-}
-
 
 
 class demo_bg extends StatelessWidget {

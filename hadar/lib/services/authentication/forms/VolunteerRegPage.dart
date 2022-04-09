@@ -1,53 +1,46 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hadar/Design/basicTools.dart';
-import 'package:hadar/Design/mainDesign.dart';
 import 'package:hadar/Design/text_feilds/custom_text_feild.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/users/Privilege.dart';
 import 'package:hadar/users/UnregisteredUser.dart';
-import 'package:hadar/users/User.dart';
-import 'package:hadar/users/UserInNeed.dart';
+
 import 'package:hadar/users/Volunteer.dart';
-import 'package:hadar/utils/HelpRequestType.dart';
 import 'package:hadar/utils/VerificationRequest.dart';
 
 import '../../DataBaseServices.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class volunteerRegisterPage extends StatefulWidget {
+class VolunteerRegisterPage extends StatefulWidget {
   final Volunteer user;
-  volunteerRegisterPage(this.user);
+  VolunteerRegisterPage(this.user);
   @override
-  _volunteerRegisterPageState createState() =>
-      _volunteerRegisterPageState(this.user);
+  _VolunteerRegisterPageState createState() =>
+      _VolunteerRegisterPageState(this.user);
 }
 
-class _volunteerRegisterPageState extends State<volunteerRegisterPage> {
-  final birthdate = GlobalKey<FormState>();
+class _VolunteerRegisterPageState extends State<VolunteerRegisterPage> {
+  final birthDate = GlobalKey<FormState>();
   final location = GlobalKey<FormState>();
   final status = GlobalKey<FormState>();
   final work = GlobalKey<FormState>();
   final birthplace = GlobalKey<FormState>();
-  final spokenlangs = GlobalKey<FormState>();
+  final spokenLangs = GlobalKey<FormState>();
 
   final mobility = GlobalKey<FormState>();
-  final firstaidcourse = GlobalKey<FormState>();
+  final firstAidCourse = GlobalKey<FormState>();
 
   final Volunteer user;
-  _volunteerRegisterPageState(this.user);
+  _VolunteerRegisterPageState(this.user);
 
-  final birthdate_controller = TextEditingController();
-  final location_controller = TextEditingController();
-  final status_controller = TextEditingController();
-  final work_controller = TextEditingController();
-  final birthplace_controller = TextEditingController();
-  final spokenlangs_controller = TextEditingController();
+  final birthDateController = TextEditingController();
+  final locationController = TextEditingController();
+  final statusController = TextEditingController();
+  final workController = TextEditingController();
+  final birthPlaceController = TextEditingController();
+  final spokenLangsController = TextEditingController();
 
-  final mobility_controller = TextEditingController();
-  final firstaidcourse_controller = TextEditingController();
+  final mobilityController = TextEditingController();
+  final firstAidCourseController = TextEditingController();
 
 
   @override
@@ -68,7 +61,6 @@ class _volunteerRegisterPageState extends State<volunteerRegisterPage> {
           top: false,
           bottom: false,
           child: new Form(
-              autovalidate: true,
               child: new ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
@@ -76,108 +68,108 @@ class _volunteerRegisterPageState extends State<volunteerRegisterPage> {
                     SizedBox(height: 60),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).dateOfBirth,
+                          AppLocalizations.of(context)!.dateOfBirth,
                           Icon(Icons.account_circle_rounded,
                               color: Colors.white),
                           Colors.white,
                           Colors.white,
                           null,
-                          birthdate_controller,
+                          birthDateController,
                           false,
                           Colors.white),
-                      key: birthdate,
+                      key: birthDate,
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).address,
+                          AppLocalizations.of(context)!.address,
                           Icon(Icons.account_circle_rounded,
                               color: Colors.white),
                           Colors.white,
                           Colors.white,
                           null,
-                          location_controller,
+                          locationController,
                           false,
                           Colors.white),
                       key: location,
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).familyStatus,
+                          AppLocalizations.of(context)!.familyStatus,
                           Icon(Icons.account_circle_rounded,
                               color: Colors.white),
                           Colors.white,
                           Colors.white,
                           null,
-                          status_controller,
+                          statusController,
                           false,
                           Colors.white),
                       key: status,
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).job,
+                          AppLocalizations.of(context)!.job,
                           Icon(Icons.account_circle_rounded,
                               color: Colors.white),
                           Colors.white,
                           Colors.white,
                           null,
-                          work_controller,
+                          workController,
                           false,
                           Colors.white),
                       key: work,
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).birthLocation,
+                          AppLocalizations.of(context)!.birthLocation,
                           Icon(Icons.account_circle_rounded,
                               color: Colors.white),
                           Colors.white,
                           Colors.white,
                           null,
-                          birthplace_controller,
+                          birthPlaceController,
                           false,
                           Colors.white),
                       key: birthplace,
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).spokenLanguages,
+                          AppLocalizations.of(context)!.spokenLanguages,
                           Icon(Icons.account_circle_rounded,
                               color: Colors.white),
                           Colors.white,
                           Colors.white,
                           null,
-                          spokenlangs_controller,
+                          spokenLangsController,
                           false,
                           Colors.white),
-                      key: spokenlangs,
+                      key: spokenLangs,
                     ),
 
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).mobility,
+                          AppLocalizations.of(context)!.mobility,
                           Icon(Icons.account_circle_rounded,
                               color: Colors.white),
                           Colors.white,
                           Colors.white,
                           null,
-                          mobility_controller,
+                          mobilityController,
                           false,
                           Colors.white),
                       key: mobility,
                     ),
                     Form(
                       child: Custom_Text_feild(
-                          AppLocalizations.of(context).firstAid,
+                          AppLocalizations.of(context)!.firstAid,
                           Icon(Icons.account_circle_rounded,
                               color: Colors.white),
                           Colors.white,
                           Colors.white,
                           null,
-                          firstaidcourse_controller,
+                          firstAidCourseController,
                           false,
                           Colors.white),
-                      key: firstaidcourse,
+                      key: firstAidCourse,
                     ),
 
                   ])),
@@ -190,22 +182,22 @@ class _volunteerRegisterPageState extends State<volunteerRegisterPage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
                           child: Text(
-                            AppLocalizations.of(context).apply,
+                            AppLocalizations.of(context)!.apply,
                             style: TextStyle(fontSize: 18, color: Colors.white),
                           ),
                           onPressed: () {
-                            user.firstaidcourse = firstaidcourse_controller.text;
-                            user.mobility = mobility_controller.text;
-                            user.spokenlangs = spokenlangs_controller.text;
-                            user.location = location_controller.text;
-                            user.birthdate = birthdate_controller.text;
-                            user.birthplace = birthplace_controller.text;
-                            user.status = status_controller.text;
-                            user.work = work_controller.text;
+                            user.firstaidcourse = firstAidCourseController.text;
+                            user.mobility = mobilityController.text;
+                            user.spokenlangs = spokenLangsController.text;
+                            user.location = locationController.text;
+                            user.birthdate = birthDateController.text;
+                            user.birthplace = birthPlaceController.text;
+                            user.status = statusController.text;
+                            user.work = workController.text;
                             UnregisteredUser sender = UnregisteredUser(user.name, user.phoneNumber, user.email, user.id);
 
                             DataBaseService().addVerficationRequestToDb(VerificationRequest(sender, Privilege.Volunteer, DateTime.now()
-                            ,user.birthdate , user.location , user.status , user.work , user.birthplace , user.spokenlangs , user.mobility ,user.firstaidcourse,List<HelpRequestType>()));
+                            ,user.birthdate , user.location , user.status , user.work , user.birthplace , user.spokenlangs , user.mobility ,user.firstaidcourse,[]));
                             Navigator.pop(context);
                             Navigator.pop(context);
 
