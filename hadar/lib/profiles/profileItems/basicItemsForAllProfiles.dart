@@ -143,6 +143,7 @@ class MainInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        //todo: don't show the language change button if an Admin is viewing another user profile
         TextButton(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

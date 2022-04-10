@@ -6,21 +6,32 @@ import 'package:hadar/users/User.dart' as a;
 import '../Design/basicTools.dart';
 import '../Design/mainDesign.dart';
 
-//todo: fix this
 class ProfilePage extends StatefulWidget {
-  late a.User user;
-  late final String privilege;
+  final a.User user;
+
+  ProfilePage(this.user);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState(user);
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  a.User userToShow;
+  late String privilege;
   bool adminIsOnProfile = false;
+  late BasicLists getLists;
 
-  ProfilePage(a.User currUser) {
-    user = CurrentUser.curr_user!;
+  _ProfilePageState(this.userToShow){
+    a.User currUser = CurrentUser.curr_user!;
 
-    if (user.privilege == Privilege.Admin) {
+    if (currUser.privilege == Privilege.Admin) {
       adminIsOnProfile = true;
       privilege = 'Admin';
-      user = currUser;
     }
-    switch (user.privilege) {
+    else{
+      userToShow = currUser;
+    }
+    switch (userToShow.privilege) {
       case Privilege.UserInNeed:
         privilege = 'User in need';
         break;
@@ -36,32 +47,28 @@ class ProfilePage extends StatefulWidget {
     }
   }
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  late BasicLists getLists;
 
   Widget userOrAdminAccess() {
-    if (widget.adminIsOnProfile) return SortByCatForAll(widget, widget.user, getLists.listForUserAdminView);
+    if (adminIsOnProfile) return SortByCatForAll(widget, widget.user, getLists.listForUserAdminView);
     return SortByCatForAll(widget, widget.user, getLists.listForUserView);
   }
 
   Widget checkBottomBar() {
-    if (widget.adminIsOnProfile) return AdminBottomBar();
+    if (adminIsOnProfile) return AdminBottomBar();
     return BottomBar();
   }
 
   Widget ifUserShowSignOut() {
-    if (widget.adminIsOnProfile) return SizedBox();
+    if (adminIsOnProfile) return SizedBox();
     return SignOut();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
 
-    getLists=BasicLists(widget.user, widget, context);
+    getLists=BasicLists(userToShow, widget, context);
 
     return  Scaffold(
         bottomNavigationBar: checkBottomBar(),
@@ -69,14 +76,14 @@ class _ProfilePageState extends State<ProfilePage> {
         body: CustomScrollView(
           slivers: [
             SliverPersistentHeader(
-              delegate: MySliverAppBar(expandedHeight: 150, title: widget.user.name),
+              delegate: MySliverAppBar(expandedHeight: 150, title: userToShow.name),
               pinned: true,
             ),
             SliverFillRemaining(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    MainInfo(widget.user, widget.privilege),
+                    MainInfo(userToShow, privilege),
                     SizedBox(
                       height: 40,
                     ),

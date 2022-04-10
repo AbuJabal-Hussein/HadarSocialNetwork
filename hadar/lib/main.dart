@@ -96,8 +96,8 @@ class _MainAppState extends State<MainApp> {
       locale: _locale,
       //initialRoute: '/',
       routes: {
-        '/adminPage': (context) => AdminPage(CurrentUser.curr_user!),
-        '/adminProfile': (context) => AdminProfile(CurrentUser.curr_user!),
+        '/adminPage': (context) => AdminPage(),
+        '/adminProfile': (context) => AdminProfile(),
         '/adminAllUsersView': (context) => AllUsersView(),
         '/userProfile': (context) => ProfilePage(CurrentUser.curr_user!),
         '/userMainPage': (context) => CurrentUser.userMainWidget,

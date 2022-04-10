@@ -103,10 +103,10 @@ class AdminRequestWindow extends StatelessWidget {
                       await DataBaseService().addUserInNeedToDataBase(to_add);
                       DataBaseService().addHelpRequestToDataBaseForUserInNeed(req);
 
-
+                      //todo: navigate to the constant predefined route instead
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AdminProfile(CurrentUser.curr_user!)),
+                        MaterialPageRoute(builder: (context) => AdminProfile()),
                       );
                     },
                     child: Text(AppLocalizations.of(context)!.confirm),

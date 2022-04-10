@@ -28,7 +28,7 @@ class AdminAllUsersView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    List<UserInNeed>? usersInNeed = Provider.of<List<UserInNeed>?>(context);
+    List<UserInNeed> usersInNeed = Provider.of<List<UserInNeed>>(context);
     List<FeedTile> feedTiles = [];
 
     if (usersInNeed != null) {

@@ -58,6 +58,7 @@ void helpRequestAdminDialuge(context,HelpRequest helpRequest){
                       style: TextStyle(fontSize: 18 , color: BasicColor.clr ,),
                     ),
                     Container(margin: EdgeInsets.only(right: 10),),
+                    //todo: show the user name instead of his ID
                     Text(helpRequest.sender_id ,style: TextStyle(fontSize: 18),textDirection: TextDirection.rtl, ),
 
                   ],

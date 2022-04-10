@@ -28,7 +28,7 @@ class AdminVolunteersView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    List<Volunteer>? volunteers = Provider.of<List<Volunteer>?>(context);
+    List<Volunteer> volunteers = Provider.of<List<Volunteer>>(context);
     List<FeedTile> feedTiles = [];
 
     if (volunteers != null) {

@@ -36,17 +36,11 @@ class AdminVerifiedHelpRequestsFeed extends StatelessWidget {
   }
 }
 
-class _AdminVerifiedHelpRequestsFeed extends StatefulWidget {
-  @override
-  _AdminVerifiedHelpRequestsFeedState createState() =>
-      _AdminVerifiedHelpRequestsFeedState();
-}
+class _AdminVerifiedHelpRequestsFeed extends StatelessWidget {
 
-class _AdminVerifiedHelpRequestsFeedState
-    extends State<_AdminVerifiedHelpRequestsFeed> {
   @override
   Widget build(BuildContext context) {
-    final requests = Provider.of<List<HelpRequest>?>(context);
+    final requests = Provider.of<List<HelpRequest>>(context);
 
     return new Directionality(
       textDirection: TextDirection.rtl,

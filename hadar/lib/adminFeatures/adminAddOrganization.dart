@@ -198,10 +198,12 @@ class _AddOrganizationWindowState extends State<AddOrganizationWindow> {
                                 name_Controller.text, phone_Controller.text, email_Controller.text,
                                 location_Controller.text, categories.getSelectedItems());
                             DataBaseService().addOrganizationToDataBase(org);
+
+                            //todo: navigate to the constant predefined route instead
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AdminProfile(CurrentUser.curr_user!)),
+                                  builder: (context) => AdminProfile()),
                             );
                           },
                           child: Text(AppLocalizations.of(context)!.confirm),

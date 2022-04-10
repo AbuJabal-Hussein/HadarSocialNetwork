@@ -37,7 +37,7 @@ class CurrentUser{
         if(curr_user!.lastNotifiedTime != -1 && !kIsWeb) {
           initWorkmanager();
         }
-        userMainWidget = AdminPage(curr_user as Admin);
+        userMainWidget = AdminPage();
         return userMainWidget;
 
       case Privilege.UserInNeed:

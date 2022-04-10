@@ -59,6 +59,7 @@ class ChangeLangDialogue extends StatelessWidget {
                 if(userIsLoggedIn) {
                   DataBaseService().setUserAppLanguage(userEmail, langCode);
 
+                  //todo: navigate to the constant predefined route instead
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -66,7 +67,7 @@ class ChangeLangDialogue extends StatelessWidget {
                           if (privilege != 'Admin') {
                             return ProfilePage(CurrentUser.curr_user!);
                           }
-                          return AdminProfile(CurrentUser.curr_user!);
+                          return AdminProfile();
                         }
                     ),
                   );

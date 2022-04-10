@@ -8,20 +8,18 @@ import 'package:hadar/Design/mainDesign.dart';
 import 'package:hadar/feeds/adminfeedtile.dart';
 
 import 'package:hadar/users/Admin.dart';
+import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/utils/HelpRequest.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hadar/users/User.dart' as USR;
 
 
 class AdminPage extends StatelessWidget {
-  final USR.User curr_user;
-
-  AdminPage(this.curr_user);
 
   @override
   Widget build(BuildContext context) {
 
+    Admin currUser = CurrentUser.curr_user! as Admin;
     return Scaffold(
       bottomNavigationBar: AdminBottomBar(),
       backgroundColor: BasicColor.backgroundClr,
@@ -64,13 +62,13 @@ class AdminPage extends StatelessWidget {
                 body: TabBarView(
                   children: [
                     Center(
-                      child: AdminJoinRequestsFeed(curr_user as Admin),
+                      child: AdminJoinRequestsFeed(currUser),
                     ),
                     Center(
-                      child: AdminHelpRequestsFeed(curr_user as Admin,Status.UNVERFIED),
+                      child: AdminHelpRequestsFeed(currUser, Status.UNVERFIED),
                     ),
                     Center(
-                      child: AdminVerifiedHelpRequestsFeed(curr_user as Admin,Status.APPROVED),
+                      child: AdminVerifiedHelpRequestsFeed(currUser, Status.APPROVED),
 
                     ),
                   ],

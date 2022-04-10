@@ -6,11 +6,18 @@ import '../Design/basicTools.dart';
 import '../Design/mainDesign.dart';
 
 class AdminProfile extends StatefulWidget {
-  final a.User user;
+  late final a.User user;
   final String privilege = 'Admin';
 
 
-  AdminProfile(this.user);
+  AdminProfile({a.User? userToShow}){
+    if(userToShow == null){
+      this.user = CurrentUser.curr_user!;
+    }
+    else{
+      user = userToShow;
+    }
+  }
 
   @override
   State<AdminProfile> createState() => _AdminProfileState();
@@ -20,13 +27,6 @@ class _AdminProfileState extends State<AdminProfile> {
   late BasicLists getLists;
   bool adminIsOnProfile = false;
 
-  _AdminProfileState(){
-    a.User currUser = CurrentUser.curr_user!;
-    if(currUser.id != widget.user.id) {
-      adminIsOnProfile = true;
-    }
-  }
-
   Widget userOrAdminAccess() {
     if (adminIsOnProfile) return SortByCatForAll(widget, widget.user, getLists.listForUserAdminView);
     return SortByCatForAll(widget, widget.user, getLists.listForAdminView);
@@ -34,6 +34,11 @@ class _AdminProfileState extends State<AdminProfile> {
 
   @override
   Widget build(BuildContext context) {
+
+    a.User currUser = CurrentUser.curr_user!;
+    if(currUser.id != widget.user.id) {
+      adminIsOnProfile = true;
+    }
 
     getLists = BasicLists(widget.user, widget, context);
 

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/profiles/profile.dart';
 import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/users/Admin.dart';
-import 'package:hadar/users/Volunteer.dart';
 import 'package:provider/provider.dart';
 
 import 'package:hadar/users/User.dart';
@@ -13,7 +11,6 @@ import 'feed_items/help_request_tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdminsView extends StatelessWidget{
-  AdminsView();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +27,7 @@ class AllAdminsView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    List<Admin>? admins = Provider.of<List<Admin>?>(context);
+    List<Admin> admins = Provider.of<List<Admin>>(context);
     List<FeedTile> feedTiles = [];
 
     if (admins != null) {
