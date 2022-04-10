@@ -1,21 +1,16 @@
-//import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:hadar/Design/basicTools.dart';
 import 'package:hadar/feeds/feed_items/translateRequests.dart';
-import 'package:hadar/feeds/helper_feed.dart';
 import 'package:hadar/lang/HebrewText.dart';
 import 'package:hadar/services/DataBaseServices.dart';
 import 'package:hadar/services/getters/getUserName.dart';
 import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/users/Privilege.dart';
-import 'package:hadar/users/User.dart';
 import 'package:hadar/users/UserInNeed.dart';
 import 'package:hadar/users/Volunteer.dart';
 import 'package:hadar/utils/HelpRequest.dart';
-import 'package:hadar/utils/HelpRequestType.dart';
 import 'package:intl/intl.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

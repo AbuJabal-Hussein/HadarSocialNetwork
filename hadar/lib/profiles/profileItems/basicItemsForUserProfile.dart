@@ -20,7 +20,7 @@ class VolunteerShowCategories extends StatefulWidget {
 
 class _VolunteerShowCategoriesState extends State<VolunteerShowCategories> {
   var isVisible = false;
-  late List<HelpRequestType> types;
+  List<HelpRequestType> types = [];
   ProfileButton buttonCreate = ProfileButton();
 
 

@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'feed_items/category_scrol.dart';
 
 class volunteer_feed_pafe_state {
-  static _VolunteerFeedStatefullState? state;
+  static _VolunteerFeedStatefulState? state;
 }
 
 class HelperFeed extends StatefulWidget {
@@ -24,48 +24,49 @@ class _HelperFeedState extends State<HelperFeed> {
   @override
   Widget build(BuildContext context) {
     final requests = Provider.of<List<HelpRequest>>(context);
-
-    return new Directionality(
-      textDirection: TextDirection.rtl,
-      child: new Builder(
-        builder: (BuildContext context) {
-          return ListView.builder(
-            padding: const EdgeInsets.only(bottom: 70.0, top: 20),
-            itemCount: (requests == null) ? 0 : requests.length,
-            itemBuilder: (context, index) {
-              if(requests != null) {
-                return FeedTile(tileWidget: VolunteerFeedTile(requests[index]));
-              }
-              //todo: translate this sentence
-              return Center(
-                child: Text('No Help Requests Available'),
-              );
-            },
-          );
-        },
-      ),
-    );
+    if(requests.isNotEmpty) {
+      return new Directionality(
+        textDirection: TextDirection.rtl,
+        child: new Builder(
+          builder: (BuildContext context) {
+            return ListView(
+              padding: const EdgeInsets.only(bottom: 70.0, top: 20),
+              semanticChildCount: requests.length,
+              children: requests.map((request) {
+                return FeedTile(tileWidget: VolunteerFeedTile(request));
+              }).toList(),
+            );
+          },
+        ),
+      );
+    }
+    else{
+      //todo: translate this sentence
+      return Center(
+        child: Text('No Help Requests Available'),
+      );
+    }
   }
 }
 
-class VolunteerFeedStatefull extends StatefulWidget {
-  final Volunteer curr_user;
-  final String title;
+class VolunteerFeedStateful extends StatefulWidget {
 
-  VolunteerFeedStatefull(this.curr_user, this.categories, this.title);
+  late final _VolunteerFeedStatefulState state;
 
-  List<MyListView> categories;
+  VolunteerFeedStateful(Volunteer user, List<MyListView> categories, String title){
+    state = _VolunteerFeedStatefulState(user, categories, title);
+  }
 
   @override
-  _VolunteerFeedStatefullState createState() =>
-      _VolunteerFeedStatefullState(curr_user, categories, title);
+  _VolunteerFeedStatefulState createState() => state;
+
 }
 
-class _VolunteerFeedStatefullState extends State<VolunteerFeedStatefull> {
+class _VolunteerFeedStatefulState extends State<VolunteerFeedStateful> {
   Volunteer curr_user;
   String title = '';
 
-  _VolunteerFeedStatefullState(this.curr_user, this.categories, this.title);
+  _VolunteerFeedStatefulState(this.curr_user, this.categories, this.title);
 
   List<MyListView> categories;
 

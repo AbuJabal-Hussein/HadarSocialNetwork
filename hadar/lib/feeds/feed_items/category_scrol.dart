@@ -31,41 +31,25 @@ class MyListView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GestureDetector( onTap: (){
-              father_state.father!.setState(() {
-                father_state.father!.provider = DataBaseService().getVolunteerHelpRequestsByCategory(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id);
-                father_state.father!.category = Help_request_type;
-              });
-
-              volunteer_feed_pafe_state.state!.setState(() {
-                volunteer_feed_pafe_state.state!.title = Help_request_type;
-              });
-
-            },child: Center(child: Text(Help_request_type , style: TextStyle(color: BasicColor.clr , fontWeight: FontWeight.bold),))),
+            Center(
+                child: Text(Help_request_type , style: TextStyle(color: BasicColor.clr , fontWeight: FontWeight.bold),)
+            ),
             SizedBox(height: 10,),
-            GestureDetector( onTap: (){
-              father_state.father!.setState(() {
-                father_state.father!.provider = DataBaseService().getVolunteerHelpRequestsByCategory(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id);
-                father_state.father!.category = Help_request_type;
-              });
-              volunteer_feed_pafe_state.state!.setState(() {
-                volunteer_feed_pafe_state.state!.title = Help_request_type;
-              });
-
-            }, child: Center(child: getHelpRequestTypeSize(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id))),
+            Center(
+                child: getHelpRequestTypeSize(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id)
+            ),
           ],
         ),
       ),
       onTap: (){
-             father_state.father!.setState(() {
-               father_state.father!.provider = DataBaseService().getVolunteerHelpRequestsByCategory(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id);
-               father_state.father!.category = Help_request_type;
-             });
-             volunteer_feed_pafe_state.state!.setState(() {
-               volunteer_feed_pafe_state.state!.title = Help_request_type;
-             });
-
-             },
+        father_state.father!.setState(() {
+          father_state.father!.provider = DataBaseService().getVolunteerHelpRequestsByCategory(HelpRequestType(Help_request_type),CurrentUser.curr_user!.id);
+          father_state.father!.category = Help_request_type;
+        });
+        volunteer_feed_pafe_state.state!.setState(() {
+          volunteer_feed_pafe_state.state!.title = Help_request_type;
+        });
+      }
 
     );
   }
@@ -108,7 +92,7 @@ class _StatefulCategoriesListState extends State<StatefulCategoriesList> {
                     children: categories,
                   ),
                 ),
-                Container(height: 1,color: BasicColor.clr,),
+                Container(height: 1, color: BasicColor.clr,),
               ],
             ),
           ),
