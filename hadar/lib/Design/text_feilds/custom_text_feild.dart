@@ -16,12 +16,12 @@ class Custom_Text_feild extends StatefulWidget {
 
   Custom_Text_feild(this.hint,this.icon,this.border_color,this.on_tap_color,this.Validtor,this.controller,this.is_pw,this.text_color,{this.parent, this.allowWhiteSpaces = true});
   @override
-  _Custom_Text_feildState createState() => _Custom_Text_feildState(hint,icon!,border_color,on_tap_color,Validtor,controller,is_pw,text_color);
+  _Custom_Text_feildState createState() => _Custom_Text_feildState(hint,icon,border_color,on_tap_color,Validtor,controller,is_pw,text_color);
 }
 
 class _Custom_Text_feildState extends State<Custom_Text_feild> {
 
-  Icon icon;
+  Icon? icon;
   String hint;
   Color text_color;
   Color border_color;

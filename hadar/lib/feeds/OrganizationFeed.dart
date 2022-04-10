@@ -83,8 +83,7 @@ class _OrganizationFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Organization>? organizations =
-    Provider.of<List<Organization>?>(context);
+    final List<Organization> organizations = Provider.of<List<Organization>>(context);
 
     List<_OrganizationInfo> organizationsTiles = [];
 

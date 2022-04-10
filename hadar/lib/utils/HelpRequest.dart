@@ -30,6 +30,8 @@ class HelpRequest{
       handler_id = other.handler_id,
       status = other.status,
       reject_reason = other.reject_reason,
-      location = other.location;
+      location = other.location{
+    time = date.millisecondsSinceEpoch;
+  }
 
 }

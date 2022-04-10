@@ -15,11 +15,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'main.dart';
 
 class RequestWindow extends StatefulWidget {
-  final HelpRequestFeedState parent;
+  final BuildContext parentContext;
   final List<HelpRequestType> types;
   static TextEditingController locationController = TextEditingController();
 
-  RequestWindow(this.parent, this.types);
+  RequestWindow(this.types, this.parentContext);
 
   @override
   State<RequestWindow> createState() => _RequestWindowState();
@@ -30,19 +30,20 @@ class _RequestWindowState extends State<RequestWindow> {
 
   late Dropdown drop;
 
-  _RequestWindowState(){
-    init();
-  }
-
-  void init() {
-    this.desBox = DescriptonBox(title: AppLocalizations.of(widget.parent.context)!.explanation, parent: widget.parent);
+  // _RequestWindowState(){
+  //   init();
+  // }
+  //
+  void init(BuildContext context) {
+    this.desBox = DescriptonBox(title: AppLocalizations.of(context)!.explanation);
 
     this.drop = Dropdown(desBox, widget.types);
   }
 
   @override
   Widget build(BuildContext context) {
-    String langCode = MainApp.of(widget.parent.context)!.getLangCode();
+    init(context);
+    String langCode = MainApp.of(widget.parentContext)!.getLangCode();
     bool isRTL = (langCode == "he" || langCode == "ar");
     return Scaffold(
         //backgroundColor: BasicColor.backgroundClr,
@@ -138,7 +139,9 @@ class DropDownState extends State<Dropdown> {
   DescriptonBox desBox;
   List<HelpRequestType> types;
 
-  DropDownState(this.desBox, this.types);
+  DropDownState(this.desBox, this.types){
+    selectedType = types[0];
+  }
 
   HelpRequestType getSelectedType() {
     return selectedType;
@@ -188,11 +191,10 @@ class DropDownState extends State<Dropdown> {
 //when a user clicks on the category, he gets a description box,
 // where he can describe his request
 class DescriptonBox extends StatefulWidget {
-  DescriptonBox({required this.title, required this.parent});
+  DescriptonBox({required this.title});
 
   final _DescriptonBox desBoxState = _DescriptonBox();
   final String title;
-  final HelpRequestFeedState parent;
 
   void setSelectedType(HelpRequestType selectedType) {
     desBoxState.setSelectedType(selectedType);
@@ -214,6 +216,15 @@ class _DescriptonBox extends State<DescriptonBox> {
     });
   }
 
+  void handleFeedChange(HelpRequest helpRequest, bool addedRequest) {
+    //setState(() {
+    if (addedRequest) {
+      DataBaseService().addHelpRequestToDataBaseForUserInNeed(helpRequest);
+    }
+    //feed.removeWhere((element) => element.category.description == "money");
+    //});
+  }
+
   void _processText() {
     setState(() {
       helpRequestType = HelpRequestType(_inputtext);
@@ -223,7 +234,7 @@ class _DescriptonBox extends State<DescriptonBox> {
       print("input text" + _inputtext);
       print("helpRequest" + helpRequestType.description);
 
-      widget.parent.handleFeedChange(helpRequest, true);
+      handleFeedChange(helpRequest, true);
       // Navigator.push(context, MaterialPageRoute(builder: (context) => UserInNeedHelpRequestsFeed()),);
       // if (Navigator.canPop(context)) {
       //   Navigator.pop(

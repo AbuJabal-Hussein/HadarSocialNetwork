@@ -151,6 +151,7 @@ class DropDownState extends State<Dropdown> {
 
   @override
   Widget build(BuildContext context) {
+    selectedType = types[0];
     String langCode = MainApp.of(context)!.getLangCode();
     bool isRTL = (langCode == "he" || langCode == "ar");
     return Scaffold(

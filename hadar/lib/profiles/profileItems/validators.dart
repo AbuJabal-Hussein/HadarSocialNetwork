@@ -3,8 +3,8 @@
 import 'package:string_validator/string_validator.dart';
 
 class Validators {
-  static String? validateName(String value) {
-    if (value.isEmpty) {
+  static String? validateName(String? value) {
+    if (value!.isEmpty) {
       return 'השם לא יכול להיות ריק';
     }
     if (value.length > 60) {
@@ -14,8 +14,8 @@ class Validators {
     }
   }
 
-  static String? validateEmail(String value) {
-    if (value.isEmpty) {
+  static String? validateEmail(String? value) {
+    if (value!.isEmpty) {
       return 'האימייל לא יכול להיות ריק';
     }
     if (!isEmail(value)) {
@@ -25,8 +25,8 @@ class Validators {
     }
   }
 
-  static String? validatePhone(String value) {
-    if (value.isEmpty) {
+  static String? validatePhone(String? value) {
+    if (value!.isEmpty) {
       return 'מספר טלפון לא יכול להיות ריק';
     }
     if (value.length != 10) {
@@ -39,8 +39,8 @@ class Validators {
     }
   }
 
-  static String? validateLocation(String value) {
-    if (value.isEmpty) {
+  static String? validateLocation(String? value) {
+    if (value!.isEmpty) {
       return 'מיקום לא יכול להיות ריק';
     }
     if (value.length > 60) {
@@ -50,8 +50,8 @@ class Validators {
     }
   }
 
-  static String? validatePassword(String value) {
-    if (value.isEmpty) {
+  static String? validatePassword(String? value) {
+    if (value!.isEmpty) {
       return 'הסיסמה לא יכולה להיות ריקה';
     } else {
       return null;

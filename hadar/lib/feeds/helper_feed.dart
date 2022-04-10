@@ -23,7 +23,7 @@ class HelperFeed extends StatefulWidget {
 class _HelperFeedState extends State<HelperFeed> {
   @override
   Widget build(BuildContext context) {
-    final requests = Provider.of<List<HelpRequest>?>(context);
+    final requests = Provider.of<List<HelpRequest>>(context);
 
     return new Directionality(
       textDirection: TextDirection.rtl,

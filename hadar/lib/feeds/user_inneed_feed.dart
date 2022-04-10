@@ -33,25 +33,13 @@ class UserInNeedHelpRequestsFeed extends StatefulWidget {
 class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
   List<HelpRequest> feed = [];
 
-  HelpRequestFeedState();
-
-  // adding or removing items from the _feed should go through this function in
-  // order for the widget state to be updated
-  // if addedRequest is true, then the change that will be done is adding the
-  // given helpRequest to the feed.
-  // Otherwise, the given helpRequest will be removed from the feed
   void handleFeedChange(HelpRequest helpRequest, bool addedRequest) {
-    setState(() {
+    //setState(() {
       if (addedRequest) {
-        feed.add(helpRequest);
         DataBaseService().addHelpRequestToDataBaseForUserInNeed(helpRequest);
-        if (debug) log("feed size = " + feed.length.toString());
-      } else
-        feed.remove(helpRequest);
-      //todo: remove from database
-
+      }
       //feed.removeWhere((element) => element.category.description == "money");
-    });
+    //});
   }
 
   void showHelpRequestStatus(HelpRequest helpRequest) {
@@ -112,7 +100,7 @@ class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => RequestWindow(this, types)),
+                      builder: (context) => RequestWindow(types, context)),
                 );
               },
               label: Text(AppLocalizations.of(context)!.requestHelp),

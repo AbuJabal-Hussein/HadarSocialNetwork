@@ -32,7 +32,7 @@ class AllInquieriesView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    List<UserInquiry>? usersInquiries = Provider.of<List<UserInquiry>?>(context);
+    List<UserInquiry> usersInquiries = Provider.of<List<UserInquiry>>(context);
     List<FeedTile> feedTiles = [];
 
     if (usersInquiries != null) {

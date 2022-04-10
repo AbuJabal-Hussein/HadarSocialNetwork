@@ -116,8 +116,6 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
-  late ProfileButton buttonCreate;
-
 
   _launchCaller() async {
     String number;
@@ -132,7 +130,9 @@ class _ContactUsState extends State<ContactUs> {
 
   @override
   Widget build(BuildContext context) {
+    ProfileButton buttonCreate = ProfileButton();
     ButtonStyle style = buttonCreate.getStyle(context);
+
     return Column(
       children: [
         TextButton(
