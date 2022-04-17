@@ -12,6 +12,7 @@ import 'package:hadar/services/authentication/validators.dart';
 import 'package:hadar/users/CurrentUser.dart';
 import 'package:hadar/utils/DummyWidget.dart';
 
+import '../../Dialouge/TermsAndConditions.dart';
 import '../../main.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -75,6 +76,9 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle linkStyle = TextStyle(color: BasicColor.clr , fontSize: 15 , fontWeight: FontWeight.bold , decoration: TextDecoration.underline);
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Center(
@@ -125,6 +129,32 @@ class _LogInPageState extends State<LogInPage> {
                   key: paswwordKey,
                   child: Custom_Text_feild(AppLocalizations.of(context)!.password, Icon(Icons.lock),BasicColor.clr,Colors.black,password_Validator.Validate,pw_control,true,Colors.grey,parent: this),
                 ),
+              ),
+              SizedBox(height: 20,),
+              Row(
+                children: [
+                  Spacer(flex: 1,),
+                  Checkbox(value: true, onChanged: (bool? value) {  },
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+
+                        TextSpan(
+                            text: AppLocalizations.of(context)!.terms,
+                            style: linkStyle,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(context: context, builder: (context){
+                                  return TermsAndConditions(size: size,);
+                                });
+                              }),
+                      ],
+                    ),
+                  ),
+
+                  Spacer(flex: 1,),
+                ],
               ),
 
               Container(
