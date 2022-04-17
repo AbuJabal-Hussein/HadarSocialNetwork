@@ -26,12 +26,15 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         Center(
           child: Opacity(
             opacity: shrinkOffset / expandedHeight,
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 23,
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 23,
+                ),
               ),
             ),
           ),

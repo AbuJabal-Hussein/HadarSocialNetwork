@@ -103,7 +103,10 @@ class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
                       builder: (context) => RequestWindow(types, context)),
                 );
               },
-              label: Text(AppLocalizations.of(context)!.requestHelp),
+              label: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Text(AppLocalizations.of(context)!.requestHelp)
+              ),
               icon: Icon(Icons.add),
               backgroundColor: BasicColor.clr,
               elevation: 10,

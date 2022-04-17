@@ -62,6 +62,7 @@ dependencies:
 
   #Location packages
   geolocator: ^8.2.0
+  google_geocoding: ^0.2.0
 
   multi_select_flutter: ^4.0.0
 
