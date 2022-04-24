@@ -122,7 +122,7 @@ class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
       );
     }
     return Center(
-        child: Text('No Help Requests to show', style: TextStyle(color: BasicColor.clr, fontSize: 30, fontStyle: FontStyle.italic),)
+        child: Text(AppLocalizations.of(context)!.noHelpRequestsToShow, style: TextStyle(color: BasicColor.clr, fontSize: 30, fontStyle: FontStyle.italic),)
     );
   }
 }

@@ -149,7 +149,8 @@
     "current": "حالي",
     "newPass": "جديد",
     "reTypeNew": "إعادة كتابة كلمة المرور",
-     "passDontMatch": "كلمات المرور غير متطابقة, أعد المحاولة!",
-     "translate": "ترجمة",
-     "showOriginal": "عرض الأصلي"
+    "passDontMatch": "كلمات المرور غير متطابقة, أعد المحاولة!",
+    "translate": "ترجمة",
+    "showOriginal": "عرض الأصلي",
+    "noHelpRequestsToShow": "لا يوجد لديك طلبات مساعدة"
 }

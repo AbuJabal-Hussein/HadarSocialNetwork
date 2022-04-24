@@ -151,5 +151,6 @@
     "reTypeNew": "Re-type new",
     "passDontMatch": "Passwords do not match, try again!",
     "translate": "translate",
-    "showOriginal": "show original"
+    "showOriginal": "show original",
+    "noHelpRequestsToShow": "No Help Requests to show"
 }

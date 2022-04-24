@@ -151,5 +151,6 @@
     "reTypeNew": "הקלדה חוזרת",
     "passDontMatch": "הסיסמאות אינם תואמות, נסה שנית!",
     "translate": "תרגום",
-    "showOriginal": "הצג מקורי"
+    "showOriginal": "הצג מקורי",
+    "noHelpRequestsToShow": "אין לך בקשות עזרה"
 }
