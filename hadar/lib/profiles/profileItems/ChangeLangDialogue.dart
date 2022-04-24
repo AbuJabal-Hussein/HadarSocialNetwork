@@ -65,7 +65,7 @@ class ChangeLangDialogue extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) {
                           if (privilege != 'Admin') {
-                            return ProfilePage(CurrentUser.curr_user!);
+                            return ProfilePage(userToShow: CurrentUser.curr_user!);
                           }
                           return AdminProfile();
                         }

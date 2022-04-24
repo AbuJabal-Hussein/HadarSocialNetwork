@@ -1,36 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:hadar/lang/HebrewText.dart';
 
-import 'package:hadar/users/CurrentUser.dart';
-import 'package:hadar/users/User.dart';
 import 'package:hadar/users/UserInNeed.dart';
 import 'package:hadar/utils/HelpRequest.dart';
 import 'package:hadar/utils/HelpRequestType.dart';
 import 'package:hadar/services/DataBaseServices.dart';
-import 'package:intl/intl.dart' as Intl;
-import 'package:provider/provider.dart';
 
 import '../Design/mainDesign.dart';
 import '../main.dart';
 import '../profiles/adminProfile.dart';
-import '../feeds/user_inneed_feed.dart';
 import '../users/Privilege.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
 class AdminRequestWindow extends StatelessWidget {
-  late DescriptonBox desBox;
-  late DescriptonBox desAge;
-  late DescriptonBox desId;
-  late DescriptonBox desLocation;
-  late DescriptonBox desName;
-  late DescriptonBox desPhone;
-  late Dropdown drop;
-  List<HelpRequestType> types;
-  BuildContext context;
+  late final DescriptonBox desBox;
+  late final DescriptonBox desAge;
+  late final DescriptonBox desId;
+  late final DescriptonBox desLocation;
+  late final DescriptonBox desName;
+  late final DescriptonBox desPhone;
+  late final Dropdown drop;
+  final List<HelpRequestType> types;
+  final BuildContext context;
 
   AdminRequestWindow(this.types, this.context) {
     init();

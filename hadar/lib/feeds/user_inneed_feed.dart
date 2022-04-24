@@ -77,11 +77,7 @@ class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
             SliverFillRemaining(
               child: Directionality(
                 textDirection: TextDirection.rtl,
-                child: ListView(
-                  semanticChildCount: feed.length,
-                  padding: const EdgeInsets.only(bottom: 70.0, top: 100),
-                  children: feedTiles,
-                ),
+                child: mainWidgetToShow(feedTiles),
               ),
             ),
           ],
@@ -113,6 +109,20 @@ class HelpRequestFeedState extends State<UserInNeedHelpRequestsFeed> {
             ),
           ),
         ),
+    );
+  }
+
+  Widget mainWidgetToShow(List<FeedTile> feedTiles) {
+    if(feed.length > 0) {
+      return ListView(
+        semanticChildCount: feed.length,
+        padding: const EdgeInsets.only(bottom: 70.0, top: 100),
+        children: feedTiles,
+        addAutomaticKeepAlives: true,
+      );
+    }
+    return Center(
+        child: Text('No Help Requests to show', style: TextStyle(color: BasicColor.clr, fontSize: 30, fontStyle: FontStyle.italic),)
     );
   }
 }

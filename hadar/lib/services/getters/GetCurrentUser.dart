@@ -29,10 +29,7 @@ class GetCurrentUser extends StatelessWidget {
         return Column(
           children: [
             Expanded(child: SizedBox()),
-            Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: Image.asset('assets/images/undraw_speed_test_wxl0.png'),
-            ),
+            Image.asset('assets/images/undraw_speed_test_wxl0.png'),
             SpinKitCircle(color: BasicColor.clr,),
             Expanded(child: SizedBox()),
           ],

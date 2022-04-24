@@ -7,9 +7,16 @@ import '../Design/basicTools.dart';
 import '../Design/mainDesign.dart';
 
 class ProfilePage extends StatefulWidget {
-  final a.User user;
+  late final a.User user;
 
-  ProfilePage(this.user);
+  ProfilePage({a.User? userToShow}){
+    if(userToShow == null){
+      this.user = CurrentUser.curr_user!;
+    }
+    else{
+      user = userToShow;
+    }
+  }
 
   @override
   State<ProfilePage> createState() => _ProfilePageState(user);

@@ -31,25 +31,25 @@ class AdminAllUsersView extends StatelessWidget{
     List<UserInNeed> usersInNeed = Provider.of<List<UserInNeed>>(context);
     List<FeedTile> feedTiles = [];
 
-    if (usersInNeed != null) {
+    if(usersInNeed.length > 0) {
       feedTiles = usersInNeed.map((UserInNeed user) {
-
         return FeedTile(tileWidget: UserItem(
           user: user, parent: this,
         ),);
-
       }).toList();
+
+      return Directionality(
+        textDirection: TextDirection.rtl,
+        child: ListView(
+          semanticChildCount: usersInNeed.length,
+          padding: const EdgeInsets.only(bottom: 70.0, top: 40),
+          children: feedTiles,
+        ),
+      );
     }
-
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: ListView(
-        semanticChildCount: (usersInNeed == null) ? 0 : usersInNeed.length,
-        padding: const EdgeInsets.only(bottom: 70.0, top: 40),
-        children: feedTiles,
-      ),
+    return Center(
+      child: Text('No Users In-need to show', style: TextStyle(color: BasicColor.clr,fontSize: 30),)
     );
-
   }
 }
 
@@ -67,7 +67,7 @@ class UserItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ProfilePage(user)
+              builder: (context) => ProfilePage(userToShow: user)
           ),
         );
       },

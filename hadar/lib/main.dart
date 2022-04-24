@@ -99,7 +99,7 @@ class _MainAppState extends State<MainApp> {
         '/adminPage': (context) => AdminPage(),
         '/adminProfile': (context) => AdminProfile(),
         '/adminAllUsersView': (context) => AllUsersView(),
-        '/userProfile': (context) => ProfilePage(CurrentUser.curr_user!),
+        '/userProfile': (context) => ProfilePage(),
         '/userMainPage': (context) => CurrentUser.userMainWidget,
       },
       home: Container(

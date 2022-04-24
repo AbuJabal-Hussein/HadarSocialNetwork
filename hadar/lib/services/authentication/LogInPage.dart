@@ -158,7 +158,7 @@ class _LogInPageState extends State<LogInPage> {
               ),
 
               Container(
-                margin: EdgeInsets.only(top: 60),
+                margin: EdgeInsets.only(top: 50),
                 child: show_spinner ? SpinKitCircle(color: BasicColor.clr,) : RaisedButton(
                   color: BasicColor.clr,
                   splashColor: Colors.white,

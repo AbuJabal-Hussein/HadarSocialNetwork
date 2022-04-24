@@ -67,7 +67,7 @@ class UserItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ProfilePage(user)
+              builder: (context) => ProfilePage(userToShow: user)
           ),
         );
       },
